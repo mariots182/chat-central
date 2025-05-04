@@ -1,0 +1,218 @@
+Para integrar ambos contextos y construir una referencia más completa que se pueda utilizar fácilmente en otros casos, combinando las recomendaciones técnicas y los detalles operativos del sistema multiempresa, te presento una versión consolidada que puedes usar para comprender y gestionar tu plataforma backend de chatbots.
+
+🧠 CONTEXTO GENERAL
+Stack tecnológico:
+
+Node.js + TypeScript + Express + Prisma
+
+PostgreSQL
+
+API oficial de WhatsApp Business
+
+AWS (EC2, S3, RDS u otros según necesidad)
+
+Base de datos multiempresa (multi-tenant):
+
+Cada nueva empresa contratante genera un conjunto de tablas base dedicadas a esa empresa. La base de datos de cada empresa está aislada y puede estar en un esquema distinto o en una base de datos separada, dependiendo de la estrategia de multitenancy seleccionada (por ejemplo, esquemas separados company_abc.Customers o prefijos abc_Customers).
+
+Tablas principales por empresa:
+
+Customers
+
+Customer_Addresses
+
+Products
+
+Orders
+
+Order_Status
+
+Order_History
+
+Customer_Sessions
+
+Además de las tablas base, puedes tener tablas adicionales relacionadas con el negocio específico de cada empresa.
+
+Backend:
+
+Desarrollado con Express (en TypeScript).
+
+Orientado a servicios para chatbot integrado con WhatsApp Business API.
+
+Código estructurado bajo buenas prácticas:
+
+Clean Architecture
+
+Principios SOLID
+
+Separación por capas (Controllers, Services, Repositories)
+
+Mensajes a los usuarios finales siempre en español.
+
+Código y documentación interna en inglés.
+
+Validaciones en arranque del servidor:
+
+Comprobación de variables de entorno necesarias (cargadas desde un archivo .env).
+
+Validación de conexiones activas a:
+
+Base de datos (PostgreSQL)
+
+API de WhatsApp
+
+Servicios de AWS (EC2, RDS, etc.)
+
+Verificación de rutas de webhook y configuración de logs.
+
+🎯 OBJETIVO FINAL
+Desarrollar una plataforma backend multiempresa para la atención automatizada por WhatsApp dirigida a:
+
+Tiendas de abarrotes
+
+Verdulerías
+
+Empresas de agua a domicilio
+
+Tintorerías
+
+Otros comercios locales
+
+Modelos de suscripción:
+
+Básico
+
+Completo
+
+Premium
+
+Cada suscripción tiene restricciones, como el volumen de mensajes, la cantidad de productos activos y las funcionalidades habilitadas.
+
+Webhook único y dinámico:
+
+Un único endpoint para manejar todos los webhooks de las empresas: /webhook.
+
+Cada empresa se identifica por su phone_number_id (nunca por headers), que es extraído del body del webhook para identificar al cliente.
+
+🧩 MODELO DE BASE DE DATOS
+Tabla Central: Clients (base de datos de administración)
+Campo	Tipo	Descripción
+id	UUID	ID único del cliente (empresa)
+name	VARCHAR	Nombre de la empresa
+phone_number_id	VARCHAR	ID de número de WhatsApp de la empresa (Meta)
+whatsapp_token	TEXT	Token de autenticación de la WhatsApp Business API
+db_connection_config	JSONB	Configuración de acceso a la base de datos de la empresa (cadena de conexión o parámetros)
+plan_type	VARCHAR	Plan actual de la empresa (básico, completo, premium)
+created_at	TIMESTAMP	Fecha de registro de la empresa
+
+Tablas por Empresa:
+Las tablas de la empresa (como Customers, Orders, Products) se replican en cada base de datos o esquema según la estrategia multitenancy.
+
+Customers
+
+Campo	Tipo	Descripción
+id	UUID	ID único del cliente
+wa_id	VARCHAR	ID de WhatsApp del cliente
+name	VARCHAR	Nombre del cliente
+phone_number	VARCHAR	Número de teléfono del cliente
+first_contact_at	TIMESTAMP	Fecha de primer contacto
+created_at	TIMESTAMP	Fecha de creación
+
+Customer_Addresses
+
+Campo	Tipo	Descripción
+id	UUID	ID único de la dirección
+customer_id	UUID	Referencia al cliente
+address	VARCHAR	Dirección del cliente
+is_primary	BOOLEAN	Indica si es la dirección principal
+created_at	TIMESTAMP	Fecha de creación
+
+Products
+
+Campo	Tipo	Descripción
+id	UUID	ID único del producto
+name	VARCHAR	Nombre del producto
+description	TEXT	Descripción del producto
+price	DECIMAL	Precio del producto
+is_active	BOOLEAN	Indica si el producto está activo
+stock	INT	Cantidad disponible del producto
+created_at	TIMESTAMP	Fecha de creación
+
+Orders
+
+Campo	Tipo	Descripción
+id	UUID	ID único del pedido
+order_code	VARCHAR	Código único del pedido
+customer_id	UUID	ID del cliente
+address_id	UUID	ID de la dirección del pedido
+total	DECIMAL	Total del pedido
+status	VARCHAR	Estado del pedido (pendiente, en proceso, etc.)
+created_at	TIMESTAMP	Fecha de creación
+
+Customer_Sessions
+
+Campo	Tipo	Descripción
+id	UUID	ID único de la sesión
+customer_id	UUID	ID del cliente
+last_step	TEXT	Último paso del flujo conversacional
+expires_at	TIMESTAMP	Fecha de expiración de la sesión
+is_active	BOOLEAN	Indica si la sesión está activa
+created_at	TIMESTAMP	Fecha de creación
+
+🤖 FLUJO DE BOT AUTOMÁTICO
+Escucha constante del webhook (POST /webhook):
+
+Si el número es nuevo, registrar cliente en la tabla Customers y almacenar datos.
+
+Si el número ya está registrado, pasar al menú principal.
+
+Menú principal (en español):
+
+Opciones: Ver catálogo, Hacer un pedido, Estado de pedido, Hablar con un asesor.
+
+Flujos de conversación:
+
+Catálogo: Mostrar productos activos.
+
+Pedido: Recolectar producto, cantidad, dirección, confirmar y crear el pedido.
+
+Estado de pedido: Buscar el último pedido y mostrar su estado.
+
+Asesor: Derivar la conversación a un humano.
+
+Confirmación de pedido:
+
+Crear un nuevo pedido (Orders).
+
+Enviar resumen de pedido y estado inicial.
+
+Notificación opcional al administrador del comercio.
+
+Manejo de sesión:
+
+Usar la tabla Customer_Sessions para guardar el último estado y permitir reanudar la conversación si el cliente retoma después de un tiempo.
+
+🛑 RECOMENDACIONES ADICIONALES
+Manejo de errores: En caso de entradas no válidas o error, responder con un mensaje claro y opciones.
+
+Logs y trazabilidad: Implementar un middleware para logging y trazabilidad de eventos.
+
+Sistema de alertas: Configurar alertas para monitorear fallos en la API de WhatsApp o problemas con los pedidos.
+
+Estructura de proyecto
+mi-proyecto-chatbot/
+│
+├── src/                    # Código fuente
+│   ├── controllers/         # Lógica de los endpoints
+│   ├── services/            # Lógica de negocio
+│   ├── repositories/        # Interacción con la base de datos
+│   ├── models/              # Modelos de datos (tipos de base de datos, entidades)
+│   ├── middlewares/         # Middleware (logging, validaciones, etc.)
+│   ├── routes/              # Definición de rutas
+│   ├── utils/               # Utilidades auxiliares
+│   └── app.ts               # Configuración principal de Express
+│
+├── .env                    # Variables de entorno
+├── tsconfig.json            # Configuración de TypeScript
+├── package.json             # Configuración de NPM
+└── nodemon.json             # Configuración de Nodemon
