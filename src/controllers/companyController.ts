@@ -1,10 +1,12 @@
-import { Router, Request, Response } from "express";
+import { Request, Response } from "express";
+
 import { centralPrisma } from "../database/prismaClientFactory";
 import { setupNewTenant } from "../database/setupNewTenant";
 
-const router = Router();
-
-router.post("/company", async (req: Request, res: Response): Promise<void> => {
+export const handleCompany = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { name, phoneWhatsapp } = req.body;
 
   if (!name) {
@@ -48,6 +50,4 @@ router.post("/company", async (req: Request, res: Response): Promise<void> => {
 
       return;
     });
-});
-
-export default router;
+};
