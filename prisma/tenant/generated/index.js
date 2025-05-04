@@ -173,7 +173,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:M4r10182@localhost:5432/tenant_Duran"
+        "value": "postgresql://postgres:M4r10182@localhost:5432/tenant_Empresa_benson"
       }
     }
   },
