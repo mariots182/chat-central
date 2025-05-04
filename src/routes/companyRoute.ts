@@ -32,6 +32,10 @@ router.post("/company", async (req: Request, res: Response): Promise<void> => {
       console.log(
         `✅ [companyRoute] Tenant setup completed for company: ${company.name}`
       );
+      console.info(
+        `🏗️ [companyRoute] fullTenantUrl: ${process.env.PG_BASE_URL}${company.database}`
+      );
+
       res.json({ message: "Company registered", company });
     })
     .catch((error) => {

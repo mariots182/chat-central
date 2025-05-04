@@ -2,7 +2,6 @@ import pgtools from "pgtools";
 import path from "path";
 import { execSync } from "child_process";
 import { Company } from "@prisma/client";
-// import { Company } from "../utils/utils";
 
 const baseConfig = {
   user: process.env.PGUSER!,
