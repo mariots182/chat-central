@@ -216,3 +216,7 @@ mi-proyecto-chatbot/
 ├── tsconfig.json            # Configuración de TypeScript
 ├── package.json             # Configuración de NPM
 └── nodemon.json             # Configuración de Nodemon
+
+
+npx prisma generate --schema=prisma/tenant/schema.prisma
+npx prisma generate --schema=prisma/schema.prisma
