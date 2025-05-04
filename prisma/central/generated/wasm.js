@@ -124,7 +124,47 @@ exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
   database: 'database',
+  active: 'active',
+  session: 'session',
+  scannedQR: 'scannedQR',
+  phoneWhatsapp: 'phoneWhatsapp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.CompanyLogScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  action: 'action',
+  description: 'description',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.CompanyLegalInformationScalarFieldEnum = {
+  id: 'id',
+  ownerName: 'ownerName',
+  ownerPhone: 'ownerPhone',
+  ownerEmail: 'ownerEmail',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  address: 'address',
+  rfc: 'rfc',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  companyId: 'companyId'
+};
+
+exports.Prisma.CompanySubscriptionScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  subscriptionType: 'subscriptionType',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -137,9 +177,21 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.companySuscrptionType = exports.$Enums.companySuscrptionType = {
+  BASIC: 'BASIC',
+  PREMIUM: 'PREMIUM',
+  ENTERPRISE: 'ENTERPRISE'
+};
 
 exports.Prisma.ModelName = {
-  Company: 'Company'
+  Company: 'Company',
+  CompanyLog: 'CompanyLog',
+  CompanyLegalInformation: 'CompanyLegalInformation',
+  CompanySubscription: 'CompanySubscription'
 };
 
 /**

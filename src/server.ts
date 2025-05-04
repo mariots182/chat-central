@@ -1,5 +1,5 @@
 import express from "express";
-// import companyRoute from "./routes/companyRoute";
+import companyRoute from "./routes/companyRoute";
 // import qrRoutes from "./routes/qrRoutes";
 import cors from "cors";
 
@@ -16,7 +16,7 @@ app.use(
 
 app.use(express.json());
 
-// app.use("/api", companyRoute);
+app.use("/api", companyRoute);
 
 // Importa las rutas de QR para obtener el QR de WhatsApp por empresa
 // app.use("/api/qr", qrRoutes);
