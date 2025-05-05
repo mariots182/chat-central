@@ -129,8 +129,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   scannedQR: 'scannedQR',
   phoneWhatsapp: 'phoneWhatsapp',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CompanyLogScalarFieldEnum = {
@@ -151,9 +150,9 @@ exports.Prisma.CompanyLegalInformationScalarFieldEnum = {
   contactEmail: 'contactEmail',
   address: 'address',
   rfc: 'rfc',
+  active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
   companyId: 'companyId'
 };
 
@@ -163,6 +162,7 @@ exports.Prisma.CompanySubscriptionScalarFieldEnum = {
   subscriptionType: 'subscriptionType',
   startDate: 'startDate',
   endDate: 'endDate',
+  active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

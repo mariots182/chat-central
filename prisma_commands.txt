@@ -1,0 +1,9 @@
+| 🧩 Propósito                        | 💻 Comando                               | 💬 Descripción rápida                                                         |
+| ----------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
+| Inicializar Prisma                  | `npx prisma init`                        | Crea archivos base: `schema.prisma`, `.env`, y carpeta `prisma/`              |
+| Sincronizar esquema (sin migración) | `npx prisma db push`                     | Aplica cambios al schema directamente en la DB (sin historial de migraciones) |
+| Crear/aplicar migración             | `npx prisma migrate dev --name <nombre>` | Crea una nueva migración y la aplica; ejecuta seed si está configurado        |
+| Reiniciar base y correr migraciones | `npx prisma migrate reset`               | Borra la DB, reaplica migraciones y ejecuta el `seed.ts`                      |
+| Ejecutar script de seed             | `npx prisma db seed`                     | Ejecuta el archivo `prisma/seed.ts` para insertar datos de prueba o iniciales |
+| Generar cliente de Prisma           | `npx prisma generate`                    | Regenera el cliente Prisma (`@prisma/client`) tras cambios en `schema.prisma` |
+| Abrir Prisma Studio                 | `npx prisma studio`                      | Abre UI web para visualizar y editar datos de la base de datos                |

@@ -1238,7 +1238,6 @@ export namespace Prisma {
     phoneWhatsapp: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
   }
 
   export type CompanyMaxAggregateOutputType = {
@@ -1251,7 +1250,6 @@ export namespace Prisma {
     phoneWhatsapp: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
   }
 
   export type CompanyCountAggregateOutputType = {
@@ -1264,7 +1262,6 @@ export namespace Prisma {
     phoneWhatsapp: number
     createdAt: number
     updatedAt: number
-    deletedAt: number
     _all: number
   }
 
@@ -1287,7 +1284,6 @@ export namespace Prisma {
     phoneWhatsapp?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
   }
 
   export type CompanyMaxAggregateInputType = {
@@ -1300,7 +1296,6 @@ export namespace Prisma {
     phoneWhatsapp?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
   }
 
   export type CompanyCountAggregateInputType = {
@@ -1313,7 +1308,6 @@ export namespace Prisma {
     phoneWhatsapp?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
     _all?: true
   }
 
@@ -1413,7 +1407,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt: Date
     updatedAt: Date
-    deletedAt: Date | null
     _count: CompanyCountAggregateOutputType | null
     _avg: CompanyAvgAggregateOutputType | null
     _sum: CompanySumAggregateOutputType | null
@@ -1445,7 +1438,6 @@ export namespace Prisma {
     phoneWhatsapp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
     logs?: boolean | Company$logsArgs<ExtArgs>
     subscriptions?: boolean | Company$subscriptionsArgs<ExtArgs>
     information?: boolean | Company$informationArgs<ExtArgs>
@@ -1462,7 +1454,6 @@ export namespace Prisma {
     phoneWhatsapp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1475,7 +1466,6 @@ export namespace Prisma {
     phoneWhatsapp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectScalar = {
@@ -1488,10 +1478,9 @@ export namespace Prisma {
     phoneWhatsapp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "database" | "active" | "session" | "scannedQR" | "phoneWhatsapp" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "database" | "active" | "session" | "scannedQR" | "phoneWhatsapp" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     logs?: boolean | Company$logsArgs<ExtArgs>
     subscriptions?: boolean | Company$subscriptionsArgs<ExtArgs>
@@ -1518,7 +1507,6 @@ export namespace Prisma {
       phoneWhatsapp: string
       createdAt: Date
       updatedAt: Date
-      deletedAt: Date | null
     }, ExtArgs["result"]["company"]>
     composites: {}
   }
@@ -1954,7 +1942,6 @@ export namespace Prisma {
     readonly phoneWhatsapp: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
-    readonly deletedAt: FieldRef<"Company", 'DateTime'>
   }
     
 
@@ -3561,9 +3548,9 @@ export namespace Prisma {
     contactEmail: string | null
     address: string | null
     rfc: string | null
+    active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
     companyId: number | null
   }
 
@@ -3577,9 +3564,9 @@ export namespace Prisma {
     contactEmail: string | null
     address: string | null
     rfc: string | null
+    active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
     companyId: number | null
   }
 
@@ -3593,9 +3580,9 @@ export namespace Prisma {
     contactEmail: number
     address: number
     rfc: number
+    active: number
     createdAt: number
     updatedAt: number
-    deletedAt: number
     companyId: number
     _all: number
   }
@@ -3621,9 +3608,9 @@ export namespace Prisma {
     contactEmail?: true
     address?: true
     rfc?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
     companyId?: true
   }
 
@@ -3637,9 +3624,9 @@ export namespace Prisma {
     contactEmail?: true
     address?: true
     rfc?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
     companyId?: true
   }
 
@@ -3653,9 +3640,9 @@ export namespace Prisma {
     contactEmail?: true
     address?: true
     rfc?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
     companyId?: true
     _all?: true
   }
@@ -3756,9 +3743,9 @@ export namespace Prisma {
     contactEmail: string | null
     address: string | null
     rfc: string | null
+    active: boolean
     createdAt: Date
     updatedAt: Date
-    deletedAt: Date | null
     companyId: number
     _count: CompanyLegalInformationCountAggregateOutputType | null
     _avg: CompanyLegalInformationAvgAggregateOutputType | null
@@ -3791,9 +3778,9 @@ export namespace Prisma {
     contactEmail?: boolean
     address?: boolean
     rfc?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
     companyId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["companyLegalInformation"]>
@@ -3808,9 +3795,9 @@ export namespace Prisma {
     contactEmail?: boolean
     address?: boolean
     rfc?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
     companyId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["companyLegalInformation"]>
@@ -3825,9 +3812,9 @@ export namespace Prisma {
     contactEmail?: boolean
     address?: boolean
     rfc?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
     companyId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["companyLegalInformation"]>
@@ -3842,13 +3829,13 @@ export namespace Prisma {
     contactEmail?: boolean
     address?: boolean
     rfc?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
     companyId?: boolean
   }
 
-  export type CompanyLegalInformationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerName" | "ownerPhone" | "ownerEmail" | "contactName" | "contactPhone" | "contactEmail" | "address" | "rfc" | "createdAt" | "updatedAt" | "deletedAt" | "companyId", ExtArgs["result"]["companyLegalInformation"]>
+  export type CompanyLegalInformationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerName" | "ownerPhone" | "ownerEmail" | "contactName" | "contactPhone" | "contactEmail" | "address" | "rfc" | "active" | "createdAt" | "updatedAt" | "companyId", ExtArgs["result"]["companyLegalInformation"]>
   export type CompanyLegalInformationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
@@ -3874,9 +3861,9 @@ export namespace Prisma {
       contactEmail: string | null
       address: string | null
       rfc: string | null
+      active: boolean
       createdAt: Date
       updatedAt: Date
-      deletedAt: Date | null
       companyId: number
     }, ExtArgs["result"]["companyLegalInformation"]>
     composites: {}
@@ -4311,9 +4298,9 @@ export namespace Prisma {
     readonly contactEmail: FieldRef<"CompanyLegalInformation", 'String'>
     readonly address: FieldRef<"CompanyLegalInformation", 'String'>
     readonly rfc: FieldRef<"CompanyLegalInformation", 'String'>
+    readonly active: FieldRef<"CompanyLegalInformation", 'Boolean'>
     readonly createdAt: FieldRef<"CompanyLegalInformation", 'DateTime'>
     readonly updatedAt: FieldRef<"CompanyLegalInformation", 'DateTime'>
-    readonly deletedAt: FieldRef<"CompanyLegalInformation", 'DateTime'>
     readonly companyId: FieldRef<"CompanyLegalInformation", 'Int'>
   }
     
@@ -4757,6 +4744,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType | null
     startDate: Date | null
     endDate: Date | null
+    active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4767,6 +4755,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType | null
     startDate: Date | null
     endDate: Date | null
+    active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4777,6 +4766,7 @@ export namespace Prisma {
     subscriptionType: number
     startDate: number
     endDate: number
+    active: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4799,6 +4789,7 @@ export namespace Prisma {
     subscriptionType?: true
     startDate?: true
     endDate?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4809,6 +4800,7 @@ export namespace Prisma {
     subscriptionType?: true
     startDate?: true
     endDate?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4819,6 +4811,7 @@ export namespace Prisma {
     subscriptionType?: true
     startDate?: true
     endDate?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4916,6 +4909,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate: Date
     endDate: Date | null
+    active: boolean
     createdAt: Date
     updatedAt: Date
     _count: CompanySubscriptionCountAggregateOutputType | null
@@ -4945,6 +4939,7 @@ export namespace Prisma {
     subscriptionType?: boolean
     startDate?: boolean
     endDate?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -4956,6 +4951,7 @@ export namespace Prisma {
     subscriptionType?: boolean
     startDate?: boolean
     endDate?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -4967,6 +4963,7 @@ export namespace Prisma {
     subscriptionType?: boolean
     startDate?: boolean
     endDate?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -4978,11 +4975,12 @@ export namespace Prisma {
     subscriptionType?: boolean
     startDate?: boolean
     endDate?: boolean
+    active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CompanySubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "subscriptionType" | "startDate" | "endDate" | "createdAt" | "updatedAt", ExtArgs["result"]["companySubscription"]>
+  export type CompanySubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "subscriptionType" | "startDate" | "endDate" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["companySubscription"]>
   export type CompanySubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
@@ -5004,6 +5002,7 @@ export namespace Prisma {
       subscriptionType: $Enums.companySuscrptionType
       startDate: Date
       endDate: Date | null
+      active: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["companySubscription"]>
@@ -5435,6 +5434,7 @@ export namespace Prisma {
     readonly subscriptionType: FieldRef<"CompanySubscription", 'companySuscrptionType'>
     readonly startDate: FieldRef<"CompanySubscription", 'DateTime'>
     readonly endDate: FieldRef<"CompanySubscription", 'DateTime'>
+    readonly active: FieldRef<"CompanySubscription", 'Boolean'>
     readonly createdAt: FieldRef<"CompanySubscription", 'DateTime'>
     readonly updatedAt: FieldRef<"CompanySubscription", 'DateTime'>
   }
@@ -5874,8 +5874,7 @@ export namespace Prisma {
     scannedQR: 'scannedQR',
     phoneWhatsapp: 'phoneWhatsapp',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt'
+    updatedAt: 'updatedAt'
   };
 
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -5902,9 +5901,9 @@ export namespace Prisma {
     contactEmail: 'contactEmail',
     address: 'address',
     rfc: 'rfc',
+    active: 'active',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt',
     companyId: 'companyId'
   };
 
@@ -5917,6 +5916,7 @@ export namespace Prisma {
     subscriptionType: 'subscriptionType',
     startDate: 'startDate',
     endDate: 'endDate',
+    active: 'active',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6046,7 +6046,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFilter<"Company"> | string
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     logs?: CompanyLogListRelationFilter
     subscriptions?: CompanySubscriptionListRelationFilter
     information?: CompanyLegalInformationListRelationFilter
@@ -6062,7 +6061,6 @@ export namespace Prisma {
     phoneWhatsapp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
     logs?: CompanyLogOrderByRelationAggregateInput
     subscriptions?: CompanySubscriptionOrderByRelationAggregateInput
     information?: CompanyLegalInformationOrderByRelationAggregateInput
@@ -6081,7 +6079,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFilter<"Company"> | string
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     logs?: CompanyLogListRelationFilter
     subscriptions?: CompanySubscriptionListRelationFilter
     information?: CompanyLegalInformationListRelationFilter
@@ -6097,7 +6094,6 @@ export namespace Prisma {
     phoneWhatsapp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _avg?: CompanyAvgOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -6118,7 +6114,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringWithAggregatesFilter<"Company"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
   }
 
   export type CompanyLogWhereInput = {
@@ -6191,9 +6186,9 @@ export namespace Prisma {
     contactEmail?: StringNullableFilter<"CompanyLegalInformation"> | string | null
     address?: StringNullableFilter<"CompanyLegalInformation"> | string | null
     rfc?: StringNullableFilter<"CompanyLegalInformation"> | string | null
+    active?: BoolFilter<"CompanyLegalInformation"> | boolean
     createdAt?: DateTimeFilter<"CompanyLegalInformation"> | Date | string
     updatedAt?: DateTimeFilter<"CompanyLegalInformation"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"CompanyLegalInformation"> | Date | string | null
     companyId?: IntFilter<"CompanyLegalInformation"> | number
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }
@@ -6208,9 +6203,9 @@ export namespace Prisma {
     contactEmail?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     rfc?: SortOrderInput | SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
     company?: CompanyOrderByWithRelationInput
   }
@@ -6228,9 +6223,9 @@ export namespace Prisma {
     contactEmail?: StringNullableFilter<"CompanyLegalInformation"> | string | null
     address?: StringNullableFilter<"CompanyLegalInformation"> | string | null
     rfc?: StringNullableFilter<"CompanyLegalInformation"> | string | null
+    active?: BoolFilter<"CompanyLegalInformation"> | boolean
     createdAt?: DateTimeFilter<"CompanyLegalInformation"> | Date | string
     updatedAt?: DateTimeFilter<"CompanyLegalInformation"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"CompanyLegalInformation"> | Date | string | null
     companyId?: IntFilter<"CompanyLegalInformation"> | number
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }, "id">
@@ -6245,9 +6240,9 @@ export namespace Prisma {
     contactEmail?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     rfc?: SortOrderInput | SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
     _count?: CompanyLegalInformationCountOrderByAggregateInput
     _avg?: CompanyLegalInformationAvgOrderByAggregateInput
@@ -6269,9 +6264,9 @@ export namespace Prisma {
     contactEmail?: StringNullableWithAggregatesFilter<"CompanyLegalInformation"> | string | null
     address?: StringNullableWithAggregatesFilter<"CompanyLegalInformation"> | string | null
     rfc?: StringNullableWithAggregatesFilter<"CompanyLegalInformation"> | string | null
+    active?: BoolWithAggregatesFilter<"CompanyLegalInformation"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CompanyLegalInformation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CompanyLegalInformation"> | Date | string
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"CompanyLegalInformation"> | Date | string | null
     companyId?: IntWithAggregatesFilter<"CompanyLegalInformation"> | number
   }
 
@@ -6284,6 +6279,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFilter<"CompanySubscription"> | $Enums.companySuscrptionType
     startDate?: DateTimeFilter<"CompanySubscription"> | Date | string
     endDate?: DateTimeNullableFilter<"CompanySubscription"> | Date | string | null
+    active?: BoolFilter<"CompanySubscription"> | boolean
     createdAt?: DateTimeFilter<"CompanySubscription"> | Date | string
     updatedAt?: DateTimeFilter<"CompanySubscription"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
@@ -6295,6 +6291,7 @@ export namespace Prisma {
     subscriptionType?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrderInput | SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -6309,6 +6306,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFilter<"CompanySubscription"> | $Enums.companySuscrptionType
     startDate?: DateTimeFilter<"CompanySubscription"> | Date | string
     endDate?: DateTimeNullableFilter<"CompanySubscription"> | Date | string | null
+    active?: BoolFilter<"CompanySubscription"> | boolean
     createdAt?: DateTimeFilter<"CompanySubscription"> | Date | string
     updatedAt?: DateTimeFilter<"CompanySubscription"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
@@ -6320,6 +6318,7 @@ export namespace Prisma {
     subscriptionType?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrderInput | SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CompanySubscriptionCountOrderByAggregateInput
@@ -6338,6 +6337,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeWithAggregatesFilter<"CompanySubscription"> | $Enums.companySuscrptionType
     startDate?: DateTimeWithAggregatesFilter<"CompanySubscription"> | Date | string
     endDate?: DateTimeNullableWithAggregatesFilter<"CompanySubscription"> | Date | string | null
+    active?: BoolWithAggregatesFilter<"CompanySubscription"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CompanySubscription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CompanySubscription"> | Date | string
   }
@@ -6351,7 +6351,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     logs?: CompanyLogCreateNestedManyWithoutCompanyInput
     subscriptions?: CompanySubscriptionCreateNestedManyWithoutCompanyInput
     information?: CompanyLegalInformationCreateNestedManyWithoutCompanyInput
@@ -6367,7 +6366,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     logs?: CompanyLogUncheckedCreateNestedManyWithoutCompanyInput
     subscriptions?: CompanySubscriptionUncheckedCreateNestedManyWithoutCompanyInput
     information?: CompanyLegalInformationUncheckedCreateNestedManyWithoutCompanyInput
@@ -6382,7 +6380,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logs?: CompanyLogUpdateManyWithoutCompanyNestedInput
     subscriptions?: CompanySubscriptionUpdateManyWithoutCompanyNestedInput
     information?: CompanyLegalInformationUpdateManyWithoutCompanyNestedInput
@@ -6398,7 +6395,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logs?: CompanyLogUncheckedUpdateManyWithoutCompanyNestedInput
     subscriptions?: CompanySubscriptionUncheckedUpdateManyWithoutCompanyNestedInput
     information?: CompanyLegalInformationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -6414,7 +6410,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type CompanyUpdateManyMutationInput = {
@@ -6426,7 +6421,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompanyUncheckedUpdateManyInput = {
@@ -6439,7 +6433,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompanyLogCreateInput = {
@@ -6503,9 +6496,9 @@ export namespace Prisma {
     contactEmail?: string | null
     address?: string | null
     rfc?: string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutInformationInput
   }
 
@@ -6519,9 +6512,9 @@ export namespace Prisma {
     contactEmail?: string | null
     address?: string | null
     rfc?: string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     companyId: number
   }
 
@@ -6534,9 +6527,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutInformationNestedInput
   }
 
@@ -6550,9 +6543,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6566,9 +6559,9 @@ export namespace Prisma {
     contactEmail?: string | null
     address?: string | null
     rfc?: string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     companyId: number
   }
 
@@ -6581,9 +6574,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompanyLegalInformationUncheckedUpdateManyInput = {
@@ -6596,9 +6589,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6606,6 +6599,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate?: Date | string
     endDate?: Date | string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSubscriptionsInput
@@ -6617,6 +6611,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate?: Date | string
     endDate?: Date | string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6625,6 +6620,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSubscriptionsNestedInput
@@ -6636,6 +6632,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6646,6 +6643,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate?: Date | string
     endDate?: Date | string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6654,6 +6652,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6664,6 +6663,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6710,17 +6710,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type CompanyLogListRelationFilter = {
     every?: CompanyLogWhereInput
     some?: CompanyLogWhereInput
@@ -6737,11 +6726,6 @@ export namespace Prisma {
     every?: CompanyLegalInformationWhereInput
     some?: CompanyLegalInformationWhereInput
     none?: CompanyLegalInformationWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type CompanyLogOrderByRelationAggregateInput = {
@@ -6766,7 +6750,6 @@ export namespace Prisma {
     phoneWhatsapp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
   }
 
   export type CompanyAvgOrderByAggregateInput = {
@@ -6783,7 +6766,6 @@ export namespace Prisma {
     phoneWhatsapp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
   }
 
   export type CompanyMinOrderByAggregateInput = {
@@ -6796,7 +6778,6 @@ export namespace Prisma {
     phoneWhatsapp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
   }
 
   export type CompanySumOrderByAggregateInput = {
@@ -6859,20 +6840,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type CompanyScalarRelationFilter = {
     is?: CompanyWhereInput
     isNot?: CompanyWhereInput
@@ -6927,6 +6894,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type CompanyLegalInformationCountOrderByAggregateInput = {
     id?: SortOrder
     ownerName?: SortOrder
@@ -6937,9 +6909,9 @@ export namespace Prisma {
     contactEmail?: SortOrder
     address?: SortOrder
     rfc?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
     companyId?: SortOrder
   }
 
@@ -6958,9 +6930,9 @@ export namespace Prisma {
     contactEmail?: SortOrder
     address?: SortOrder
     rfc?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
     companyId?: SortOrder
   }
 
@@ -6974,9 +6946,9 @@ export namespace Prisma {
     contactEmail?: SortOrder
     address?: SortOrder
     rfc?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
     companyId?: SortOrder
   }
 
@@ -7010,12 +6982,24 @@ export namespace Prisma {
     not?: NestedEnumcompanySuscrptionTypeFilter<$PrismaModel> | $Enums.companySuscrptionType
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type CompanySubscriptionCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
     subscriptionType?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7031,6 +7015,7 @@ export namespace Prisma {
     subscriptionType?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7041,6 +7026,7 @@ export namespace Prisma {
     subscriptionType?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7058,6 +7044,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumcompanySuscrptionTypeFilter<$PrismaModel>
     _max?: NestedEnumcompanySuscrptionTypeFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type CompanyLogCreateNestedManyWithoutCompanyInput = {
@@ -7112,10 +7112,6 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type CompanyLogUpdateManyWithoutCompanyNestedInput = {
@@ -7252,6 +7248,10 @@ export namespace Prisma {
     set?: $Enums.companySuscrptionType
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type CompanyUpdateOneRequiredWithoutSubscriptionsNestedInput = {
     create?: XOR<CompanyCreateWithoutSubscriptionsInput, CompanyUncheckedCreateWithoutSubscriptionsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutSubscriptionsInput
@@ -7299,17 +7299,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7378,31 +7367,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7434,11 +7398,33 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumcompanySuscrptionTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.companySuscrptionType | EnumcompanySuscrptionTypeFieldRefInput<$PrismaModel>
     in?: $Enums.companySuscrptionType[] | ListEnumcompanySuscrptionTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.companySuscrptionType[] | ListEnumcompanySuscrptionTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumcompanySuscrptionTypeFilter<$PrismaModel> | $Enums.companySuscrptionType
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumcompanySuscrptionTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -7449,6 +7435,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumcompanySuscrptionTypeFilter<$PrismaModel>
     _max?: NestedEnumcompanySuscrptionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type CompanyLogCreateWithoutCompanyInput = {
@@ -7478,6 +7478,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate?: Date | string
     endDate?: Date | string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7487,6 +7488,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate?: Date | string
     endDate?: Date | string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7510,9 +7512,9 @@ export namespace Prisma {
     contactEmail?: string | null
     address?: string | null
     rfc?: string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type CompanyLegalInformationUncheckedCreateWithoutCompanyInput = {
@@ -7525,9 +7527,9 @@ export namespace Prisma {
     contactEmail?: string | null
     address?: string | null
     rfc?: string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type CompanyLegalInformationCreateOrConnectWithoutCompanyInput = {
@@ -7592,6 +7594,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFilter<"CompanySubscription"> | $Enums.companySuscrptionType
     startDate?: DateTimeFilter<"CompanySubscription"> | Date | string
     endDate?: DateTimeNullableFilter<"CompanySubscription"> | Date | string | null
+    active?: BoolFilter<"CompanySubscription"> | boolean
     createdAt?: DateTimeFilter<"CompanySubscription"> | Date | string
     updatedAt?: DateTimeFilter<"CompanySubscription"> | Date | string
   }
@@ -7625,9 +7628,9 @@ export namespace Prisma {
     contactEmail?: StringNullableFilter<"CompanyLegalInformation"> | string | null
     address?: StringNullableFilter<"CompanyLegalInformation"> | string | null
     rfc?: StringNullableFilter<"CompanyLegalInformation"> | string | null
+    active?: BoolFilter<"CompanyLegalInformation"> | boolean
     createdAt?: DateTimeFilter<"CompanyLegalInformation"> | Date | string
     updatedAt?: DateTimeFilter<"CompanyLegalInformation"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"CompanyLegalInformation"> | Date | string | null
     companyId?: IntFilter<"CompanyLegalInformation"> | number
   }
 
@@ -7640,7 +7643,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     subscriptions?: CompanySubscriptionCreateNestedManyWithoutCompanyInput
     information?: CompanyLegalInformationCreateNestedManyWithoutCompanyInput
   }
@@ -7655,7 +7657,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     subscriptions?: CompanySubscriptionUncheckedCreateNestedManyWithoutCompanyInput
     information?: CompanyLegalInformationUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -7685,7 +7686,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptions?: CompanySubscriptionUpdateManyWithoutCompanyNestedInput
     information?: CompanyLegalInformationUpdateManyWithoutCompanyNestedInput
   }
@@ -7700,7 +7700,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptions?: CompanySubscriptionUncheckedUpdateManyWithoutCompanyNestedInput
     information?: CompanyLegalInformationUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -7714,7 +7713,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     logs?: CompanyLogCreateNestedManyWithoutCompanyInput
     subscriptions?: CompanySubscriptionCreateNestedManyWithoutCompanyInput
   }
@@ -7729,7 +7727,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     logs?: CompanyLogUncheckedCreateNestedManyWithoutCompanyInput
     subscriptions?: CompanySubscriptionUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -7759,7 +7756,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logs?: CompanyLogUpdateManyWithoutCompanyNestedInput
     subscriptions?: CompanySubscriptionUpdateManyWithoutCompanyNestedInput
   }
@@ -7774,7 +7770,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logs?: CompanyLogUncheckedUpdateManyWithoutCompanyNestedInput
     subscriptions?: CompanySubscriptionUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -7788,7 +7783,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     logs?: CompanyLogCreateNestedManyWithoutCompanyInput
     information?: CompanyLegalInformationCreateNestedManyWithoutCompanyInput
   }
@@ -7803,7 +7797,6 @@ export namespace Prisma {
     phoneWhatsapp: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
     logs?: CompanyLogUncheckedCreateNestedManyWithoutCompanyInput
     information?: CompanyLegalInformationUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -7833,7 +7826,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logs?: CompanyLogUpdateManyWithoutCompanyNestedInput
     information?: CompanyLegalInformationUpdateManyWithoutCompanyNestedInput
   }
@@ -7848,7 +7840,6 @@ export namespace Prisma {
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logs?: CompanyLogUncheckedUpdateManyWithoutCompanyNestedInput
     information?: CompanyLegalInformationUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -7865,6 +7856,7 @@ export namespace Prisma {
     subscriptionType: $Enums.companySuscrptionType
     startDate?: Date | string
     endDate?: Date | string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7879,9 +7871,9 @@ export namespace Prisma {
     contactEmail?: string | null
     address?: string | null
     rfc?: string | null
+    active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type CompanyLogUpdateWithoutCompanyInput = {
@@ -7908,6 +7900,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7917,6 +7910,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7926,6 +7920,7 @@ export namespace Prisma {
     subscriptionType?: EnumcompanySuscrptionTypeFieldUpdateOperationsInput | $Enums.companySuscrptionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7939,9 +7934,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompanyLegalInformationUncheckedUpdateWithoutCompanyInput = {
@@ -7954,9 +7949,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompanyLegalInformationUncheckedUpdateManyWithoutCompanyInput = {
@@ -7969,9 +7964,9 @@ export namespace Prisma {
     contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     rfc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

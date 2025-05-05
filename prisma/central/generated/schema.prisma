@@ -12,7 +12,7 @@ model Company {
   id            Int                       @id @default(autoincrement())
   name          String                    @unique
   database      String
-  active        Boolean                   @default(true)
+  active        Boolean                   @default(true) // Campo activo agregado
   session       Boolean                   @default(false)
   scannedQR     Boolean                   @default(false)
   phoneWhatsapp String
@@ -21,7 +21,8 @@ model Company {
   information   CompanyLegalInformation[]
   createdAt     DateTime                  @default(now())
   updatedAt     DateTime                  @updatedAt
-  deletedAt     DateTime?
+
+  @@index([active]) // Indice para la consulta de empresas activas
 }
 
 model CompanyLog {
@@ -35,7 +36,7 @@ model CompanyLog {
 }
 
 model CompanyLegalInformation {
-  id           Int       @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   ownerName    String?
   ownerPhone   String?
   ownerEmail   String?
@@ -44,11 +45,13 @@ model CompanyLegalInformation {
   contactEmail String?
   address      String?
   rfc          String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  deletedAt    DateTime?
+  active       Boolean  @default(true) // Campo activo agregado
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   companyId    Int
-  company      Company   @relation(fields: [companyId], references: [id])
+  company      Company  @relation(fields: [companyId], references: [id])
+
+  @@index([active]) // Indice para la consulta de información activa
 }
 
 model CompanySubscription {
@@ -57,10 +60,13 @@ model CompanySubscription {
   subscriptionType companySuscrptionType
   startDate        DateTime              @default(now())
   endDate          DateTime?
+  active           Boolean               @default(true) // Campo activo agregado
   createdAt        DateTime              @default(now())
   updatedAt        DateTime              @updatedAt
 
   company Company @relation(fields: [companyId], references: [id])
+
+  @@index([active]) // Indice para la consulta de suscripciones activas
 }
 
 enum companySuscrptionType {

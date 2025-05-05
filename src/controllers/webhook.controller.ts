@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { processIncomingMessage } from "../services/webhookService";
+import { processIncomingMessage } from "../services/webhook.service";
 
 export const handleWebhook = async (req: Request, res: Response) => {
   console.log(" 📦 [webhookController][handleWebhook] body:", req.body);

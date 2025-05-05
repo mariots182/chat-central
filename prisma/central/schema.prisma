@@ -1,7 +1,6 @@
-
 generator client {
   provider = "prisma-client-js"
-    output   = "./generated"
+  output   = "./generated"
 }
 
 datasource db {
@@ -12,17 +11,18 @@ datasource db {
 model Company {
   id             Int          @id @default(autoincrement())
   name           String       @unique
-  database       String       
-  active         Boolean      @default(true)
+  database       String
+  active         Boolean      @default(true)  // Campo activo agregado
   session        Boolean      @default(false)
   scannedQR      Boolean      @default(false)
   phoneWhatsapp  String
   logs           CompanyLog[]
   subscriptions  CompanySubscription[]
-  information    CompanyLegalInformation[]  
+  information    CompanyLegalInformation[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  deletedAt      DateTime?
+
+  @@index([active])  // Indice para la consulta de empresas activas
 }
 
 model CompanyLog {
@@ -34,7 +34,8 @@ model CompanyLog {
 
   company     Company  @relation(fields: [companyId], references: [id])
 }
-model CompanyLegalInformation{
+
+model CompanyLegalInformation {
   id             Int      @id @default(autoincrement())
   ownerName      String?
   ownerPhone     String?
@@ -44,24 +45,28 @@ model CompanyLegalInformation{
   contactEmail   String?
   address        String?
   rfc            String?
+  active         Boolean  @default(true)    // Campo activo agregado
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  deletedAt      DateTime?
   companyId      Int
-  company        Company @relation(fields: [companyId], references: [id])
+  company        Company  @relation(fields: [companyId], references: [id])
 
+  @@index([active])  // Indice para la consulta de información activa
 }
 
 model CompanySubscription {
-  id          Int      @id @default(autoincrement())
-  companyId   Int
+  id               Int                     @id @default(autoincrement())
+  companyId        Int
   subscriptionType companySuscrptionType
-  startDate   DateTime @default(now())
-  endDate     DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  startDate        DateTime               @default(now())
+  endDate          DateTime?
+  active           Boolean                @default(true)  // Campo activo agregado
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
 
-  company     Company  @relation(fields: [companyId], references: [id])
+  company          Company                @relation(fields: [companyId], references: [id])
+
+  @@index([active])  // Indice para la consulta de suscripciones activas
 }
 
 enum companySuscrptionType {
@@ -69,3 +74,4 @@ enum companySuscrptionType {
   PREMIUM
   ENTERPRISE
 }
+
