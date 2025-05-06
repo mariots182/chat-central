@@ -7,3 +7,7 @@
 | Ejecutar script de seed             | `npx prisma db seed`                     | Ejecuta el archivo `prisma/seed.ts` para insertar datos de prueba o iniciales |
 | Generar cliente de Prisma           | `npx prisma generate`                    | Regenera el cliente Prisma (`@prisma/client`) tras cambios en `schema.prisma` |
 | Abrir Prisma Studio                 | `npx prisma studio`                      | Abre UI web para visualizar y editar datos de la base de datos                |
+
+
+npx prisma generate --schema=prisma/tenant/schema.prisma
+npx prisma generate --schema=prisma/central/schema.prisma

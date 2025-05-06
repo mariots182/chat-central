@@ -44,3 +44,17 @@ export async function getTenantByPhoneNumberId(
 
   return getPrismaClient(tenant.database);
 }
+export const getTenantPrisma = (databaseName: string): TenantPrismaClient => {
+  const url = process.env.TENANT_DATABASE_URL!.replace(
+    "<DB_NAME>",
+    databaseName
+  );
+
+  console.log(
+    `📦 [prismaClientFactory][getTenantPrisma] url: ${url}, databaseName: ${databaseName}   `
+  );
+
+  return new TenantPrismaClient({
+    datasources: { db: { url } },
+  });
+};

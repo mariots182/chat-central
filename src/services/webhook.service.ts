@@ -1,4 +1,8 @@
-import { getTenantByPhoneNumberId } from "../database/prismaClientFactory";
+import {
+  centralPrisma,
+  getTenantByPhoneNumberId,
+  getTenantPrisma,
+} from "../database/prismaClientFactory";
 import { sendMainMenu } from "../utils/whatsapp";
 
 export const processIncomingMessage = async (body: any) => {
@@ -36,24 +40,22 @@ export const processIncomingMessage = async (body: any) => {
     return;
   }
 
-  const tenant = await getTenantByPhoneNumberId(display_phone_number);
+  const company = await centralPrisma.company.findFirst({
+    where: { phoneWhatsapp: display_phone_number },
+  });
 
-  if (!tenant) {
+  if (!company) {
     console.error(
-      `⚠️ [webhookService][processIncomingMessage] Tenant not found for phone_number_id: ${phoneNumberId}`
+      `⚠️ [webhookService][processIncomingMessage] Company not found for phone_number_id: ${phoneNumberId}`
     );
     return;
   }
 
-  // tenant.$connect();
-
-  console.log(
-    `📦 [webhookService][processIncomingMessage] Connected to tenant: ${tenant}`
-  );
+  let tenantDB = getTenantPrisma(`tenant_${company.database}`);
 
   // // 1. Verificar si el cliente existe
-  let customer = await tenant.customer.findFirst({
-    where: { phone: from, email: "" },
+  let customer = await tenantDB.customer.findFirst({
+    where: { phone: from },
   });
 
   if (!customer) {
@@ -61,7 +63,7 @@ export const processIncomingMessage = async (body: any) => {
       `📦 [webhookService][processIncomingMessage] Customer not found, creating new customer`
     );
 
-    customer = await tenant.customer.create({
+    customer = await tenantDB.customer.create({
       data: {
         phone: String(from),
         name: "",
@@ -80,18 +82,20 @@ export const processIncomingMessage = async (body: any) => {
   );
 
   // // 2. Verificar si existe una sesión activa
-  let session = await tenant.customerSession.findFirst({
-    // where: { customer_id: customer.id },
-    // orderBy: { created_at: "desc" },
+  let session = await tenantDB.customerSession.findFirst({
     where: {
       customerId: customer.id,
       state: "MAIN_MENU",
     },
   });
 
+  console.log(
+    `📦 [webhookService][processIncomingMessage] Session found, id: ${session?.id}, state: ${session?.state}`
+  );
+
   // // 3. Si no existe sesión, crearla y mostrar menú
   if (!session) {
-    session = await tenant.customerSession.create({
+    session = await tenantDB.customerSession.create({
       data: {
         customerId: customer.id,
         state: "MAIN_MENU",
@@ -107,15 +111,14 @@ export const processIncomingMessage = async (body: any) => {
       },
     });
 
-    await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
-
     console.log(
       `📦 [webhookService][processIncomingMessage] New session created, id: ${session.id}, state: ${session.state}`
     );
-
-    return;
   }
 
+  await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
+
+  return;
   // // 4. Enviar menú principal si está en MAIN_MENU
   // if (session.state === "MAIN_MENU") {
   //   await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
