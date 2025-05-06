@@ -7,6 +7,7 @@ export const processIncomingMessage = async (body: any) => {
   const value = changes?.value;
   const metadata = value?.metadata;
   const phoneNumberId = metadata?.phone_number_id;
+  const display_phone_number = `+${metadata?.display_phone_number}`;
 
   const messages = value?.messages;
   if (!messages || messages.length === 0) return;
@@ -14,8 +15,20 @@ export const processIncomingMessage = async (body: any) => {
   const message = messages[0];
   const from = message.from;
   const text = message?.text?.body;
+  // const from = value?.messages?.[0]?.from;
 
-  if (!from || !text || !phoneNumberId) {
+  console.log(
+    `📦 [webhookService][processIncomingMessage] phoneNumberId: ${phoneNumberId}`
+  );
+  console.log(
+    `📦 [webhookService][processIncomingMessage] display_phone_number: ${display_phone_number}`
+  );
+
+  console.log(
+    `📦 [webhookService][processIncomingMessage] from: ${from}, text: ${text}`
+  );
+
+  if (!from || !text || !display_phone_number) {
     console.warn(
       "⚠️ [webhookService][processIncomingMessage] Incomplete payload received"
     );
@@ -23,28 +36,24 @@ export const processIncomingMessage = async (body: any) => {
     return;
   }
 
-  const tenant = await getTenantByPhoneNumberId(phoneNumberId);
+  const tenant = await getTenantByPhoneNumberId(display_phone_number);
 
   if (!tenant) {
-    // console.error(
-    //   `Tenant no encontrado para phone_number_id: ${phoneNumberId}`
-    // );
     console.error(
       `⚠️ [webhookService][processIncomingMessage] Tenant not found for phone_number_id: ${phoneNumberId}`
     );
     return;
   }
 
-  tenant.$connect();
+  // tenant.$connect();
+
   console.log(
     `📦 [webhookService][processIncomingMessage] Connected to tenant: ${tenant}`
   );
 
-  // const tenantPrisma = getTenantPrisma(tenant.schema);
-
   // // 1. Verificar si el cliente existe
-  let customer = await tenant.customer.findUnique({
-    where: { phone: from },
+  let customer = await tenant.customer.findFirst({
+    where: { phone: from, email: "" },
   });
 
   if (!customer) {
@@ -116,3 +125,33 @@ export const processIncomingMessage = async (body: any) => {
   // // 5. Aquí irá el flujo para otros estados (ej: catálogo, pedido, estado)
   // console.log(`📌 Estado actual del usuario: ${session.state}`);
 };
+
+//Mensaje de prueba de usuario a compañía
+// {
+//   "id":"2156177544893332",
+//   "changes":[
+//     {
+//       "value":{
+//         "messaging_product":"whatsapp",
+//       "metadata":{
+//         "display_phone_number":"15556455135",
+//         "phone_number_id":"669646609558342"},
+//         "contacts":[
+//           {
+//             "profile":{
+//             "name":"Mts"
+//           },
+//         "wa_id":"5212292507583"}],
+//         "messages":[
+//           {
+//             "from":"5212292507583",
+//             "id":"wamid.HBgNNTIxMjI5MjUwNzU4MxUCABIYFDNBODBFQjIyQ0I2ODRBMEVDQ0Y4AA==",
+//             "timestamp":"1746422249",
+//             "text":{
+//             "body":"hola"},
+//             "type":"text"
+//           }
+//         ]
+//       },
+//       "field":"messages"
+//   }]}

@@ -19,7 +19,7 @@ export const handleCompany = async (
     data: {
       name: name,
       database: name.replace(/[^a-zA-Z0-9_]/g, "_"),
-      phoneWhatsapp: "",
+      phoneWhatsapp: phoneWhatsapp,
     },
   });
 
