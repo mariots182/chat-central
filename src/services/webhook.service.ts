@@ -119,12 +119,6 @@ export const processIncomingMessage = async (body: any) => {
   await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
 
   return;
-  // // 4. Enviar menú principal si está en MAIN_MENU
-  // if (session.state === "MAIN_MENU") {
-  //   await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
-  //   return;
-  // }
-
   // // 5. Aquí irá el flujo para otros estados (ej: catálogo, pedido, estado)
   // console.log(`📌 Estado actual del usuario: ${session.state}`);
 };

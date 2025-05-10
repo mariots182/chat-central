@@ -5,7 +5,13 @@ export const sendMainMenu = async (
 ) => {
   console.log(`📦 [whatsapp][sendMainMenu] Enviando menú principal a ${to}...`);
 
+  console.log(`📦 [whatsapp][sendMainMenu] phoneNumberId: ${phoneNumberId}`);
+
   const menu = `👋 Hola! ¿Qué deseas hacer?\n\n1️⃣ Ver catálogo\n2️⃣ Hacer un pedido\n3️⃣ Estado de pedido\n4️⃣ Hablar con un asesor`;
+
+  const enviarA = to.slice(0, 2) + to.slice(3);
+  // 522292507583;
+  console.log(`📦 [whatsapp][sendMainMenu] enviarA: ${enviarA}`);
 
   const response = await fetch(
     `https://graph.facebook.com/v22.0/${phoneNumberId}/messages`,
@@ -17,15 +23,15 @@ export const sendMainMenu = async (
       },
       body: JSON.stringify({
         messaging_product: "whatsapp",
-        to,
+        to: enviarA,
+        type: "text",
         text: { body: menu },
-        type: "template",
-        template: {
-          name: "hello_world",
-          language: {
-            code: "en_US",
-          },
-        },
+        // template: {
+        //   name: "test_template",
+        //   language: {
+        //     code: "en_US",
+        //   },
+        // },
       }),
     }
   );
