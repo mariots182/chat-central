@@ -1,68 +1,113 @@
 import {
   centralPrisma,
-  getTenantByPhoneNumberId,
   getTenantPrisma,
 } from "../database/prismaClientFactory";
-import { sendMainMenu } from "../utils/whatsapp";
+import { sessionFlowMap } from "../utils/sessions";
+import { sendMessageMainMenu, sendMessageWelcome } from "./messages.service";
 
 export const processIncomingMessage = async (body: any) => {
+  const { from, text, phoneNumberId, displayPhoneNumber, type, id, statuses } =
+    extractMessageDetails(body);
+
+  console.table({
+    from,
+    text,
+    phoneNumberId,
+    displayPhoneNumber,
+    type,
+    id,
+    // status,
+  });
+
+  if (
+    (statuses !== undefined && statuses.status === "sent") ||
+    (statuses !== undefined && statuses.status === "delivered")
+  ) {
+    console.warn(
+      "[webhookService][processIncomingMessage] Message already sent or delivered"
+    );
+
+    return;
+  }
+
+  if (!from || !text || !displayPhoneNumber) {
+    console.warn(
+      "[webhookService][processIncomingMessage] Incomplete payload received"
+    );
+
+    return;
+  }
+
+  const company = await findCompanyByPhone(displayPhoneNumber);
+
+  if (!company) {
+    console.error(
+      `[webhookService][processIncomingMessage] Company not found for ${displayPhoneNumber}`
+    );
+    return;
+  }
+
+  const tenantDB = getTenantPrisma(`tenant_${company.database}`);
+  const customer = await findOrCreateCustomer(from, tenantDB);
+  let session = await getSessionByCustomerId(customer.id, tenantDB);
+
+  if (!session) {
+    session = await createNewSession(customer.id, phoneNumberId, tenantDB);
+  }
+
+  await handleSessionState(
+    session.state,
+    from,
+    phoneNumberId,
+    tenantDB,
+    customer
+  );
+};
+
+function extractMessageDetails(body: any) {
   const entry = body?.entry?.[0];
   const changes = entry?.changes?.[0];
   const value = changes?.value;
   const metadata = value?.metadata;
+
   const phoneNumberId = metadata?.phone_number_id;
-  const display_phone_number = `+${metadata?.display_phone_number}`;
+  const displayPhoneNumber = `+${metadata?.display_phone_number}`;
+  const message = value?.messages?.[0];
+  const statuses = value?.statuses?.[0];
+  // const status = statuses?.status;
 
-  const messages = value?.messages;
-  if (!messages || messages.length === 0) return;
-
-  const message = messages[0];
-  const from = message.from;
+  const from = message?.from;
   const text = message?.text?.body;
-  // const from = value?.messages?.[0]?.from;
+  const type = message?.type;
+  const timestamp = message?.timestamp;
+  const id = message?.id;
+  const location = message?.location;
 
-  console.log(
-    `📦 [webhookService][processIncomingMessage] phoneNumberId: ${phoneNumberId}`
-  );
-  console.log(
-    `📦 [webhookService][processIncomingMessage] display_phone_number: ${display_phone_number}`
-  );
+  return {
+    from,
+    text,
+    phoneNumberId,
+    displayPhoneNumber,
+    type,
+    timestamp,
+    id,
+    location,
+    statuses,
+  };
+}
 
-  console.log(
-    `📦 [webhookService][processIncomingMessage] from: ${from}, text: ${text}`
-  );
-
-  if (!from || !text || !display_phone_number) {
-    console.warn(
-      "⚠️ [webhookService][processIncomingMessage] Incomplete payload received"
-    );
-
-    return;
-  }
-
-  const company = await centralPrisma.company.findFirst({
-    where: { phoneWhatsapp: display_phone_number },
+async function findCompanyByPhone(displayPhoneNumber: string) {
+  return await centralPrisma.company.findFirst({
+    where: { phoneWhatsapp: displayPhoneNumber },
   });
+}
 
-  if (!company) {
-    console.error(
-      `⚠️ [webhookService][processIncomingMessage] Company not found for phone_number_id: ${phoneNumberId}`
-    );
-    return;
-  }
-
-  let tenantDB = getTenantPrisma(`tenant_${company.database}`);
-
-  // // 1. Verificar si el cliente existe
+async function findOrCreateCustomer(from: string, tenantDB: any) {
   let customer = await tenantDB.customer.findFirst({
     where: { phone: from },
   });
 
   if (!customer) {
-    console.log(
-      `📦 [webhookService][processIncomingMessage] Customer not found, creating new customer`
-    );
-
     customer = await tenantDB.customer.create({
       data: {
         phone: String(from),
@@ -71,84 +116,74 @@ export const processIncomingMessage = async (body: any) => {
         email: "",
       },
     });
-
-    console.log(
-      `📦 [webhookService][processIncomingMessage] New customer created, id: ${customer.id}, name: ${customer.name}, phone: ${customer.phone}`
-    );
   }
 
-  console.log(
-    `📦 [webhookService][processIncomingMessage] Customer found, id: ${customer.id}, name: ${customer.name}, phone: ${customer.phone}`
-  );
+  return customer;
+}
 
-  // // 2. Verificar si existe una sesión activa
-  let session = await tenantDB.customerSession.findFirst({
-    where: {
-      customerId: customer.id,
-      state: "MAIN_MENU",
+async function getSessionByCustomerId(customerId: number, tenantDB: any) {
+  return await tenantDB.customerSession.findFirst({
+    where: { customerId },
+  });
+}
+
+async function createNewSession(
+  customerId: number,
+  sessionId: string,
+  tenantDB: any
+) {
+  return await tenantDB.customerSession.create({
+    data: {
+      customerId,
+      sessionId,
+      state: sessionFlowMap.WELCOME_FLOW[0],
+      lastMessage: "",
+      lastMessageDate: new Date(),
+      lastMessageType: "text",
+      lastMessageStatus: "sent",
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24h
     },
   });
+}
 
+async function updateSession(customerId: string, state: string, tenantDB: any) {
+  return await tenantDB.customerSession.update({
+    where: { customerId },
+    data: { state },
+  });
+}
+
+async function handleSessionState(
+  state: string,
+  from: string,
+  phoneNumberId: string,
+  tenantDB: any,
+  customer: any
+) {
+  let newState = state;
   console.log(
-    `📦 [webhookService][processIncomingMessage] Session found, id: ${session?.id}, state: ${session?.state}`
+    `[webhookService][handleSessionState] Sending message for state: ${state}`
   );
+  switch (state) {
+    case sessionFlowMap.WELCOME_FLOW[0]:
+      await sendMessageWelcome(from, phoneNumberId);
 
-  // // 3. Si no existe sesión, crearla y mostrar menú
-  if (!session) {
-    session = await tenantDB.customerSession.create({
-      data: {
-        customerId: customer.id,
-        state: "MAIN_MENU",
-        lastMessage: "",
-        lastMessageDate: new Date(),
-        lastMessageType: "text",
-        lastMessageStatus: "sent",
-        sessionId: "generated-session-id",
-        lastAccess: new Date(),
-        deviceId: "unknown",
-        ipAddress: "0.0.0.0",
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      },
-    });
+      newState = sessionFlowMap.WELCOME_FLOW[1];
 
-    console.log(
-      `📦 [webhookService][processIncomingMessage] New session created, id: ${session.id}, state: ${session.state}`
-    );
+      break;
+
+    case sessionFlowMap.WELCOME_FLOW[1]:
+      await sendMessageMainMenu(from, phoneNumberId);
+
+      break;
+
+    default:
+      console.log(
+        "[webhookService][handleSessionState] Unknown session state, sending main menu"
+      );
+      // await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
+      break;
   }
 
-  await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
-
-  return;
-  // // 5. Aquí irá el flujo para otros estados (ej: catálogo, pedido, estado)
-  // console.log(`📌 Estado actual del usuario: ${session.state}`);
-};
-
-//Mensaje de prueba de usuario a compañía
-// {
-//   "id":"2156177544893332",
-//   "changes":[
-//     {
-//       "value":{
-//         "messaging_product":"whatsapp",
-//       "metadata":{
-//         "display_phone_number":"15556455135",
-//         "phone_number_id":"669646609558342"},
-//         "contacts":[
-//           {
-//             "profile":{
-//             "name":"Mts"
-//           },
-//         "wa_id":"5212292507583"}],
-//         "messages":[
-//           {
-//             "from":"5212292507583",
-//             "id":"wamid.HBgNNTIxMjI5MjUwNzU4MxUCABIYFDNBODBFQjIyQ0I2ODRBMEVDQ0Y4AA==",
-//             "timestamp":"1746422249",
-//             "text":{
-//             "body":"hola"},
-//             "type":"text"
-//           }
-//         ]
-//       },
-//       "field":"messages"
-//   }]}
+  await updateSession(customer.id, newState, tenantDB);
+}
