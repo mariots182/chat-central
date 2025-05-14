@@ -2,30 +2,24 @@ import {
   centralPrisma,
   getTenantPrisma,
 } from "../database/prismaClientFactory";
-import { createCustomer, findCustomerByPhone } from "./customer.service";
+import { createCustomer, findCustomerByPhone } from "../utils/customer";
+import { extractMessageDetails } from "../utils/messages";
 import {
   createNewSession,
   getSessionByCustomerId,
   handleSessionState,
-} from "./sessions.service";
+} from "../utils/sessions";
 
 export const processIncomingMessage = async (body: any) => {
-  const { from, text, phoneNumberId, displayPhoneNumber, type, id, statuses } =
-    extractMessageDetails(body);
-
-  console.table({
-    from,
-    text,
-    phoneNumberId,
-    displayPhoneNumber,
-    type,
-    id,
-    // status,
-  });
+  const messageDetails = extractMessageDetails(body);
+  const { from, text, phoneNumberId, displayPhoneNumber, type, id } =
+    messageDetails;
 
   if (
-    (statuses !== undefined && statuses.status === "sent") ||
-    (statuses !== undefined && statuses.status === "delivered")
+    (messageDetails.statuses !== undefined &&
+      messageDetails.statuses.status === "sent") ||
+    (messageDetails.statuses !== undefined &&
+      messageDetails.statuses.status === "delivered")
   ) {
     console.warn(
       "[webhookService][processIncomingMessage] Message already sent or delivered"
@@ -67,38 +61,6 @@ export const processIncomingMessage = async (body: any) => {
 
   await handleSessionState(session, from, phoneNumberId, tenantDB, customer);
 };
-
-function extractMessageDetails(body: any) {
-  const entry = body?.entry?.[0];
-  const changes = entry?.changes?.[0];
-  const value = changes?.value;
-  const metadata = value?.metadata;
-
-  const phoneNumberId = metadata?.phone_number_id;
-  const displayPhoneNumber = `+${metadata?.display_phone_number}`;
-  const message = value?.messages?.[0];
-  const statuses = value?.statuses?.[0];
-  // const status = statuses?.status;
-
-  const from = message?.from;
-  const text = message?.text?.body;
-  const type = message?.type;
-  const timestamp = message?.timestamp;
-  const id = message?.id;
-  const location = message?.location;
-
-  return {
-    from,
-    text,
-    phoneNumberId,
-    displayPhoneNumber,
-    type,
-    timestamp,
-    id,
-    location,
-    statuses,
-  };
-}
 
 async function findCompanyByPhone(displayPhoneNumber: string) {
   return await centralPrisma.company.findFirst({

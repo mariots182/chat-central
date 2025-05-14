@@ -1,9 +1,42 @@
+import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import {
   sendInteractiveListMessage,
   sendInteractiveReplyButtonMessage,
   sendInteractiveRequestLocationMessage,
   sendMessage,
 } from "../utils/whatsapp";
+
+export function extractMessageDetails(body: any): WhatsAppMessageDetails {
+  const entry = body?.entry?.[0];
+  const changes = entry?.changes?.[0];
+  const value = changes?.value;
+  const metadata = value?.metadata;
+
+  const phoneNumberId = metadata?.phone_number_id;
+  const displayPhoneNumber = `+${metadata?.display_phone_number}`;
+  const message = value?.messages?.[0];
+  const statuses = value?.statuses?.[0];
+  // const status = statuses?.status;
+
+  const from = message?.from;
+  const text = message?.text?.body;
+  const type = message?.type;
+  const timestamp = message?.timestamp;
+  const id = message?.id;
+  const location = message?.location;
+
+  return {
+    from,
+    text,
+    phoneNumberId,
+    displayPhoneNumber,
+    type,
+    timestamp,
+    id,
+    location,
+    statuses,
+  };
+}
 
 export function messageNotText() {
   console.log("⚠️ [messageService][messageNotText] Message is not text");
