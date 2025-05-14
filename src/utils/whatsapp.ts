@@ -133,35 +133,7 @@ export const sendInteractiveReplyButtonMessage = async (
         messaging_product: "whatsapp",
         to: enviarA,
         type: "interactive",
-        interactive: {
-          type: "button",
-          body: { text: message },
-          header: {
-            type: "text",
-            text: "¡Hola! ¿Qué deseas hacer?",
-          },
-          footer: {
-            text: "Selecciona una opción:",
-          },
-          action: {
-            buttons: [
-              {
-                type: "reply",
-                reply: {
-                  id: "1",
-                  title: "First Buttons Title",
-                },
-              },
-              {
-                type: "reply",
-                reply: {
-                  id: "2",
-                  title: "Second Buttons Title",
-                },
-              },
-            ],
-          },
-        },
+        interactive,
       }),
     }
   );
@@ -242,50 +214,50 @@ export const sendInteractiveRequestLocationMessage = async (
   });
 };
 
-export const sendInteractiveFlowMessage = async (
-  whatsappMessage: WhatsAppMessage
-) => {
-  const { to, phoneNumberId, message, interactive } = whatsappMessage;
-  const enviarA = to.slice(0, 2) + to.slice(3);
+// export const sendInteractiveFlowMessage = async (
+//   whatsappMessage: WhatsAppMessage
+// ) => {
+//   const { to, phoneNumberId, message, interactive } = whatsappMessage;
+//   const enviarA = to.slice(0, 2) + to.slice(3);
 
-  console.log(
-    `📦 [whatsapp][sendInteractiveRequestLocationMessage] Enviando mensaje a ${to}...`
-  );
+//   console.log(
+//     `📦 [whatsapp][sendInteractiveRequestLocationMessage] Enviando mensaje a ${to}...`
+//   );
 
-  const response = await fetch(
-    `${process.env.WHATSAPP_API_URL}${process.env.WHATSAPP_API_VERSION}/${phoneNumberId}/messages`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        recipient_type: "individual",
-        messaging_product: "whatsapp",
-        to: enviarA,
-        type: "interactive",
-        interactive: {
-          type: "location_request_message",
-          body: {
-            text: "¿Dónde estás?",
-          },
-          action: {
-            name: "send_location",
-          },
-        },
-      }),
-    }
-  );
+//   const response = await fetch(
+//     `${process.env.WHATSAPP_API_URL}${process.env.WHATSAPP_API_VERSION}/${phoneNumberId}/messages`,
+//     {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         recipient_type: "individual",
+//         messaging_product: "whatsapp",
+//         to: enviarA,
+//         type: "interactive",
+//         interactive: {
+//           type: "location_request_message",
+//           body: {
+//             text: "¿Dónde estás?",
+//           },
+//           action: {
+//             name: "send_location",
+//           },
+//         },
+//       }),
+//     }
+//   );
 
-  console.log(
-    `📦 [whatsapp][sendInteractiveRequestLocationMessage] Respuesta de la API de WhatsApp: ${response.status}`
-  );
+//   console.log(
+//     `📦 [whatsapp][sendInteractiveRequestLocationMessage] Respuesta de la API de WhatsApp: ${response.status}`
+//   );
 
-  if (!response.ok) {
-    const error = await response.text();
-    console.error(
-      `❌ [whatsapp][sendInteractiveRequestLocationMessage] Error al enviar el mensaje: ${response.status} - ${error}`
-    );
-  }
-};
+//   if (!response.ok) {
+//     const error = await response.text();
+//     console.error(
+//       `❌ [whatsapp][sendInteractiveRequestLocationMessage] Error al enviar el mensaje: ${response.status} - ${error}`
+//     );
+//   }
+// };

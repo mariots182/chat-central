@@ -12,9 +12,9 @@ model Company {
   id             Int          @id @default(autoincrement())
   name           String       @unique
   database       String
-  active         Boolean      @default(true)  // Campo activo agregado
+  active         Boolean      @default(true) 
   session        Boolean      @default(false)
-  scannedQR      Boolean      @default(false)
+  campaign       Boolean      @default(false)
   phoneWhatsapp  String
   logs           CompanyLog[]
   subscriptions  CompanySubscription[]
@@ -22,7 +22,7 @@ model Company {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
-  @@index([active])  // Indice para la consulta de empresas activas
+  @@index([active])
 }
 
 model CompanyLog {
@@ -45,13 +45,13 @@ model CompanyLegalInformation {
   contactEmail   String?
   address        String?
   rfc            String?
-  active         Boolean  @default(true)    // Campo activo agregado
+  active         Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   companyId      Int
   company        Company  @relation(fields: [companyId], references: [id])
 
-  @@index([active])  // Indice para la consulta de información activa
+  @@index([active])
 }
 
 model CompanySubscription {
@@ -60,13 +60,13 @@ model CompanySubscription {
   subscriptionType companySuscrptionType
   startDate        DateTime               @default(now())
   endDate          DateTime?
-  active           Boolean                @default(true)  // Campo activo agregado
+  active           Boolean                @default(true)
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
 
   company          Company                @relation(fields: [companyId], references: [id])
 
-  @@index([active])  // Indice para la consulta de suscripciones activas
+  @@index([active])
 }
 
 enum companySuscrptionType {

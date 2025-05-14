@@ -11,12 +11,24 @@ export function messageNotText() {
   return;
 }
 
-export async function sendMessageWelcome(to: string, phoneNumberId: string) {
-  console.log("📦 [messageService][sendMessageWelcome] Welcome message");
+export function messageNotSupported() {
+  console.log("⚠️ [messageService][messageNotSupported] Message not supported");
 
-  const message = `👋 Hola y bienvenido! vemos que es tu primera vez por aqui \n ¿Cómo podemos ayudarte?`;
+  return;
+}
 
-  console.log(`📦 [messageService][sendMessageWelcome] welcome: ${message}`);
+export function notTheAnswerMessage() {
+  console.log("⚠️ [messageService][notTheAnswerMessage] Not the answer");
+
+  return;
+}
+
+export async function genericMessage(
+  to: string,
+  phoneNumberId: string,
+  message: string
+) {
+  console.log("📦 [messageService][genericMessage] Generic message");
 
   await sendMessage({
     to,
@@ -25,11 +37,66 @@ export async function sendMessageWelcome(to: string, phoneNumberId: string) {
   });
 
   console.log(
+    `📦 [webhookService][genericMessage] Sent generic message to ${to}`
+  );
+
+  return;
+}
+
+export async function sendMessageWelcome(to: string, phoneNumberId: string) {
+  console.log("📦 [messageService][sendMessageWelcome] Welcome message");
+
+  // const message = `👋 Hola y bienvenido! vemos que es tu primera vez por aqui \n ¿Cómo podemos ayudarte?`;
+  const message = `👋 ¡Bienvenido a [Tienda]!\nSoy tu asistente virtual 🤖\n\nAl continuar con la conversación estás de acuerdo con nuestras políticas de privacidad y las puedes consultar en: 👇\n\nhttps://bonafont.com.mx/aviso-y-politicas-de-privacidad`;
+  const message2 = `👋 ¡Hola! Soy Boty 🤖\nPor favor indícame en qué te puedo ayudar:\n\n1️⃣ Hacer un pedido 🛒\n2️⃣ Consulta de precios 💲\n3️⃣ Consulta tu cobertura 🚚\n4️⃣ Necesito ayuda 🆘`;
+
+  const messages = [message, message2];
+
+  for (const message of messages) {
+    console.log(`📦 [messageService][sendMessageWelcome] message: ${message}`);
+    await sendMessage({
+      to,
+      phoneNumberId,
+      message,
+    });
+  }
+
+  console.log(
     `📦 [webhookService][sendMessageWelcome] Sent welcome message to ${to}`
   );
 
   return;
 }
+
+// const interactive = {
+//   type: "button",
+//   body: { text: message },
+//   header: {
+//     type: "Boty",
+//     text: messageInteractive,
+//   },
+//   footer: {
+//     text: "Selecciona una opción:",
+//   },
+//   action: {
+//     buttons: [
+//       {
+//         type: "reply",
+//         reply: {
+//           id: "1",
+//           title: "First Buttons Title",
+//         },
+//       },
+//       {
+//         type: "reply",
+//         reply: {
+//           id: "2",
+//           title: "Second Buttons Title",
+//         },
+//       },
+//     ],
+//   },
+// };
 
 export async function sendMessageCampaign(to: string, phoneNumberId: string) {
   console.log("📦 [webhookService][sendMessageCampaign] Campaign message");

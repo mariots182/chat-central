@@ -2,8 +2,12 @@ import {
   centralPrisma,
   getTenantPrisma,
 } from "../database/prismaClientFactory";
-import { sessionFlowMap } from "../utils/sessions";
-import { sendMessageMainMenu, sendMessageWelcome } from "./messages.service";
+import { createCustomer, findCustomerByPhone } from "./customer.service";
+import {
+  createNewSession,
+  getSessionByCustomerId,
+  handleSessionState,
+} from "./sessions.service";
 
 export const processIncomingMessage = async (body: any) => {
   const { from, text, phoneNumberId, displayPhoneNumber, type, id, statuses } =
@@ -48,20 +52,20 @@ export const processIncomingMessage = async (body: any) => {
   }
 
   const tenantDB = getTenantPrisma(`tenant_${company.database}`);
-  const customer = await findOrCreateCustomer(from, tenantDB);
+
+  let customer = await findCustomerByPhone(from, tenantDB);
+
+  if (!customer) {
+    customer = await createCustomer(from, tenantDB);
+  }
+
   let session = await getSessionByCustomerId(customer.id, tenantDB);
 
   if (!session) {
     session = await createNewSession(customer.id, phoneNumberId, tenantDB);
   }
 
-  await handleSessionState(
-    session.state,
-    from,
-    phoneNumberId,
-    tenantDB,
-    customer
-  );
+  await handleSessionState(session, from, phoneNumberId, tenantDB, customer);
 };
 
 function extractMessageDetails(body: any) {
@@ -100,90 +104,4 @@ async function findCompanyByPhone(displayPhoneNumber: string) {
   return await centralPrisma.company.findFirst({
     where: { phoneWhatsapp: displayPhoneNumber },
   });
-}
-
-async function findOrCreateCustomer(from: string, tenantDB: any) {
-  let customer = await tenantDB.customer.findFirst({
-    where: { phone: from },
-  });
-
-  if (!customer) {
-    customer = await tenantDB.customer.create({
-      data: {
-        phone: String(from),
-        name: "",
-        address: "",
-        email: "",
-      },
-    });
-  }
-
-  return customer;
-}
-
-async function getSessionByCustomerId(customerId: number, tenantDB: any) {
-  return await tenantDB.customerSession.findFirst({
-    where: { customerId },
-  });
-}
-
-async function createNewSession(
-  customerId: number,
-  sessionId: string,
-  tenantDB: any
-) {
-  return await tenantDB.customerSession.create({
-    data: {
-      customerId,
-      sessionId,
-      state: sessionFlowMap.WELCOME_FLOW[0],
-      lastMessage: "",
-      lastMessageDate: new Date(),
-      lastMessageType: "text",
-      lastMessageStatus: "sent",
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24h
-    },
-  });
-}
-
-async function updateSession(customerId: string, state: string, tenantDB: any) {
-  return await tenantDB.customerSession.update({
-    where: { customerId },
-    data: { state },
-  });
-}
-
-async function handleSessionState(
-  state: string,
-  from: string,
-  phoneNumberId: string,
-  tenantDB: any,
-  customer: any
-) {
-  let newState = state;
-  console.log(
-    `[webhookService][handleSessionState] Sending message for state: ${state}`
-  );
-  switch (state) {
-    case sessionFlowMap.WELCOME_FLOW[0]:
-      await sendMessageWelcome(from, phoneNumberId);
-
-      newState = sessionFlowMap.WELCOME_FLOW[1];
-
-      break;
-
-    case sessionFlowMap.WELCOME_FLOW[1]:
-      await sendMessageMainMenu(from, phoneNumberId);
-
-      break;
-
-    default:
-      console.log(
-        "[webhookService][handleSessionState] Unknown session state, sending main menu"
-      );
-      // await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
-      break;
-  }
-
-  await updateSession(customer.id, newState, tenantDB);
 }
