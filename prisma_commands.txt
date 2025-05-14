@@ -11,3 +11,10 @@
 
 npx prisma generate --schema=prisma/tenant/schema.prisma
 npx prisma generate --schema=prisma/central/schema.prisma
+
+npx prisma migrate reset --schema=prisma/tenant/schema.prisma
+npx prisma migrate reset --schema=prisma/central/schema.prisma
+
+
+
+ npx prisma db push --schema=prisma/central/schema.prisma
