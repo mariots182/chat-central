@@ -1,21 +1,4 @@
 import { Request, Response } from "express";
-import { processIncomingMessage } from "../services/webhook.service";
-
-export const handleWebhook = async (req: Request, res: Response) => {
-  try {
-    console.log("📦 [webhookController][handleWebhook] awaiting");
-
-    await processIncomingMessage(req.body);
-
-    console.log("📦 [webhookController][handleWebhook] done");
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error("📦 ❌ [webhookController][handleWebhook] error:", error);
-
-    res.sendStatus(500);
-  }
-};
 
 export const verifyWebhook = (req: Request, res: Response) => {
   const VERIFY_TOKEN = process.env.WHATSAPP_TOKEN;
