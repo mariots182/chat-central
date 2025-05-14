@@ -20,6 +20,11 @@ export const handleCompany = async (
       name: name,
       database: name.replace(/[^a-zA-Z0-9_]/g, "_"),
       phoneWhatsapp: phoneWhatsapp,
+      active: true,
+      session: false,
+      campaign: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
 

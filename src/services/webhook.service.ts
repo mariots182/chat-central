@@ -2,6 +2,7 @@ import {
   centralPrisma,
   getTenantPrisma,
 } from "../database/prismaClientFactory";
+import { findCompanyByPhone } from "../utils/company";
 import { createCustomer, findCustomerByPhone } from "../utils/customer";
 import { extractMessageDetails } from "../utils/messages";
 import {
@@ -62,8 +63,8 @@ export const processIncomingMessage = async (body: any) => {
   await handleSessionState(session, from, phoneNumberId, tenantDB, customer);
 };
 
-async function findCompanyByPhone(displayPhoneNumber: string) {
-  return await centralPrisma.company.findFirst({
-    where: { phoneWhatsapp: displayPhoneNumber },
-  });
-}
+// async function findCompanyByPhone(displayPhoneNumber: string) {
+//   return await centralPrisma.company.findFirst({
+//     where: { phoneWhatsapp: displayPhoneNumber },
+//   });
+// }

@@ -5,10 +5,9 @@ export const handleBot = async (req: Request, res: Response) => {
   const botService = new BotService();
 
   try {
-    // const response = await botService.getBotResponse(req.body);
-    // res.status(200).send(response);
+    console.log("req.body", req.body);
 
-    await botService.getBotResponse(req.body);
+    await botService.getBotResponse(req);
 
     res.status(200);
   } catch (error) {
