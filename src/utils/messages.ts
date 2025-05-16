@@ -25,6 +25,17 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
   const id = message?.id;
   const location = message?.location;
 
+  console.table({
+    from,
+    text,
+    phoneNumberId,
+    displayPhoneNumber,
+    type,
+    timestamp,
+    id,
+    location,
+  });
+
   return {
     from,
     text,
@@ -36,6 +47,31 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     location,
     statuses,
   };
+}
+
+export function isValidMessage(
+  messageDetails: WhatsAppMessageDetails
+): boolean {
+  const { from, text, displayPhoneNumber } = messageDetails;
+
+  if (
+    (messageDetails.statuses !== undefined &&
+      messageDetails.statuses.status === "sent") ||
+    (messageDetails.statuses !== undefined &&
+      messageDetails.statuses.status === "delivered")
+  ) {
+    console.warn(
+      "[messagesUtils][isValidMessage] Message already sent or delivered"
+    );
+    return false;
+  }
+
+  if (!from || !text || !displayPhoneNumber) {
+    console.warn("[messageMiddleware] Incomplete payload received");
+    return false;
+  }
+
+  return true;
 }
 
 export function messageNotText() {
@@ -70,7 +106,7 @@ export async function genericMessage(
   });
 
   console.log(
-    `📦 [webhookService][genericMessage] Sent generic message to ${to}`
+    `📦 [messagesUtils][genericMessage] Sent generic message to ${to}`
   );
 
   return;
@@ -86,7 +122,7 @@ export async function sendMessageWelcome(to: string, phoneNumberId: string) {
   const messages = [message, message2];
 
   for (const message of messages) {
-    console.log(`📦 [messageService][sendMessageWelcome] message: ${message}`);
+    console.log(`📦 [messagesUtils][sendMessageWelcome] message: ${message}`);
     await sendMessage({
       to,
       phoneNumberId,
@@ -95,61 +131,31 @@ export async function sendMessageWelcome(to: string, phoneNumberId: string) {
   }
 
   console.log(
-    `📦 [webhookService][sendMessageWelcome] Sent welcome message to ${to}`
+    `📦 [messagesUtils][sendMessageWelcome] Sent welcome message to ${to}`
   );
 
   return;
 }
 
-// const interactive = {
-//   type: "button",
-//   body: { text: message },
-//   header: {
-//     type: "Boty",
-//     text: messageInteractive,
-//   },
-//   footer: {
-//     text: "Selecciona una opción:",
-//   },
-//   action: {
-//     buttons: [
-//       {
-//         type: "reply",
-//         reply: {
-//           id: "1",
-//           title: "First Buttons Title",
-//         },
-//       },
-//       {
-//         type: "reply",
-//         reply: {
-//           id: "2",
-//           title: "Second Buttons Title",
-//         },
-//       },
-//     ],
-//   },
-// };
-
 export async function sendMessageCampaign(to: string, phoneNumberId: string) {
-  console.log("📦 [webhookService][sendMessageCampaign] Campaign message");
+  console.log("📦 [messagesUtils][sendMessageCampaign] Campaign message");
   const message = `👋 Hola! Bienvenido a la tienda de ropa. ¿Cómo puedo ayudarte?`;
-  console.log(`📦 [webhookService][sendMessageCampaign] campaign: ${message}`);
+  console.log(`📦 [messagesUtils][sendMessageCampaign] campaign: ${message}`);
   await sendMessage({
     to,
     phoneNumberId,
     message,
   });
   console.log(
-    `📦 [webhookService][sendMessageCampaign] Sent campaign message to ${to}`
+    `📦 [messagesUtils][sendMessageCampaign] Sent campaign message to ${to}`
   );
   return;
 }
 
 export async function sendMessageMainMenu(to: string, phoneNumberId: string) {
-  console.log("📦 [webhookService][sendMessageMainMenu] Main menu");
+  console.log("📦 [messagesUtils][sendMessageMainMenu] Main menu");
   const message = `👋 Hola! ¿Qué deseas hacer?\n\n1️⃣ Ver catálogo\n2️⃣ Hacer un pedido\n3️⃣ Estado de pedido\n4️⃣ Hablar con un asesor`;
-  console.log(`📦 [webhookService][sendMessageMainMenu] menu: ${message}`);
+  console.log(`📦 [messagesUtils][sendMessageMainMenu] menu: ${message}`);
 
   const interactive = {
     type: "button",
@@ -198,7 +204,37 @@ export async function sendMessageMainMenu(to: string, phoneNumberId: string) {
   });
 
   console.log(
-    `📦 [webhookService][sendMessageMainMenu] Sent main menu to ${to}`
+    `📦 [messagesUtils][sendMessageMainMenu] Sent main menu to ${to}`
   );
   return;
 }
+
+// const interactive = {
+//   type: "button",
+//   body: { text: message },
+//   header: {
+//     type: "Boty",
+//     text: messageInteractive,
+//   },
+//   footer: {
+//     text: "Selecciona una opción:",
+//   },
+//   action: {
+//     buttons: [
+//       {
+//         type: "reply",
+//         reply: {
+//           id: "1",
+//           title: "First Buttons Title",
+//         },
+//       },
+//       {
+//         type: "reply",
+//         reply: {
+//           id: "2",
+//           title: "Second Buttons Title",
+//         },
+//       },
+//     ],
+//   },
+// };

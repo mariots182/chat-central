@@ -15,4 +15,15 @@ export async function createCustomer(from: string, tenantDB: any) {
       email: "",
     },
   });
+  return customer;
+}
+
+export async function handleCustomer(from: string, tenantDB: any) {
+  let customer = await findCustomerByPhone(from, tenantDB);
+
+  if (!customer) {
+    customer = await createCustomer(from, tenantDB);
+  }
+
+  return customer;
 }

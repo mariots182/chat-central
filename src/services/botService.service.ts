@@ -1,28 +1,39 @@
-import { extractMessageDetails } from "../utils/messages";
-import { Request, Response } from "express";
-import { handleSessionState } from "../utils/sessions";
+import {
+  extractMessageDetails,
+  genericMessage,
+  isValidMessage,
+} from "../utils/messages";
+import { Request } from "express";
+import { handleSession } from "../utils/sessions";
 import { getTenantPrisma } from "../database/prismaClientFactory";
+import { findCompanyByPhone } from "../utils/company";
+import { handleCustomer } from "../utils/customer";
 
 class BotService {
   async getBotResponse(req: Request): Promise<void> {
     const messageDetails = extractMessageDetails(req.body);
-    const { from, text, phoneNumberId, displayPhoneNumber, type, id } =
-      messageDetails;
-    const customer = req.body.customer;
-    const session = req.body.session;
-    const company = req.body.company;
+
+    if (!isValidMessage(messageDetails)) {
+      console.error("Is not valid message");
+
+      return;
+    }
+
+    const { from, phoneNumberId, displayPhoneNumber } = messageDetails;
+
+    const company = await findCompanyByPhone(displayPhoneNumber);
+
     const tenantDB = getTenantPrisma(`tenant_${company.database}`);
 
-    // const isService
-    console.table({
-      from,
-      text,
-      phoneNumberId,
-      displayPhoneNumber,
-      type,
-      id,
-    });
-    await handleSessionState(session, from, phoneNumberId, tenantDB, customer);
+    const customer = await handleCustomer(from, tenantDB);
+
+    const session = await handleSession(customer.id, phoneNumberId, tenantDB);
+
+    // await handleSessionState(session, from, phoneNumberId, tenantDB, customer);
+
+    await genericMessage(from, phoneNumberId, "hola");
+
+    return;
   }
 }
 

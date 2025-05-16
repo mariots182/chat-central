@@ -12,13 +12,13 @@ export async function getSessionByCustomerId(
 
 export async function createNewSession(
   customerId: number,
-  sessionId: string,
+  phoneNumberId: string,
   tenantDB: any
 ) {
   return await tenantDB.customerSession.create({
     data: {
       customerId,
-      sessionId,
+      sessionId: phoneNumberId,
       state: "",
       lastMessage: "",
       lastMessageDate: new Date(),
@@ -31,6 +31,20 @@ export async function createNewSession(
       ipAddress: "",
     },
   });
+}
+
+export async function handleSession(
+  customerId: number,
+  phoneNumberId: string,
+  tenantDB: any
+) {
+  let session = getSessionByCustomerId(customerId, tenantDB);
+
+  if (!session) {
+    session = createNewSession(customerId, phoneNumberId, tenantDB);
+  }
+
+  return session;
 }
 
 export async function updateSession(
@@ -56,13 +70,13 @@ export async function handleSessionState(
   let newState = "";
 
   console.log(
-    `[webhookService][handleSessionState] Sending message for state: ${session.state}`
+    `[sessionsUtils][handleSessionState] Sending message for state: ${session.state}`
   );
 
   switch (session.state) {
     case "":
       console.log(
-        "[webhookService][handleSessionState] Session state is empty, sending welcome message"
+        "[sessionsUtils][handleSessionState] Session state is empty, sending welcome message"
       );
 
       await sendMessageWelcome(from, phoneNumberId);
@@ -76,7 +90,7 @@ export async function handleSessionState(
       break;
     case sessionFlowMap.WELCOME_FLOW[0]:
       console.log(
-        "[webhookService][handleSessionState] Session state is empty, sending welcome message"
+        "[sessionsUtils][handleSessionState] Session state is empty, sending welcome message"
       );
 
       await sendMessageWelcome(from, phoneNumberId);
@@ -89,7 +103,7 @@ export async function handleSessionState(
       handleWelcomeShowMainMenu(session.lastMessage, from, phoneNumberId).then(
         (newState) => {
           console.log(
-            "[webhookService][handleSessionState] Sending welcome message"
+            "[sessionsUtils][handleSessionState] Sending welcome message"
           );
         }
       );
@@ -107,7 +121,7 @@ export async function handleSessionState(
 
     default:
       console.log(
-        "[webhookService][handleSessionState] Unknown session state, sending main menu"
+        "[sessionsUtils][handleSessionState] Unknown session state, sending main menu"
       );
       // await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
       break;
@@ -122,9 +136,7 @@ async function handleWelcomeShowMainMenu(
   phoneNumberId: string
 ) {
   if (text === "1") {
-    console.log(
-      "[webhookService][handleWelcomeShowMainMenu] Sending main menu"
-    );
+    console.log("[sessionsUtils][handleWelcomeShowMainMenu] Sending main menu");
 
     let message = `👋 Hola! Para poder realizar tu pedido es necesario que te registres primero.`;
 
@@ -132,13 +144,11 @@ async function handleWelcomeShowMainMenu(
 
     return sessionFlowMap.REGISTRATION_FLOW[0];
   } else if (text === "2") {
-    console.log(
-      "[webhookService][handleWelcomeShowMainMenu] Sending main menu"
-    );
+    console.log("[sessionsUtils][handleWelcomeShowMainMenu] Sending main menu");
     return sessionFlowMap.REGISTRATION_FLOW[1];
   } else {
     console.log(
-      "[webhookService][handleWelcomeShowMainMenu] Unknown option, sending main menu"
+      "[sessionsUtils][handleWelcomeShowMainMenu] Unknown option, sending main menu"
     );
     return sessionFlowMap.REGISTRATION_FLOW[0];
   }

@@ -5,11 +5,12 @@ export const handleBot = async (req: Request, res: Response) => {
   const botService = new BotService();
 
   try {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
 
     await botService.getBotResponse(req);
 
-    res.status(200);
+    // res.status(200);
+    return;
   } catch (error) {
     console.error("📦 ❌ [botController][handleBot] error:", error);
 
