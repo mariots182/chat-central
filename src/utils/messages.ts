@@ -1,7 +1,5 @@
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import {
-  sendInteractiveListMessage,
-  sendInteractiveReplyButtonMessage,
   sendInteractiveRequestLocationMessage,
   sendMessage,
 } from "../utils/whatsapp";
@@ -74,20 +72,24 @@ export function isValidMessage(
   return true;
 }
 
+export function isValidWamId(): boolean {
+  return false;
+}
+
 export function messageNotText() {
-  console.log("⚠️ [messageService][messageNotText] Message is not text");
+  console.log("⚠️ [messagesUtils][messageNotText] Message is not text");
 
   return;
 }
 
 export function messageNotSupported() {
-  console.log("⚠️ [messageService][messageNotSupported] Message not supported");
+  console.log("⚠️ [messagesUtils][messageNotSupported] Message not supported");
 
   return;
 }
 
 export function notTheAnswerMessage() {
-  console.log("⚠️ [messageService][notTheAnswerMessage] Not the answer");
+  console.log("⚠️ [messagesUtils][notTheAnswerMessage] Not the answer");
 
   return;
 }
@@ -97,7 +99,7 @@ export async function genericMessage(
   phoneNumberId: string,
   message: string
 ) {
-  console.log("📦 [messageService][genericMessage] Generic message");
+  console.log("📦 [messagesUtils][genericMessage] Generic message");
 
   await sendMessage({
     to,
@@ -113,7 +115,7 @@ export async function genericMessage(
 }
 
 export async function sendMessageWelcome(to: string, phoneNumberId: string) {
-  console.log("📦 [messageService][sendMessageWelcome] Welcome message");
+  console.log("📦 [messagesUtils][sendMessageWelcome] Welcome message");
 
   // const message = `👋 Hola y bienvenido! vemos que es tu primera vez por aqui \n ¿Cómo podemos ayudarte?`;
   const message = `👋 ¡Bienvenido a [Tienda]!\nSoy tu asistente virtual 🤖\n\nAl continuar con la conversación estás de acuerdo con nuestras políticas de privacidad y las puedes consultar en: 👇\n\nhttps://bonafont.com.mx/aviso-y-politicas-de-privacidad`;

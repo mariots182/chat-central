@@ -32,6 +32,8 @@ export const sendMessage = async (whatsappMessage: WhatsAppMessage) => {
     console.error(
       `❌ [whatsapp][sendMessage] Error al enviar el mensaje: ${response.status} - ${error}`
     );
+
+    throw error;
   }
 };
 

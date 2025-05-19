@@ -1,3 +1,22 @@
+export interface CustomerSessionModel {
+  id: number;
+  customerId: number;
+  sessionId: string;
+  wamId: string;
+  lastAccess: Date;
+  lastMessage: string;
+  lastMessageDate: Date;
+  lastMessageType: string;
+  lastMessageStatus: string;
+  previousState: string;
+  state: string;
+  deviceId: string;
+  expiresAt: Date;
+  createdAt: Date;
+  ipAddress: string;
+  updatedAt: Date;
+}
+
 export const sessionFlowMap = {
   // 1. WELCOME_FLOW
   WELCOME_FLOW: ["SHOW_GREETING", "SHOW_CAMPAIGN", "SHOW_MAIN_MENU"],

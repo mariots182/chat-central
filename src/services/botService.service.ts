@@ -15,11 +15,10 @@ class BotService {
 
     if (!isValidMessage(messageDetails)) {
       console.error("Is not valid message");
-
       return;
     }
 
-    const { from, phoneNumberId, displayPhoneNumber } = messageDetails;
+    const { from, phoneNumberId, displayPhoneNumber, id } = messageDetails;
 
     const company = await findCompanyByPhone(displayPhoneNumber);
 
@@ -27,7 +26,9 @@ class BotService {
 
     const customer = await handleCustomer(from, tenantDB);
 
-    const session = await handleSession(customer.id, phoneNumberId, tenantDB);
+    const session = await handleSession(customer.id, messageDetails, tenantDB);
+
+    // validateSession
 
     // await handleSessionState(session, from, phoneNumberId, tenantDB, customer);
 

@@ -1,48 +1,87 @@
-import { sessionFlowMap } from "../models/sessions.model";
+import { CustomerSessionModel, sessionFlowMap } from "../models/sessions.model";
+import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import { genericMessage, sendMessageWelcome } from "../utils/messages";
 
 export async function getSessionByCustomerId(
   customerId: number,
   tenantDB: any
 ) {
-  return await tenantDB.customerSession.findFirst({
-    where: { customerId },
-  });
+  console.log(
+    `[sessionsUtils][getSessionByCustomerId] Getting session for customerId: ${customerId}`
+  );
+
+  try {
+    let session = await tenantDB.customerSession.findFirst({
+      where: { customerId },
+    });
+
+    return session;
+  } catch (error) {
+    console.error(
+      `[sessionsUtils][getSessionByCustomerId] Error getting session: ${error}`
+    );
+  }
 }
 
 export async function createNewSession(
   customerId: number,
-  phoneNumberId: string,
+  messageDetails: WhatsAppMessageDetails,
   tenantDB: any
 ) {
-  return await tenantDB.customerSession.create({
-    data: {
-      customerId,
-      sessionId: phoneNumberId,
-      state: "",
-      lastMessage: "",
-      lastMessageDate: new Date(),
-      lastMessageType: "",
-      lastMessageStatus: "",
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      lastAccess: new Date(),
-      previousState: "",
-      deviceId: "",
-      ipAddress: "",
-    },
-  });
+  try {
+    let session = await tenantDB.customerSession.create({
+      data: {
+        customerId,
+        sessionId: messageDetails.phoneNumberId,
+        previousState: "",
+        state: "",
+        wamId: messageDetails.id,
+        lastMessage: messageDetails.text,
+        lastMessageDate:
+          new Date(Number(messageDetails.timestamp) * 1000) || new Date(),
+        lastMessageType: messageDetails.type,
+        lastMessageStatus: messageDetails.statuses?.status || "",
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        lastAccess: new Date(),
+        deviceId: "",
+        ipAddress: "",
+      },
+    });
+
+    return session;
+  } catch (error) {
+    console.error(
+      `[sessionsUtils][createNewSession] Error creating new session: ${error}`
+    );
+  }
 }
 
 export async function handleSession(
   customerId: number,
-  phoneNumberId: string,
+  messageDetails: WhatsAppMessageDetails,
   tenantDB: any
 ) {
-  let session = getSessionByCustomerId(customerId, tenantDB);
+  console.log(
+    `[sessionsUtils][handleSession] finding session for customerId: ${customerId}`
+  );
+
+  let session = await getSessionByCustomerId(customerId, tenantDB);
 
   if (!session) {
-    session = createNewSession(customerId, phoneNumberId, tenantDB);
+    console.log(
+      `[sessionsUtils][handleSession] No session found for customerId: ${customerId}, creating new session`
+    );
+
+    console.log(
+      `[sessionsUtils][handleSession] Creating new session for customerId: ${customerId}`
+    );
+
+    session = await createNewSession(customerId, messageDetails, tenantDB);
   }
+
+  console.log(
+    `[sessionsUtils][handleSession] Session ready for customerId: ${customerId}`
+  );
 
   return session;
 }
