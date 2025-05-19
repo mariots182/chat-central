@@ -4444,6 +4444,7 @@ export namespace Prisma {
     id: number | null
     customerId: number | null
     sessionId: string | null
+    wamId: string | null
     lastAccess: Date | null
     lastMessage: string | null
     lastMessageDate: Date | null
@@ -4462,6 +4463,7 @@ export namespace Prisma {
     id: number | null
     customerId: number | null
     sessionId: string | null
+    wamId: string | null
     lastAccess: Date | null
     lastMessage: string | null
     lastMessageDate: Date | null
@@ -4480,6 +4482,7 @@ export namespace Prisma {
     id: number
     customerId: number
     sessionId: number
+    wamId: number
     lastAccess: number
     lastMessage: number
     lastMessageDate: number
@@ -4510,6 +4513,7 @@ export namespace Prisma {
     id?: true
     customerId?: true
     sessionId?: true
+    wamId?: true
     lastAccess?: true
     lastMessage?: true
     lastMessageDate?: true
@@ -4528,6 +4532,7 @@ export namespace Prisma {
     id?: true
     customerId?: true
     sessionId?: true
+    wamId?: true
     lastAccess?: true
     lastMessage?: true
     lastMessageDate?: true
@@ -4546,6 +4551,7 @@ export namespace Prisma {
     id?: true
     customerId?: true
     sessionId?: true
+    wamId?: true
     lastAccess?: true
     lastMessage?: true
     lastMessageDate?: true
@@ -4651,6 +4657,7 @@ export namespace Prisma {
     id: number
     customerId: number
     sessionId: string
+    wamId: string
     lastAccess: Date
     lastMessage: string
     lastMessageDate: Date
@@ -4688,6 +4695,7 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     sessionId?: boolean
+    wamId?: boolean
     lastAccess?: boolean
     lastMessage?: boolean
     lastMessageDate?: boolean
@@ -4707,6 +4715,7 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     sessionId?: boolean
+    wamId?: boolean
     lastAccess?: boolean
     lastMessage?: boolean
     lastMessageDate?: boolean
@@ -4726,6 +4735,7 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     sessionId?: boolean
+    wamId?: boolean
     lastAccess?: boolean
     lastMessage?: boolean
     lastMessageDate?: boolean
@@ -4745,6 +4755,7 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     sessionId?: boolean
+    wamId?: boolean
     lastAccess?: boolean
     lastMessage?: boolean
     lastMessageDate?: boolean
@@ -4759,7 +4770,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CustomerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "sessionId" | "lastAccess" | "lastMessage" | "lastMessageDate" | "lastMessageType" | "lastMessageStatus" | "previousState" | "state" | "deviceId" | "expiresAt" | "createdAt" | "ipAddress" | "updatedAt", ExtArgs["result"]["customerSession"]>
+  export type CustomerSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "sessionId" | "wamId" | "lastAccess" | "lastMessage" | "lastMessageDate" | "lastMessageType" | "lastMessageStatus" | "previousState" | "state" | "deviceId" | "expiresAt" | "createdAt" | "ipAddress" | "updatedAt", ExtArgs["result"]["customerSession"]>
   export type CustomerSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
@@ -4779,6 +4790,7 @@ export namespace Prisma {
       id: number
       customerId: number
       sessionId: string
+      wamId: string
       lastAccess: Date
       lastMessage: string
       lastMessageDate: Date
@@ -5218,6 +5230,7 @@ export namespace Prisma {
     readonly id: FieldRef<"CustomerSession", 'Int'>
     readonly customerId: FieldRef<"CustomerSession", 'Int'>
     readonly sessionId: FieldRef<"CustomerSession", 'String'>
+    readonly wamId: FieldRef<"CustomerSession", 'String'>
     readonly lastAccess: FieldRef<"CustomerSession", 'DateTime'>
     readonly lastMessage: FieldRef<"CustomerSession", 'String'>
     readonly lastMessageDate: FieldRef<"CustomerSession", 'DateTime'>
@@ -15876,6 +15889,7 @@ export namespace Prisma {
     id: 'id',
     customerId: 'customerId',
     sessionId: 'sessionId',
+    wamId: 'wamId',
     lastAccess: 'lastAccess',
     lastMessage: 'lastMessage',
     lastMessageDate: 'lastMessageDate',
@@ -16274,6 +16288,7 @@ export namespace Prisma {
     id?: IntFilter<"CustomerSession"> | number
     customerId?: IntFilter<"CustomerSession"> | number
     sessionId?: StringFilter<"CustomerSession"> | string
+    wamId?: StringFilter<"CustomerSession"> | string
     lastAccess?: DateTimeFilter<"CustomerSession"> | Date | string
     lastMessage?: StringFilter<"CustomerSession"> | string
     lastMessageDate?: DateTimeFilter<"CustomerSession"> | Date | string
@@ -16293,6 +16308,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     sessionId?: SortOrder
+    wamId?: SortOrder
     lastAccess?: SortOrder
     lastMessage?: SortOrder
     lastMessageDate?: SortOrder
@@ -16312,6 +16328,7 @@ export namespace Prisma {
     id?: number
     customerId?: number
     sessionId?: string
+    wamId?: string
     AND?: CustomerSessionWhereInput | CustomerSessionWhereInput[]
     OR?: CustomerSessionWhereInput[]
     NOT?: CustomerSessionWhereInput | CustomerSessionWhereInput[]
@@ -16328,12 +16345,13 @@ export namespace Prisma {
     ipAddress?: StringFilter<"CustomerSession"> | string
     updatedAt?: DateTimeFilter<"CustomerSession"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
-  }, "id" | "customerId" | "sessionId">
+  }, "id" | "customerId" | "sessionId" | "wamId">
 
   export type CustomerSessionOrderByWithAggregationInput = {
     id?: SortOrder
     customerId?: SortOrder
     sessionId?: SortOrder
+    wamId?: SortOrder
     lastAccess?: SortOrder
     lastMessage?: SortOrder
     lastMessageDate?: SortOrder
@@ -16360,6 +16378,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"CustomerSession"> | number
     customerId?: IntWithAggregatesFilter<"CustomerSession"> | number
     sessionId?: StringWithAggregatesFilter<"CustomerSession"> | string
+    wamId?: StringWithAggregatesFilter<"CustomerSession"> | string
     lastAccess?: DateTimeWithAggregatesFilter<"CustomerSession"> | Date | string
     lastMessage?: StringWithAggregatesFilter<"CustomerSession"> | string
     lastMessageDate?: DateTimeWithAggregatesFilter<"CustomerSession"> | Date | string
@@ -17105,6 +17124,7 @@ export namespace Prisma {
 
   export type CustomerSessionCreateInput = {
     sessionId: string
+    wamId: string
     lastAccess: Date | string
     lastMessage: string
     lastMessageDate: Date | string
@@ -17124,6 +17144,7 @@ export namespace Prisma {
     id?: number
     customerId: number
     sessionId: string
+    wamId: string
     lastAccess: Date | string
     lastMessage: string
     lastMessageDate: Date | string
@@ -17140,6 +17161,7 @@ export namespace Prisma {
 
   export type CustomerSessionUpdateInput = {
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17159,6 +17181,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17177,6 +17200,7 @@ export namespace Prisma {
     id?: number
     customerId: number
     sessionId: string
+    wamId: string
     lastAccess: Date | string
     lastMessage: string
     lastMessageDate: Date | string
@@ -17193,6 +17217,7 @@ export namespace Prisma {
 
   export type CustomerSessionUpdateManyMutationInput = {
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17211,6 +17236,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18011,6 +18037,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     sessionId?: SortOrder
+    wamId?: SortOrder
     lastAccess?: SortOrder
     lastMessage?: SortOrder
     lastMessageDate?: SortOrder
@@ -18034,6 +18061,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     sessionId?: SortOrder
+    wamId?: SortOrder
     lastAccess?: SortOrder
     lastMessage?: SortOrder
     lastMessageDate?: SortOrder
@@ -18052,6 +18080,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     sessionId?: SortOrder
+    wamId?: SortOrder
     lastAccess?: SortOrder
     lastMessage?: SortOrder
     lastMessageDate?: SortOrder
@@ -19523,6 +19552,7 @@ export namespace Prisma {
 
   export type CustomerSessionCreateWithoutCustomerInput = {
     sessionId: string
+    wamId: string
     lastAccess: Date | string
     lastMessage: string
     lastMessageDate: Date | string
@@ -19540,6 +19570,7 @@ export namespace Prisma {
   export type CustomerSessionUncheckedCreateWithoutCustomerInput = {
     id?: number
     sessionId: string
+    wamId: string
     lastAccess: Date | string
     lastMessage: string
     lastMessageDate: Date | string
@@ -19674,6 +19705,7 @@ export namespace Prisma {
     id?: IntFilter<"CustomerSession"> | number
     customerId?: IntFilter<"CustomerSession"> | number
     sessionId?: StringFilter<"CustomerSession"> | string
+    wamId?: StringFilter<"CustomerSession"> | string
     lastAccess?: DateTimeFilter<"CustomerSession"> | Date | string
     lastMessage?: StringFilter<"CustomerSession"> | string
     lastMessageDate?: DateTimeFilter<"CustomerSession"> | Date | string
@@ -20776,6 +20808,7 @@ export namespace Prisma {
   export type CustomerSessionCreateManyCustomerInput = {
     id?: number
     sessionId: string
+    wamId: string
     lastAccess: Date | string
     lastMessage: string
     lastMessageDate: Date | string
@@ -20830,6 +20863,7 @@ export namespace Prisma {
 
   export type CustomerSessionUpdateWithoutCustomerInput = {
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20847,6 +20881,7 @@ export namespace Prisma {
   export type CustomerSessionUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20864,6 +20899,7 @@ export namespace Prisma {
   export type CustomerSessionUncheckedUpdateManyWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     sessionId?: StringFieldUpdateOperationsInput | string
+    wamId?: StringFieldUpdateOperationsInput | string
     lastAccess?: DateTimeFieldUpdateOperationsInput | Date | string
     lastMessage?: StringFieldUpdateOperationsInput | string
     lastMessageDate?: DateTimeFieldUpdateOperationsInput | Date | string

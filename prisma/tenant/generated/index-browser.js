@@ -142,6 +142,7 @@ exports.Prisma.CustomerSessionScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
   sessionId: 'sessionId',
+  wamId: 'wamId',
   lastAccess: 'lastAccess',
   lastMessage: 'lastMessage',
   lastMessageDate: 'lastMessageDate',

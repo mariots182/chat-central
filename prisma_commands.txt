@@ -18,3 +18,5 @@ npx prisma migrate reset --schema=prisma/central/schema.prisma
 
 
  npx prisma db push --schema=prisma/central/schema.prisma
+
+ npx prisma db push --url="postgresql://postgres:M4r10182@localhost:5432/tenant_Empresa_Broly"
