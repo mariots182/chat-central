@@ -10,6 +10,7 @@ import { getTenantPrisma } from "../database/prismaClientFactory";
 import { findCompanyByPhone } from "../utils/company";
 import { handleCustomer } from "../utils/customer";
 import config from "../config";
+import { sendMessage } from "../utils/whatsapp";
 
 class BotService {
   async getBotResponse(req: Request): Promise<void> {
@@ -34,88 +35,62 @@ class BotService {
 
     console.log(`before run`);
 
-    // this.run(messageBody, from, phoneNumberId);
-    await this.runGemini(text, from, phoneNumberId);
+    const geminiMessage = await this.runGemini(text, from, phoneNumberId);
 
-    // validateSession
+    console.log(`[botService][getBotResponse] geminiMessage:`, geminiMessage);
 
-    //Ejemplo para consultar el wamId
-    // tenantDB.customerSession.findUnique({
-    //   where: { wamId: id },
-    // });
-
-    // const state = await handleSessionState(
-    //   session,
-    //   messageDetails,
-    //   tenantDB,
-    //   customer
-    // );
-
-    // const responseMessage = await handleMessage(state, messageDetails);
-
-    // sendMessage()
+    await genericMessage(from, phoneNumberId, geminiMessage);
 
     return;
   }
-
   async runGemini(content: any, from: string, phoneId: string) {
-    // Importación dinámica de módulo ESM
-    console.log("Importando el módulo de Google Gemini...");
+    console.log("Importando módulo wrapper de Gemini...");
+    const apiKey = config.google.geminiApiKey;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-    const genaiModule = await import("@google/genai");
+    console.log(`content: ${content}`);
 
-    console.log("Módulo de Google Gemini importado.");
+    const payload = {
+      contents: [
+        {
+          parts: [
+            {
+              text: content,
+            },
+          ],
+        },
+      ],
+    };
 
-    // Obtenemos la clase directamente del módulo
-    const GoogleGenerativeAI = (genaiModule as any).GoogleGenerativeAI;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const ai = new GoogleGenerativeAI({
-      apiKey: config.google.geminiApiKey,
-    });
+      if (!response.ok) {
+        throw new Error(`Gemini API error: ${response.statusText}`);
+      }
 
-    const model = ai.getGenerativeModel({ model: "gemini-pro" });
+      const data = await response.json();
+      console.log("Gemini response:", data);
 
-    const result = await model.generateContent(content.text);
-    const responseText = result.response.text();
+      console.log("Response from Gemini:", data.candidates[0].content);
+      console.log(
+        "Response from Gemini2:",
+        data.candidates[0].content.parts[0].text
+      );
 
-    console.log("🔮 Gemini response:", responseText);
+      const message = data.candidates[0].content.parts[0].text;
 
-    // Aquí puedes enviar el texto por WhatsApp usando tu lógica
-    // await sendMessageToWhatsApp(from, phoneId, responseText);
-  }
-
-  async run(thecontent: any, from: any, ph_id: any) {
-    // For text-only input, use the gemini-pro model
-    // const ai = new GoogleGenAI({ apiKey: config.google.geminiApiKey });
-    // const aiGemini = ai.models.getModel("gemini-2.0-flash");
-    // await this.geminiAI();
-    // try {
-    //   const url =
-    //     "https://graph.facebook.com/v17.0/" +
-    //     ph_id +
-    //     "/messages?access_token=" +
-    //     config.whatsapp.token;
-    //   const data = {
-    //     messaging_product: "whatsapp",
-    //     to: from,
-    //     text: {
-    //       body: "hola",
-    //     },
-    //   };
-    //   const headers = {
-    //     "Content-Type": "application/json",
-    //   };
-    //   // axios.post(url, data, { headers: headers });
-    //   fetch(url, {
-    //     method: "POST",
-    //     headers: headers,
-    //     body: JSON.stringify(data),
-    //   }).then((response) => {
-    //     console.log("Response from WhatsApp API:", response);
-    //   });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      return message;
+    } catch (error) {
+      console.error("Error fetching Gemini response:", error);
+      throw error;
+    }
   }
 }
 
