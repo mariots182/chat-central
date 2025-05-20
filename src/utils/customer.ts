@@ -7,6 +7,8 @@ export async function findCustomerByPhone(from: string, tenantDB: any) {
     return customer;
   } catch (error) {
     console.error("error findCustomerByPhone");
+
+    throw new Error("Error finding customer");
   }
 }
 
@@ -24,6 +26,8 @@ export async function createCustomer(from: string, tenantDB: any) {
     return customer;
   } catch (error) {
     console.error("error createCustomer");
+
+    throw new Error("Error creating customer");
   }
 }
 
@@ -38,5 +42,7 @@ export async function handleCustomer(from: string, tenantDB: any) {
     return customer;
   } catch (error) {
     console.error("error handleCustomer");
+
+    throw new Error("Error handling customer");
   }
 }

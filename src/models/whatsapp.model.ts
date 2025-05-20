@@ -17,6 +17,10 @@ export interface WhatsAppMessageDetails {
     status: string;
     timestamp: string;
   };
+  messageBody?: {
+    text: string;
+    type: string;
+  };
 }
 
 export interface WhatsAppMessage {

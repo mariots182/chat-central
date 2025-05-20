@@ -21,7 +21,12 @@ export const sendMessage = async (whatsappMessage: WhatsAppMessage) => {
         text: { body: message },
       }),
     }
-  );
+  ).catch((error) => {
+    console.error(
+      `❌ [whatsapp][sendMessage] Error al enviar el mensaje: ${error}`
+    );
+    throw error;
+  });
 
   console.log(
     `📦 [whatsapp][sendMessage] Respuesta de la API de WhatsApp: ${response.status}`

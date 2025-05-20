@@ -17,7 +17,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/genai": "^1.0.0",
     "@prisma/client": "^6.6.0",
+    "axios": "^1.9.0",
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "debug": "^4.4.1",
     "dotenv": "^16.5.0",
@@ -31,7 +34,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
+    "@types/express": "^4.17.22",
     "@types/qrcode": "^1.5.5",
     "@types/qrcode-terminal": "^0.12.2",
     "nodemon": "^3.1.9",

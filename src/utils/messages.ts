@@ -1,3 +1,4 @@
+import { sessionFlowMap } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import {
   sendInteractiveRequestLocationMessage,
@@ -8,11 +9,12 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
   const entry = body?.entry?.[0];
   const changes = entry?.changes?.[0];
   const value = changes?.value;
-  const metadata = value?.metadata;
 
+  const metadata = value?.metadata;
   const phoneNumberId = metadata?.phone_number_id;
   const displayPhoneNumber = `+${metadata?.display_phone_number}`;
   const message = value?.messages?.[0];
+  const messageBody = value?.messages?.[0].text?.body;
   const statuses = value?.statuses?.[0];
   // const status = statuses?.status;
 
@@ -32,6 +34,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     timestamp,
     id,
     location,
+    status: statuses?.status,
   });
 
   return {
@@ -44,6 +47,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     id,
     location,
     statuses,
+    messageBody,
   };
 }
 
@@ -65,11 +69,39 @@ export function isValidMessage(
   }
 
   if (!from || !text || !displayPhoneNumber) {
-    console.warn("[messageMiddleware] Incomplete payload received");
+    console.warn("[messagesUtils][isValidMessage] Incomplete payload received");
     return false;
   }
 
   return true;
+}
+
+export function isReply() {}
+
+export function handleMessage(
+  state: string,
+  messageDetails: WhatsAppMessageDetails
+) {
+  const { from, phoneNumberId } = messageDetails;
+
+  console.log(
+    `📦 [messagesUtils][handleMessage] State: ${state} - Message: ${messageDetails.text}`
+  );
+  switch (state) {
+    case sessionFlowMap.WELCOME_FLOW[2]:
+      if (
+        messageDetails.text === "1" ||
+        messageDetails.text === "2" ||
+        messageDetails.text === "3" ||
+        messageDetails.text === "4"
+      ) {
+      }
+
+      return "hola";
+    default:
+      break;
+  }
+  return;
 }
 
 export function isValidWamId(): boolean {
@@ -100,18 +132,24 @@ export async function genericMessage(
   message: string
 ) {
   console.log("📦 [messagesUtils][genericMessage] Generic message");
+  try {
+    await sendMessage({
+      to,
+      phoneNumberId,
+      message,
+    });
 
-  await sendMessage({
-    to,
-    phoneNumberId,
-    message,
-  });
+    console.log(
+      `📦 [messagesUtils][genericMessage] Sent generic message to ${to}`
+    );
 
-  console.log(
-    `📦 [messagesUtils][genericMessage] Sent generic message to ${to}`
-  );
-
-  return;
+    return;
+  } catch (error) {
+    console.error(
+      `📦 [messagesUtils][genericMessage] Error sending generic message: ${error}`
+    );
+    throw new Error("Error sending generic message");
+  }
 }
 
 export async function sendMessageWelcome(to: string, phoneNumberId: string) {

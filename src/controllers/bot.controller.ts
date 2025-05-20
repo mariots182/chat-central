@@ -20,23 +20,28 @@ export const handleBot = async (req: Request, res: Response) => {
       `📦 [botController][handleBot] Estado del mensaje: ${status.status}`
     );
 
-    // TODO Guadar el ultimo estado del ultimo mensaje
-    // (sent, delivered, read (el read se activa si el usuario tiene habilitada la funcion)), validacion del wamid
-    return res.sendStatus(200); // Muy importante para evitar reintentos
+    return res.sendStatus(200);
   }
 
-  //Ejemplo para consultar el wamId
-  // tenantDB.customerSession.findUnique({
-  //   where: { wamId: id },
-  // });
+  if (req.body.entry[0]?.changes[0]?.value?.messages) {
+    req.body.entry[0].changes[0].value.messages =
+      req.body.entry[0].changes[0].value.messages.filter(
+        (message: any) =>
+          message.timestamp > (Date.now() - 1000 * 60 * 60 * 0.2) / 1000
+      );
+  }
 
   try {
     await botService.getBotResponse(req);
 
-    res.sendStatus(200);
+    // res.sendStatus(200);
+    console.log(
+      "📦 [botController][handleBot] Respuesta del bot enviada, mandando 200"
+    );
+    return res.sendStatus(200);
   } catch (error) {
     console.error("📦 ❌ [botController][handleBot] error:", error);
 
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 };

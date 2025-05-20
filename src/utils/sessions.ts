@@ -1,4 +1,4 @@
-import { CustomerSessionModel, sessionFlowMap } from "../models/sessions.model";
+import { sessionFlowMap } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import { genericMessage, sendMessageWelcome } from "../utils/messages";
 
@@ -20,6 +20,8 @@ export async function getSessionByCustomerId(
     console.error(
       `[sessionsUtils][getSessionByCustomerId] Error getting session: ${error}`
     );
+
+    throw new Error("Error getting session");
   }
 }
 
@@ -53,6 +55,7 @@ export async function createNewSession(
     console.error(
       `[sessionsUtils][createNewSession] Error creating new session: ${error}`
     );
+    throw new Error("Error creating new session");
   }
 }
 
@@ -61,29 +64,20 @@ export async function handleSession(
   messageDetails: WhatsAppMessageDetails,
   tenantDB: any
 ) {
-  console.log(
-    `[sessionsUtils][handleSession] finding session for customerId: ${customerId}`
-  );
+  try {
+    let session = await getSessionByCustomerId(customerId, tenantDB);
 
-  let session = await getSessionByCustomerId(customerId, tenantDB);
+    if (!session) {
+      session = await createNewSession(customerId, messageDetails, tenantDB);
+    }
 
-  if (!session) {
-    console.log(
-      `[sessionsUtils][handleSession] No session found for customerId: ${customerId}, creating new session`
+    return session;
+  } catch (error) {
+    console.error(
+      `[sessionsUtils][handleSession] Error handling session: ${error}`
     );
-
-    console.log(
-      `[sessionsUtils][handleSession] Creating new session for customerId: ${customerId}`
-    );
-
-    session = await createNewSession(customerId, messageDetails, tenantDB);
+    throw new Error("Error handling session");
   }
-
-  console.log(
-    `[sessionsUtils][handleSession] Session ready for customerId: ${customerId}`
-  );
-
-  return session;
 }
 
 export async function updateSession(
@@ -100,73 +94,75 @@ export async function updateSession(
 
 export async function handleSessionState(
   session: any,
-  from: string,
-  phoneNumberId: string,
+  messageDetails: WhatsAppMessageDetails,
   tenantDB: any,
   customer: any
 ) {
   let prevState = "";
   let newState = "";
 
-  console.log(
-    `[sessionsUtils][handleSessionState] Sending message for state: ${session.state}`
-  );
-
   switch (session.state) {
     case "":
-      console.log(
-        "[sessionsUtils][handleSessionState] Session state is empty, sending welcome message"
-      );
-
-      await sendMessageWelcome(from, phoneNumberId);
-
       prevState = session.state;
-
-      // has campaign
-
       newState = sessionFlowMap.WELCOME_FLOW[0];
 
       break;
     case sessionFlowMap.WELCOME_FLOW[0]:
-      console.log(
-        "[sessionsUtils][handleSessionState] Session state is empty, sending welcome message"
-      );
-
-      await sendMessageWelcome(from, phoneNumberId);
-
       prevState = session.state;
-      newState = sessionFlowMap.WELCOME_FLOW[0];
+      newState = sessionFlowMap.WELCOME_FLOW[2];
       break;
 
     case sessionFlowMap.WELCOME_FLOW[2]:
-      handleWelcomeShowMainMenu(session.lastMessage, from, phoneNumberId).then(
-        (newState) => {
-          console.log(
-            "[sessionsUtils][handleSessionState] Sending welcome message"
-          );
-        }
-      );
-
-      // await sendMessageWelcome(from, phoneNumberId);
-
-      // newState = sessionFlowMap.WELCOME_FLOW[1];
-
-      break;
-
-    case sessionFlowMap.WELCOME_FLOW[1]:
-      // await sendMessageMainMenu(from, phoneNumberId);
+      prevState = session.state;
+      handleMainMenu(messageDetails);
 
       break;
 
     default:
-      console.log(
-        "[sessionsUtils][handleSessionState] Unknown session state, sending main menu"
-      );
-      // await sendMainMenu(from, process.env.WHATSAPP_TOKEN!, phoneNumberId);
+      prevState = session.state;
+      newState = sessionFlowMap.WELCOME_FLOW[0];
       break;
   }
 
   await updateSession(customer.id, prevState, newState, tenantDB);
+
+  return newState;
+}
+
+function handleWelcomeFlow() {}
+
+function handleMainMenu(messageDetails: WhatsAppMessageDetails) {
+  const { from, phoneNumberId, text } = messageDetails;
+
+  switch (text) {
+    case "1":
+      console.log(
+        "[sessionsUtils][handleMainMenu] Sending main menu - Option 1"
+      );
+      sendMessageWelcome(from, phoneNumberId);
+      break;
+    case "2":
+      console.log(
+        "[sessionsUtils][handleMainMenu] Sending main menu - Option 2"
+      );
+      break;
+    case "3":
+      console.log(
+        "[sessionsUtils][handleMainMenu] Sending main menu - Option 3"
+      );
+      break;
+    case "4":
+      console.log(
+        "[sessionsUtils][handleMainMenu] Sending main menu - Option 4"
+      );
+      break;
+    default:
+      console.log(
+        "[sessionsUtils][handleMainMenu] Unknown option, sending main menu"
+      );
+      sendMessageWelcome(from, phoneNumberId);
+      break;
+  }
 }
 
 async function handleWelcomeShowMainMenu(

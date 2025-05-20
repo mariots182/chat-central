@@ -27,4 +27,7 @@ export default {
     apiUrl: process.env.WHATSAPP_API_URL || "https://graph.facebook.com/",
     apiVersion: process.env.WHATSAPP_API_VERSION || "v22.0",
   },
+  google: {
+    geminiApiKey: process.env.GEMINI_API_KEY || "YOUR_GOOGLE_API_KEY",
+  },
 };
