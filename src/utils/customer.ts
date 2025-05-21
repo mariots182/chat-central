@@ -1,3 +1,5 @@
+import { create } from "qrcode";
+
 export async function findCustomerByPhone(from: string, tenantDB: any) {
   try {
     let customer = await tenantDB.customer.findFirst({
@@ -13,19 +15,24 @@ export async function findCustomerByPhone(from: string, tenantDB: any) {
 }
 
 export async function createCustomer(from: string, tenantDB: any) {
+  console.log("[customer][createCustomer] createCustomer", from);
+  // console.log("[customer][createCustomer] tenantDB", tenantDB);
+
   try {
     let customer = await tenantDB.customer.create({
       data: {
-        phone: String(from),
         name: "",
+        phone: from,
+        email: "1",
         address: "",
-        email: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
 
     return customer;
   } catch (error) {
-    console.error("error createCustomer");
+    console.error("error createCustomer", error);
 
     throw new Error("Error creating customer");
   }

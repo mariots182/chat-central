@@ -34,10 +34,10 @@ export async function createNewSession(
     let session = await tenantDB.customerSession.create({
       data: {
         customerId,
-        sessionId: messageDetails.phoneNumberId,
+        sessionId: messageDetails.from,
         previousState: "",
         state: "",
-        wamId: messageDetails.id,
+        wamId: messageDetails.wamid,
         lastMessage: messageDetails.text,
         lastMessageDate:
           new Date(Number(messageDetails.timestamp) * 1000) || new Date(),

@@ -5,7 +5,7 @@ export interface WhatsAppMessageDetails {
   displayPhoneNumber: string;
   type: string;
   timestamp: string;
-  id: string;
+  wamid: string;
   location?: {
     latitude: number;
     longitude: number;

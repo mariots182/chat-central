@@ -22,7 +22,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
   const text = message?.text?.body;
   const type = message?.type;
   const timestamp = message?.timestamp;
-  const id = message?.id;
+  const wamid = message?.id;
   const location = message?.location;
 
   console.table({
@@ -32,7 +32,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     displayPhoneNumber,
     type,
     timestamp,
-    id,
+    wamid,
     location,
     status: statuses?.status,
   });
@@ -44,7 +44,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     displayPhoneNumber,
     type,
     timestamp,
-    id,
+    wamid,
     location,
     statuses,
     messageBody,

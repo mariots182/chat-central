@@ -17,6 +17,25 @@ export interface CustomerSessionModel {
   updatedAt: Date;
 }
 
+export interface RedisSessionContext {
+  customerId: number;
+  sessionId: string;
+  wamId: string;
+  conversation: conversation[];
+  state: string; // Ej: "collecting_product", "awaiting_confirmation", etc.
+  data: Record<string, any>; // Información recolectada
+  expiresAt: string; // ISO timestamp
+}
+
+export interface conversation {
+  role: "user" | "model";
+  parts: conversationParts[];
+}
+
+export interface conversationParts {
+  text: string;
+}
+
 export const sessionFlowMap = {
   // 1. WELCOME_FLOW
   WELCOME_FLOW: ["SHOW_GREETING", "SHOW_CAMPAIGN", "SHOW_MAIN_MENU"],

@@ -23,13 +23,13 @@ export const handleBot = async (req: Request, res: Response) => {
     return res.sendStatus(200);
   }
 
-  // if (req.body.entry[0]?.changes[0]?.value?.messages) {
-  //   req.body.entry[0].changes[0].value.messages =
-  //     req.body.entry[0].changes[0].value.messages.filter(
-  //       (message: any) =>
-  //         message.timestamp > (Date.now() - 1000 * 60 * 60 * 0.2) / 1000
-  //     );
-  // }
+  if (req.body.entry[0]?.changes[0]?.value?.messages) {
+    req.body.entry[0].changes[0].value.messages =
+      req.body.entry[0].changes[0].value.messages.filter(
+        (message: any) =>
+          message.timestamp > (Date.now() - 1000 * 60 * 60 * 0.2) / 1000
+      );
+  }
 
   try {
     await botService.getBotResponse(req);

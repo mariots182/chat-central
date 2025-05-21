@@ -1,16 +1,19 @@
-import { createClient } from "redis";
+import redis from "../clients/redis.client";
 
-const redis = createClient({
-  url: "redis://localhost:6379",
-});
+export function setRedisKey(key: string, value: any) {
+  return redis.set(key, JSON.stringify(value), {
+    EX: 36000,
+  });
+}
+export function getRedisKey(key: string) {
+  return redis.get(key).then((data) => {
+    if (data) {
+      return JSON.parse(data);
+    }
+    return null;
+  });
+}
 
-redis.on("error", (err) => {
-  console.error("⚠️ Redis error:", err);
-  console.warn(
-    "¿Seguro que Redis está corriendo? Usa: brew services start redis"
-  );
-});
-
-redis.connect();
-
-export default redis;
+export function deleteRedisKey(key: string) {
+  return redis.del(key);
+}

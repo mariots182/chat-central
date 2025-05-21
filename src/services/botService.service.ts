@@ -10,29 +10,40 @@ import { findCompanyByPhone } from "../utils/company";
 import { handleCustomer } from "../utils/customer";
 import config from "../config";
 import { sendMessage } from "../utils/whatsapp";
-import redis from "../utils/redis";
-import { runGemini } from "../utils/gemini";
+import redis from "../clients/redis.client";
+import { geminiChat, runGemini } from "../clients/gemini.client";
+import { deleteRedisKey, getRedisKey, setRedisKey } from "../utils/redis";
+import { RedisSessionContext } from "../models/sessions.model";
+import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 
 class BotService {
   async getBotResponse(req: Request): Promise<void> {
     const userInfo = await this.handleUserInfo(req);
     if (!userInfo) {
-      // Optionally handle the invalid message case here
       return;
     }
-    const { company, tenantDB, customer, session } = userInfo;
-    const { from, phoneNumberId, text } = extractMessageDetails(req.body);
+    // const { company, tenantDB, customer, session } = userInfo;
+    const messageDetails = extractMessageDetails(req.body);
+    const { from, text, phoneNumberId, wamid } = messageDetails;
 
-    // await redis.set(`pedido:${from}`, JSON.stringify({ hola: "adios" }), {
-    //   EX: 3600,
-    // });
+    const sessionCache: RedisSessionContext = await this.handleSessionCache(
+      messageDetails
+    );
 
-    // const data = await redis.get(`pedido:${from}`);
-    // const pedido = data ? JSON.parse(data) : null;
+    sessionCache.conversation.push({
+      role: "user",
+      parts: [{ text }],
+    });
 
-    // console.log("[botService][getBotResponse] pedido", pedido);
+    const geminiMessage = await geminiChat(sessionCache.conversation, text);
 
-    const geminiMessage = await runGemini(text);
+    sessionCache.conversation.push({
+      role: "model",
+      parts: [{ text: geminiMessage }],
+    });
+
+    //TODO añadir el mensaje de gemini a la conversación en REDIS
+    (await setRedisKey(`${from}`, sessionCache)) as any;
 
     console.log(`[botService][getBotResponse] geminiMessage:`, geminiMessage);
 
@@ -52,9 +63,14 @@ class BotService {
 
     const { from, displayPhoneNumber } = messageDetails;
 
+    console.log(
+      `[botService][handleUserInfo] from: ${from}, displayPhoneNumber: ${displayPhoneNumber}`
+    );
     const company = await findCompanyByPhone(displayPhoneNumber);
 
     const tenantDB = getTenantPrisma(`tenant_${company.database}`);
+
+    console.log(`[botService][handleUserInfo] tenantDB: ${tenantDB}`);
 
     const customer = await handleCustomer(from, tenantDB);
 
@@ -66,6 +82,53 @@ class BotService {
       customer,
       session,
     };
+  }
+
+  async handleSessionCache(messageDetails: WhatsAppMessageDetails) {
+    let sessionCache: RedisSessionContext = await getRedisKey(
+      `${messageDetails.from}`
+    );
+
+    if (!sessionCache) {
+      await this.createSessionCache(messageDetails);
+      sessionCache = await getRedisKey(`${messageDetails.from}`);
+    }
+
+    return sessionCache;
+  }
+
+  async createSessionCache(messageDetails: WhatsAppMessageDetails) {
+    const { from, text, wamid } = messageDetails;
+    const newSession: RedisSessionContext = {
+      customerId: 15,
+      sessionId: from,
+      wamId: wamid,
+      conversation: [
+        {
+          role: "user",
+          parts: [{ text }],
+        },
+      ],
+      state: "",
+      data: {},
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+    };
+
+    (await setRedisKey(`${from}`, newSession)) as any;
+  }
+
+  async getSessionCache(from: string) {
+    const sessionCache: RedisSessionContext = await getRedisKey(`${from}`);
+
+    if (!sessionCache) {
+      console.log(
+        `[botService][getSessionCache] No hay sesión activa para el número ${from}`
+      );
+
+      return null;
+    }
+
+    return sessionCache;
   }
 }
 
