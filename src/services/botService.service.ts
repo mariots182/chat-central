@@ -1,19 +1,47 @@
 import {
   extractMessageDetails,
   genericMessage,
-  handleMessage,
   isValidMessage,
 } from "../utils/messages";
 import { Request } from "express";
-import { handleSession, handleSessionState } from "../utils/sessions";
+import { handleSession } from "../utils/sessions";
 import { getTenantPrisma } from "../database/prismaClientFactory";
 import { findCompanyByPhone } from "../utils/company";
 import { handleCustomer } from "../utils/customer";
 import config from "../config";
 import { sendMessage } from "../utils/whatsapp";
+import redis from "../utils/redis";
+import { runGemini } from "../utils/gemini";
 
 class BotService {
   async getBotResponse(req: Request): Promise<void> {
+    const userInfo = await this.handleUserInfo(req);
+    if (!userInfo) {
+      // Optionally handle the invalid message case here
+      return;
+    }
+    const { company, tenantDB, customer, session } = userInfo;
+    const { from, phoneNumberId, text } = extractMessageDetails(req.body);
+
+    // await redis.set(`pedido:${from}`, JSON.stringify({ hola: "adios" }), {
+    //   EX: 3600,
+    // });
+
+    // const data = await redis.get(`pedido:${from}`);
+    // const pedido = data ? JSON.parse(data) : null;
+
+    // console.log("[botService][getBotResponse] pedido", pedido);
+
+    const geminiMessage = await runGemini(text);
+
+    console.log(`[botService][getBotResponse] geminiMessage:`, geminiMessage);
+
+    await genericMessage(from, phoneNumberId, geminiMessage);
+
+    return;
+  }
+
+  async handleUserInfo(req: Request) {
     const messageDetails = extractMessageDetails(req.body);
 
     if (!isValidMessage(messageDetails)) {
@@ -22,8 +50,7 @@ class BotService {
       return;
     }
 
-    const { from, phoneNumberId, displayPhoneNumber, id, text } =
-      messageDetails;
+    const { from, displayPhoneNumber } = messageDetails;
 
     const company = await findCompanyByPhone(displayPhoneNumber);
 
@@ -33,64 +60,12 @@ class BotService {
 
     const session = await handleSession(customer.id, messageDetails, tenantDB);
 
-    console.log(`before run`);
-
-    const geminiMessage = await this.runGemini(text, from, phoneNumberId);
-
-    console.log(`[botService][getBotResponse] geminiMessage:`, geminiMessage);
-
-    await genericMessage(from, phoneNumberId, geminiMessage);
-
-    return;
-  }
-  async runGemini(content: any, from: string, phoneId: string) {
-    console.log("Importando módulo wrapper de Gemini...");
-    const apiKey = config.google.geminiApiKey;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-    console.log(`content: ${content}`);
-
-    const payload = {
-      contents: [
-        {
-          parts: [
-            {
-              text: content,
-            },
-          ],
-        },
-      ],
+    return {
+      company,
+      tenantDB,
+      customer,
+      session,
     };
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Gemini API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log("Gemini response:", data);
-
-      console.log("Response from Gemini:", data.candidates[0].content);
-      console.log(
-        "Response from Gemini2:",
-        data.candidates[0].content.parts[0].text
-      );
-
-      const message = data.candidates[0].content.parts[0].text;
-
-      return message;
-    } catch (error) {
-      console.error("Error fetching Gemini response:", error);
-      throw error;
-    }
   }
 }
 
