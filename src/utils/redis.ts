@@ -17,3 +17,19 @@ export function getRedisKey(key: string) {
 export function deleteRedisKey(key: string) {
   return redis.del(key);
 }
+
+export function rPushRedisKey(key: string, value: any) {
+  return redis.rpush(key, JSON.stringify(value));
+}
+
+export function expireRedisKey(key: string, seconds: number) {
+  return redis.expire(key, seconds);
+}
+
+export function llenRedisKey(key: string) {
+  return redis.llen(key);
+}
+
+export function lRangeRedisKey(key: string, start: number, end: number) {
+  return redis.lRange(key, start, end);
+}

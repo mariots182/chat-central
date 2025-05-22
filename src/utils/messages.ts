@@ -1,3 +1,4 @@
+import redis from "../clients/redis.client";
 import { sessionFlowMap } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import {
@@ -14,9 +15,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
   const phoneNumberId = metadata?.phone_number_id;
   const displayPhoneNumber = `+${metadata?.display_phone_number}`;
   const message = value?.messages?.[0];
-  const messageBody = value?.messages?.[0].text?.body;
   const statuses = value?.statuses?.[0];
-  // const status = statuses?.status;
 
   const from = message?.from;
   const text = message?.text?.body;
@@ -47,7 +46,6 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     wamid,
     location,
     statuses,
-    messageBody,
   };
 }
 
@@ -75,8 +73,6 @@ export function isValidMessage(
 
   return true;
 }
-
-export function isReply() {}
 
 export function handleMessage(
   state: string,
@@ -106,24 +102,6 @@ export function handleMessage(
 
 export function isValidWamId(): boolean {
   return false;
-}
-
-export function messageNotText() {
-  console.log("⚠️ [messagesUtils][messageNotText] Message is not text");
-
-  return;
-}
-
-export function messageNotSupported() {
-  console.log("⚠️ [messagesUtils][messageNotSupported] Message not supported");
-
-  return;
-}
-
-export function notTheAnswerMessage() {
-  console.log("⚠️ [messagesUtils][notTheAnswerMessage] Not the answer");
-
-  return;
 }
 
 export async function genericMessage(
@@ -248,33 +226,47 @@ export async function sendMessageMainMenu(to: string, phoneNumberId: string) {
   );
   return;
 }
+export async function messagesBuffer(from: string, text: string) {
+  const bufferKey = `msgBuffer:${from}`;
+  const timestampKey = `${bufferKey}:lastTimestamp`;
+  const currentTimestamp = Math.floor(Date.now() / 1000);
 
-// const interactive = {
-//   type: "button",
-//   body: { text: message },
-//   header: {
-//     type: "Boty",
-//     text: messageInteractive,
-//   },
-//   footer: {
-//     text: "Selecciona una opción:",
-//   },
-//   action: {
-//     buttons: [
-//       {
-//         type: "reply",
-//         reply: {
-//           id: "1",
-//           title: "First Buttons Title",
-//         },
-//       },
-//       {
-//         type: "reply",
-//         reply: {
-//           id: "2",
-//           title: "Second Buttons Title",
-//         },
-//       },
-//     ],
-//   },
-// };
+  // Obtener el último timestamp antes de agregar el mensaje al buffer
+  const lastTimestampRaw = await redis.get(timestampKey);
+  const lastTimestamp = lastTimestampRaw ? parseInt(lastTimestampRaw, 10) : 0;
+
+  // Guardar el nuevo mensaje y actualizar expiración
+  await redis.rPush(bufferKey, text);
+  await redis.expire(bufferKey, 10); // TTL del buffer
+  await redis.set(timestampKey, currentTimestamp); // timestamp actual
+
+  // Si aún no ha pasado suficiente tiempo, no responder
+  if (lastTimestamp && currentTimestamp - lastTimestamp < 10) {
+    return {
+      shouldRespond: false,
+    };
+  }
+
+  // Obtener todos los mensajes acumulados
+  const allMessagesRaw = await redis.lRange(bufferKey, 0, -1);
+  const allMessages: string[] = Array.isArray(allMessagesRaw)
+    ? allMessagesRaw.map(String)
+    : [];
+  const fullText = allMessages.join(" ");
+
+  // Limpiar el buffer
+  await redis.del(bufferKey);
+  await redis.del(timestampKey);
+
+  return {
+    shouldRespond: true,
+    fullText,
+  };
+}
+export async function clearBuffer(from: string) {
+  const bufferKey = `msgBuffer:${from}`;
+  const timestampKey = `${bufferKey}:lastTimestamp`;
+
+  await redis.del(bufferKey);
+  await redis.del(timestampKey);
+}

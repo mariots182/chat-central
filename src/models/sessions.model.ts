@@ -22,9 +22,9 @@ export interface RedisSessionContext {
   sessionId: string;
   wamId: string;
   conversation: conversation[];
-  state: string; // Ej: "collecting_product", "awaiting_confirmation", etc.
-  data: Record<string, any>; // Información recolectada
-  expiresAt: string; // ISO timestamp
+  state: string;
+  data: Record<string, any>;
+  expiresAt: string;
 }
 
 export interface conversation {

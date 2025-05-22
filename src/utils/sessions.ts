@@ -1,6 +1,9 @@
-import { sessionFlowMap } from "../models/sessions.model";
+import { RedisSessionContext, sessionFlowMap } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
 import { genericMessage, sendMessageWelcome } from "../utils/messages";
+import { buildCustomerInfoPrompt, getCustomerContextData } from "./customer";
+import { geminiFirstPrompt, userInfoPrompt } from "./gemini";
+import { getRedisKey, setRedisKey } from "./redis";
 
 export async function getSessionByCustomerId(
   customerId: number,
@@ -129,8 +132,6 @@ export async function handleSessionState(
   return newState;
 }
 
-function handleWelcomeFlow() {}
-
 function handleMainMenu(messageDetails: WhatsAppMessageDetails) {
   const { from, phoneNumberId, text } = messageDetails;
 
@@ -187,4 +188,62 @@ async function handleWelcomeShowMainMenu(
     );
     return sessionFlowMap.REGISTRATION_FLOW[0];
   }
+}
+
+export async function handleSessionCache(
+  messageDetails: WhatsAppMessageDetails,
+  tenantDB: any
+) {
+  let sessionCache: RedisSessionContext = await getRedisKey(
+    `${messageDetails.from}`
+  );
+
+  if (!sessionCache) {
+    await createSessionCache(messageDetails, tenantDB);
+    sessionCache = await getRedisKey(`${messageDetails.from}`);
+  }
+
+  return sessionCache;
+}
+
+export async function createSessionCache(
+  messageDetails: WhatsAppMessageDetails,
+  tenantDB: any
+) {
+  const { from, text, wamid } = messageDetails;
+  const firstPrompt = geminiFirstPrompt();
+  const customerContext = await getCustomerContextData(from, tenantDB);
+  const customerInfo = buildCustomerInfoPrompt(customerContext);
+
+  console.log(
+    `[sessionsUtils][createSessionCache] prompt: ${firstPrompt}\n\n${customerInfo}`
+  );
+
+  const newSession: RedisSessionContext = {
+    customerId: 15,
+    sessionId: from,
+    wamId: wamid,
+    conversation: [
+      {
+        role: "user",
+        parts: [{ text: `${firstPrompt}\n\n${customerInfo}` }],
+      },
+      {
+        role: "user",
+        parts: [{ text }],
+      },
+    ],
+    state: "",
+    data: {},
+    expiresAt: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+  };
+
+  (await setRedisKey(`${from}`, newSession)) as any;
+}
+
+export async function setSessionCache(
+  from: string,
+  sessionCache: RedisSessionContext
+) {
+  (await setRedisKey(`${from}`, sessionCache)) as any;
 }
