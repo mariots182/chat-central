@@ -20,6 +20,7 @@ export interface CustomerSessionModel {
 export interface RedisSessionContext {
   customerId: number;
   sessionId: string;
+  company: string;
   wamId: string;
   conversation: conversation[];
   state: string;

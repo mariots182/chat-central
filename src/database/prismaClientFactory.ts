@@ -1,5 +1,7 @@
 import { PrismaClient as CentralPrismaClient } from "../../prisma/central/generated";
 import { PrismaClient as TenantPrismaClient } from "../../prisma/tenant/generated";
+import { Customer, CustomerAddress } from "../models/customer.model";
+import { getRedisKey } from "../utils/redis";
 
 export const centralPrisma = new CentralPrismaClient();
 export const tenantPrisma = new TenantPrismaClient();
@@ -44,6 +46,7 @@ export async function getTenantByPhoneNumberId(
 
   return getPrismaClient(tenant.database);
 }
+
 export const getTenantPrisma = (databaseName: string): TenantPrismaClient => {
   try {
     const url = process.env.TENANT_DATABASE_URL!.replace(
@@ -64,3 +67,47 @@ export const getTenantPrisma = (databaseName: string): TenantPrismaClient => {
     throw new Error("Error getting tenant Prisma client");
   }
 };
+
+export async function createCustomer(customer: Customer) {
+  const sessionCache = await getRedisKey(`${customer.phone}`);
+  const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
+
+  try {
+    return await tenantDB.customer.create({
+      data: {
+        name: customer.name,
+        phone: customer.phone,
+        email: customer.email ?? "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  } catch (error) {
+    console.error("Error creating customer:", error);
+    throw new Error("Error creating customer");
+  }
+}
+
+export async function updateCustomer(customer: Customer) {
+  const sessionCache = await getRedisKey(`${customer.phone}`);
+
+  const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
+
+  try {
+    return await tenantDB.customer.update({
+      where: { id: Number(sessionCache.customerId) },
+      data: {
+        name: customer.name,
+        phone: customer.phone,
+        email: customer.email ?? "",
+        updatedAt: new Date(),
+      },
+    });
+  } catch (error) {
+    console.error("Error updating customer:", error);
+
+    throw new Error("Error updating customer");
+  }
+}
+
+export async function updateCustomerAddress(Address: CustomerAddress) {}

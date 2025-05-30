@@ -1,8 +1,15 @@
-import { RedisSessionContext, sessionFlowMap } from "../models/sessions.model";
+import { getTenantPrisma } from "../database/prismaClientFactory";
+import { RedisSessionContext } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
-import { genericMessage, sendMessageWelcome } from "../utils/messages";
+import { findCompanyByPhone } from "./company";
 import { buildCustomerInfoPrompt, getCustomerContextData } from "./customer";
-import { geminiFirstPrompt, userInfoPrompt } from "./gemini";
+import {
+  customerCatalogPrompt,
+  customerInfoPrompt,
+  geminiFirstPrompt,
+  orderDeliveryPrompt,
+  orderPickupPrompt,
+} from "./gemini";
 import { getRedisKey, setRedisKey } from "./redis";
 
 export async function getSessionByCustomerId(
@@ -83,167 +90,79 @@ export async function handleSession(
   }
 }
 
-export async function updateSession(
-  customerId: string,
-  previousState: string,
-  state: string,
-  tenantDB: any
-) {
-  return await tenantDB.customerSession.update({
-    where: { customerId },
-    data: { state, previousState },
-  });
-}
-
-export async function handleSessionState(
-  session: any,
-  messageDetails: WhatsAppMessageDetails,
-  tenantDB: any,
-  customer: any
-) {
-  let prevState = "";
-  let newState = "";
-
-  switch (session.state) {
-    case "":
-      prevState = session.state;
-      newState = sessionFlowMap.WELCOME_FLOW[0];
-
-      break;
-    case sessionFlowMap.WELCOME_FLOW[0]:
-      prevState = session.state;
-      newState = sessionFlowMap.WELCOME_FLOW[2];
-      break;
-
-    case sessionFlowMap.WELCOME_FLOW[2]:
-      prevState = session.state;
-      handleMainMenu(messageDetails);
-
-      break;
-
-    default:
-      prevState = session.state;
-      newState = sessionFlowMap.WELCOME_FLOW[0];
-      break;
-  }
-
-  await updateSession(customer.id, prevState, newState, tenantDB);
-
-  return newState;
-}
-
-function handleMainMenu(messageDetails: WhatsAppMessageDetails) {
-  const { from, phoneNumberId, text } = messageDetails;
-
-  switch (text) {
-    case "1":
-      console.log(
-        "[sessionsUtils][handleMainMenu] Sending main menu - Option 1"
-      );
-      sendMessageWelcome(from, phoneNumberId);
-      break;
-    case "2":
-      console.log(
-        "[sessionsUtils][handleMainMenu] Sending main menu - Option 2"
-      );
-      break;
-    case "3":
-      console.log(
-        "[sessionsUtils][handleMainMenu] Sending main menu - Option 3"
-      );
-      break;
-    case "4":
-      console.log(
-        "[sessionsUtils][handleMainMenu] Sending main menu - Option 4"
-      );
-      break;
-    default:
-      console.log(
-        "[sessionsUtils][handleMainMenu] Unknown option, sending main menu"
-      );
-      sendMessageWelcome(from, phoneNumberId);
-      break;
-  }
-}
-
-async function handleWelcomeShowMainMenu(
-  text: string,
-  from: string,
-  phoneNumberId: string
-) {
-  if (text === "1") {
-    console.log("[sessionsUtils][handleWelcomeShowMainMenu] Sending main menu");
-
-    let message = `👋 Hola! Para poder realizar tu pedido es necesario que te registres primero.`;
-
-    await genericMessage(from, phoneNumberId, message);
-
-    return sessionFlowMap.REGISTRATION_FLOW[0];
-  } else if (text === "2") {
-    console.log("[sessionsUtils][handleWelcomeShowMainMenu] Sending main menu");
-    return sessionFlowMap.REGISTRATION_FLOW[1];
-  } else {
-    console.log(
-      "[sessionsUtils][handleWelcomeShowMainMenu] Unknown option, sending main menu"
-    );
-    return sessionFlowMap.REGISTRATION_FLOW[0];
-  }
-}
-
 export async function handleSessionCache(
-  messageDetails: WhatsAppMessageDetails,
-  tenantDB: any
+  messageDetails: WhatsAppMessageDetails
 ) {
+  const { from, displayPhoneNumber } = messageDetails;
+  const company = await findCompanyByPhone(displayPhoneNumber);
+  const tenantDB = getTenantPrisma(`tenant_${company.database}`);
+  const customerContext = await getCustomerContextData(from, tenantDB);
+  const info = buildCustomerInfoPrompt(customerContext);
+
   let sessionCache: RedisSessionContext = await getRedisKey(
     `${messageDetails.from}`
   );
-
   if (!sessionCache) {
-    await createSessionCache(messageDetails, tenantDB);
+    await createSessionCache(messageDetails);
     sessionCache = await getRedisKey(`${messageDetails.from}`);
   }
+
+  sessionCache.conversation.push({
+    role: "user",
+    parts: [{ text: `${info}` }],
+  });
 
   return sessionCache;
 }
 
 export async function createSessionCache(
-  messageDetails: WhatsAppMessageDetails,
-  tenantDB: any
+  messageDetails: WhatsAppMessageDetails
 ) {
-  const { from, text, wamid } = messageDetails;
+  const { from, wamid } = messageDetails;
   const firstPrompt = geminiFirstPrompt();
-  const customerContext = await getCustomerContextData(from, tenantDB);
-  const customerInfo = buildCustomerInfoPrompt(customerContext);
-
-  console.log(
-    `[sessionsUtils][createSessionCache] prompt: ${firstPrompt}\n\n${customerInfo}`
-  );
+  const customerInfo = customerInfoPrompt();
+  const customerCatalog = customerCatalogPrompt();
+  const orderPickup = orderPickupPrompt();
+  const orderDelivery = orderDeliveryPrompt();
 
   const newSession: RedisSessionContext = {
-    customerId: 15,
+    customerId: 0,
     sessionId: from,
+    company: "",
     wamId: wamid,
-    conversation: [
-      {
-        role: "user",
-        parts: [{ text: `${firstPrompt}\n\n${customerInfo}` }],
-      },
-      {
-        role: "user",
-        parts: [{ text }],
-      },
-    ],
     state: "",
     data: {},
     expiresAt: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+    conversation: [
+      {
+        role: "user",
+        parts: [{ text: `${firstPrompt}` }],
+      },
+      {
+        role: "user",
+        parts: [{ text: `${customerInfo}` }],
+      },
+      {
+        role: "user",
+        parts: [{ text: `${customerCatalog}` }],
+      },
+      {
+        role: "user",
+        parts: [{ text: `${orderPickup}` }],
+      },
+      {
+        role: "user",
+        parts: [{ text: `${orderDelivery}` }],
+      },
+    ],
   };
 
-  (await setRedisKey(`${from}`, newSession)) as any;
+  await setRedisKey(`${from}`, newSession);
 }
 
 export async function setSessionCache(
   from: string,
   sessionCache: RedisSessionContext
 ) {
-  (await setRedisKey(`${from}`, sessionCache)) as any;
+  await setRedisKey(`${from}`, sessionCache);
 }

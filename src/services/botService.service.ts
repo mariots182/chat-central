@@ -1,98 +1,54 @@
 import { Request } from "express";
 
+import { geminiChat } from "../clients/gemini.client";
 import {
   clearBuffer,
   extractMessageDetails,
   genericMessage,
   isValidMessage,
-  messagesBuffer,
 } from "../utils/messages";
-import {
-  handleSession,
-  handleSessionCache,
-  setSessionCache,
-} from "../utils/sessions";
-import { getTenantPrisma } from "../database/prismaClientFactory";
-import { findCompanyByPhone } from "../utils/company";
-import { handleCustomer } from "../utils/customer";
-import { geminiChat } from "../clients/gemini.client";
+import { handleSessionCache, setSessionCache } from "../utils/sessions";
+import { deleteRedisKey } from "../utils/redis";
+
 import { RedisSessionContext } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
-import redis from "../clients/redis.client";
-import { deleteRedisKey } from "../utils/redis";
+import { updateCustomer } from "../database/prismaClientFactory";
 
 class BotService {
   async getBotResponse(req: Request): Promise<void> {
     const messageDetails = extractMessageDetails(req.body);
-    const { from, text, phoneNumberId } = messageDetails;
 
-    await deleteRedisKey(`${from}`);
+    if (!isValidMessage(messageDetails)) return;
 
-    const userInfo = await this.handleUserInfo(req);
+    const { from, phoneNumberId } = messageDetails;
 
-    if (!userInfo) return;
-
-    const { tenantDB } = userInfo;
     const sessionCache: RedisSessionContext = await handleSessionCache(
-      messageDetails,
-      tenantDB
+      messageDetails
     );
 
-    const bufferResult = await messagesBuffer(from, text);
+    // TODO: trabajar los multiples mensajes en el buffer
 
-    if (!bufferResult?.shouldRespond) {
-      console.log(`[Buffer] Aún esperando más mensajes de ${from}`);
-      return;
-    }
+    // const bufferResult = await messagesBuffer(from, text);
 
-    const fullText = bufferResult.fullText;
+    // if (!bufferResult?.shouldRespond) {
+    //   console.log(`[Buffer] Aún esperando más mensajes de ${from}`);
+    //   return;
+    // }
 
-    sessionCache.conversation.push({
-      role: "user",
-      parts: [{ text }],
-    });
+    // const fullText = bufferResult.fullText;
 
-    const geminiMessage = await this.handleGeminiChat(
+    const geminiResponse = await this.handleGeminiChat(
       sessionCache,
       messageDetails
     );
 
-    await genericMessage(from, phoneNumberId, geminiMessage);
-    await clearBuffer(from);
+    await this.handleGeminiResponse(geminiResponse.json);
+
+    await genericMessage(from, phoneNumberId, geminiResponse.text);
+
+    // await clearBuffer(from);
 
     return;
-  }
-
-  async handleUserInfo(req: Request) {
-    const messageDetails = extractMessageDetails(req.body);
-
-    if (!isValidMessage(messageDetails)) {
-      console.warn("Is not valid message");
-
-      return;
-    }
-
-    const { from, displayPhoneNumber } = messageDetails;
-
-    console.log(
-      `[botService][handleUserInfo] from: ${from}, displayPhoneNumber: ${displayPhoneNumber}`
-    );
-    const company = await findCompanyByPhone(displayPhoneNumber);
-
-    const tenantDB = getTenantPrisma(`tenant_${company.database}`);
-
-    console.log(`[botService][handleUserInfo] tenantDB: ${tenantDB}`);
-
-    const customer = await handleCustomer(from, tenantDB);
-
-    const session = await handleSession(customer.id, messageDetails, tenantDB);
-
-    return {
-      company,
-      tenantDB,
-      customer,
-      session,
-    };
   }
 
   async handleGeminiChat(
@@ -101,16 +57,31 @@ class BotService {
   ) {
     const { from, text } = messageDetails;
 
-    const geminiMessage = await geminiChat(sessionCache.conversation, text);
-
-    sessionCache.conversation.push({
-      role: "user",
-      parts: [{ text: text }],
-    });
+    const geminiResponse = await geminiChat(sessionCache.conversation, text);
 
     await setSessionCache(`${from}`, sessionCache);
 
-    return geminiMessage;
+    return geminiResponse;
+  }
+
+  async handleGeminiResponse(json: any) {
+    if (!json.update_bd) {
+      console.warn(
+        "[BotService][handleGeminiResponse] No se encontró update_bd en la respuesta JSON"
+      );
+
+      return;
+    }
+
+    switch (json.intent) {
+      case "personal_info":
+        console.log("[BotService][handleGeminiResponse] Intent: personal_info");
+        updateCustomer(json.customer_info);
+        break;
+
+      default:
+        break;
+    }
   }
 }
 

@@ -221,6 +221,93 @@ export const sendInteractiveRequestLocationMessage = async (
   });
 };
 
+export const sendCatalogMessage = async (whatsappMessage: WhatsAppMessage) => {
+  const { to, phoneNumberId } = whatsappMessage;
+  const enviarA = to.slice(0, 2) + to.slice(3);
+
+  const response = await fetch(
+    `${process.env.WHATSAPP_API_URL}${process.env.WHATSAPP_API_VERSION}/${phoneNumberId}/messages`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        recipient_type: "individual",
+        messaging_product: "whatsapp",
+        to: enviarA,
+        type: "template",
+        template: {
+          name: "company_catalog_items",
+          language: {
+            code: "MEX",
+          },
+          components: [
+            {
+              type: "body",
+              parameters: [
+                {
+                  type: "text",
+                  text: "100",
+                },
+                {
+                  type: "text",
+                  text: "400",
+                },
+                {
+                  type: "text",
+                  text: "3",
+                },
+              ],
+            },
+            {
+              type: "button",
+              sub_type: "CATALOG",
+              index: 0,
+              parameters: [
+                {
+                  type: "action",
+                  action: {
+                    thumbnail_product_retailer_id: "2lc20305pt",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      }),
+    }
+  );
+
+  console.log(
+    `📦 [whatsapp][sendInteractiveRequestLocationMessage] Respuesta de la API de WhatsApp: ${response.status}`
+  );
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.error(
+      `❌ [whatsapp][sendInteractiveRequestLocationMessage] Error al enviar el mensaje: ${response.status} - ${error}`
+    );
+  }
+
+  await response.json().then((data) => {
+    console.log(
+      `📦 [whatsapp][sendInteractiveRequestLocationMessage] Respuesta de la API de WhatsApp: ${data}`
+    );
+
+    if (data?.messages) {
+      console.log(
+        `📦 [whatsapp][sendInteractiveRequestLocationMessage] Mensaje enviado: ${data.messages[0].id}`
+      );
+    } else {
+      console.error(
+        `❌ [whatsapp][sendInteractiveRequestLocationMessage] Error al enviar el mensaje: ${data.error.message}`
+      );
+    }
+  });
+};
+
 // export const sendInteractiveFlowMessage = async (
 //   whatsappMessage: WhatsAppMessage
 // ) => {

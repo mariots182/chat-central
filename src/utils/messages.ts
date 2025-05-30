@@ -109,17 +109,12 @@ export async function genericMessage(
   phoneNumberId: string,
   message: string
 ) {
-  console.log("📦 [messagesUtils][genericMessage] Generic message");
   try {
     await sendMessage({
       to,
       phoneNumberId,
       message,
     });
-
-    console.log(
-      `📦 [messagesUtils][genericMessage] Sent generic message to ${to}`
-    );
 
     return;
   } catch (error) {
@@ -133,7 +128,6 @@ export async function genericMessage(
 export async function sendMessageWelcome(to: string, phoneNumberId: string) {
   console.log("📦 [messagesUtils][sendMessageWelcome] Welcome message");
 
-  // const message = `👋 Hola y bienvenido! vemos que es tu primera vez por aqui \n ¿Cómo podemos ayudarte?`;
   const message = `👋 ¡Bienvenido a [Tienda]!\nSoy tu asistente virtual 🤖\n\nAl continuar con la conversación estás de acuerdo con nuestras políticas de privacidad y las puedes consultar en: 👇\n\nhttps://bonafont.com.mx/aviso-y-politicas-de-privacidad`;
   const message2 = `👋 ¡Hola! Soy Boty 🤖\nPor favor indícame en qué te puedo ayudar:\n\n1️⃣ Hacer un pedido 🛒\n2️⃣ Consulta de precios 💲\n3️⃣ Consulta tu cobertura 🚚\n4️⃣ Necesito ayuda 🆘`;
 

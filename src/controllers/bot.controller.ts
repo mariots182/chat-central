@@ -34,7 +34,6 @@ export const handleBot = async (req: Request, res: Response) => {
   try {
     await botService.getBotResponse(req);
 
-    // res.sendStatus(200);
     console.log(
       "📦 [botController][handleBot] Respuesta del bot enviada, mandando 200"
     );

@@ -1,4 +1,5 @@
 import { create } from "qrcode";
+import { Customer } from "../models/customer.model";
 
 export async function findCustomerByPhone(from: string, tenantDB: any) {
   try {
@@ -23,8 +24,7 @@ export async function createCustomer(from: string, tenantDB: any) {
       data: {
         name: "",
         phone: from,
-        email: "1",
-        address: "",
+        email: "",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -54,7 +54,12 @@ export async function handleCustomer(from: string, tenantDB: any) {
   }
 }
 
-export async function getCustomerContextData(phone: string, tenantDB: any) {
+export async function getCustomerContextData(
+  phone: string,
+  tenantDB: any
+): Promise<Customer> {
+  await handleCustomer(phone, tenantDB);
+
   const customer = await tenantDB.customer.findUnique({
     where: { phone },
     include: {
@@ -75,10 +80,16 @@ export async function getCustomerContextData(phone: string, tenantDB: any) {
     throw new Error("Cliente no encontrado en la base de datos");
   }
 
+  console.log(
+    "[customer][getCustomerContextData] customer",
+    JSON.stringify(customer, null, 2)
+  );
+
   return {
     customerId: customer.id,
     name: customer.name,
     phone: customer.phone,
+    email: customer.email,
     address: customer.addresses[0]?.address || customer.address,
     orders: customer.orders.map((order: any) => ({
       id: order.id,
@@ -86,15 +97,16 @@ export async function getCustomerContextData(phone: string, tenantDB: any) {
       items: order.orderItems.map((item: any) => ({
         name: item.product.name,
         quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        totalPrice: item.totalPrice,
+        unit: item.unit,
       })),
     })),
   };
 }
 
-export function buildCustomerInfoPrompt(
-  contextData: Awaited<ReturnType<typeof getCustomerContextData>>
-) {
-  const { name, phone, address, orders } = contextData;
+export function buildCustomerInfoPrompt(contextData: Customer): string {
+  const { name, phone, address, email, orders } = contextData;
 
   const orderSummaries = orders.map((o: any) => {
     const itemList = o.items
@@ -104,15 +116,18 @@ export function buildCustomerInfoPrompt(
   });
 
   return `
-    Información del cliente:
+
+    Esta es la información del cliente actualiazada:
     - Nombre: ${name}
     - Teléfono: ${phone}
     - Dirección principal: ${address}
+    - Email: ${email}
     - Pedidos recientes:
     ${
       orderSummaries.length
         ? orderSummaries.join("\n")
         : "Sin pedidos recientes"
     }
+    
   `.trim();
 }
