@@ -58,31 +58,6 @@ export function getCompanyInfoPrompt() {
   return;
 }
 
-export function infoPrompt(session: RedisSessionContext) {
-  const { data } = session;
-
-  const nombre = data.name ?? "Nombre no disponible";
-  const telefono = session.sessionId;
-  const direccion = data.address ?? "Dirección no proporcionada";
-  const historial = data.orderHistory ?? []; // Ej: lista de strings
-  const ultimaOrden =
-    historial[historial.length - 1] ?? "Sin pedidos recientes";
-
-  return `
-
-    Información del cliente:
-    - Nombre: ${nombre}
-    - Teléfono: ${telefono}
-    - Dirección: ${direccion}
-    - Última orden: ${ultimaOrden}
-    - Total de pedidos anteriores: ${historial.length}
-
-    Ten en cuenta esta información para no volver a pedirla si ya está disponible. 
-    Si falta algún dato importante para completar un pedido, solicítalo al usuario de forma clara y amable.
-    
-  `;
-}
-
 export function customerInfoPrompt() {
   return `
 
