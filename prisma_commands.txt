@@ -9,14 +9,17 @@
 | Abrir Prisma Studio                 | `npx prisma studio`                      | Abre UI web para visualizar y editar datos de la base de datos                |
 
 
-npx prisma generate --schema=prisma/tenant/schema.prisma
 npx prisma generate --schema=prisma/central/schema.prisma
+npx prisma generate --schema=prisma/tenant/schema.prisma
 
-npx prisma migrate reset --schema=prisma/tenant/schema.prisma
+
+
+
 npx prisma migrate reset --schema=prisma/central/schema.prisma
+npx prisma migrate reset --schema=prisma/tenant/schema.prisma
 
 
 
  npx prisma db push --schema=prisma/central/schema.prisma
 
- npx prisma db push --url="postgresql://postgres:M4r10182@localhost:5432/tenant_Empresa_Broly"
+ npx prisma db push --url="postgresql://postgres:M4r10182@localhost:5432/tenant_Empresa_Sonic"

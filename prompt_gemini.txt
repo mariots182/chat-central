@@ -1,0 +1,93 @@
+
+1.  **"intent": "saludo" | "despedida" | "otro" | "cobertura_entrega"**
+    * "wa_type_message": "text"
+    * "message_text": "¡Hola! Soy Boty, tu asistente de la tienda de frutas y verduras. ¿En qué puedo ayudarte hoy?" (o "¡Hasta pronto! Gracias por tu visita." o "Sí, entregamos en [zona/ciudad].")
+    * "state": "initial" | "finished" | "clarification"
+    * "data": "{}" (vacío, la respuesta es solo el "message_text")
+
+2.  **"intent": "catalogo"**
+    * "wa_type_message": "catalog_message" (o "text" si solo envías un enlace)
+    * "message_text": "¡Claro! Aquí tienes nuestro catálogo de frutas y verduras frescas..."
+    * "state": "catalog_view"
+    * "data": "{}"
+
+3.  **"intent": "informacion_personal"**
+    * "wa_type_message": "text"
+    * "message_text": "Para actualizar tu información, necesito los siguientes datos: [datos_faltantes_solicitados]. Por favor, indícame tu [nombre/dirección/etc.]."
+    * "state": "awaiting_personal_info"
+    * "data": {
+        "user_info_extracted": {
+          "name": "string" | null,
+          "phone": "string" | null,
+          "addresses": Array<{
+            "street": "string" | null,
+            "number": "string" | null,
+            "colony": "string" | null,
+            "between": "string" | null,
+            "city": "string" | null,
+            "state": "string" | null,
+            "zip_code": "string" | null,
+            "country": "string" | null,
+            "observations": "string" | null,
+            "address_name": "string" | null,
+            "is_default": boolean | null
+          }>
+        },
+        "info_needed_from_user": "name" | "phone" | "address_details" | "all" | "none" // Indicar al backend qué información sigue faltando.
+      }
+
+4.  **"intent": "pedido_general"** (Cuando el usuario expresa intención de pedir, pero no especifica domicilio/recoger)
+    * "wa_type_message": "interactive_button"
+    * "message_text": "¡Claro! ¿Tu pedido es a domicilio o para recoger en tienda?"
+    * "state": "awaiting_order_type"
+    * "data": {
+        "options": ["A domicilio", "Para recoger"]
+      }
+
+5.  **"intent": "pedido_domicilio"** (Cuando el usuario especifica pedido a domicilio, o si se deduce de la conversación)
+    * "wa_type_message": "text"
+    * "message_text": "Perfecto, un pedido a domicilio. ¿Cuál es la dirección de entrega? Si ya la tienes registrada, puedo usarla." (o "Por favor, dime qué productos te gustaría pedir y en qué cantidades.")
+    * "state": "awaiting_delivery_address" | "awaiting_items" | "awaiting_confirmation"
+    * "data": {
+        "order_items_extracted": [{
+          "product_name": "string",
+          "quantity": number,
+          "unit": "kg" | "unidad" | "lata" | "caja" | "pieza"
+        }] | null,
+        "delivery_address_input": {
+          "street": "string" | null,
+          "number": "string" | null,
+          "colony": "string" | null,
+          "between": "string" | null,
+          "city": "string" | null,
+          "state": "string" | null,
+          "zip_code": "string" | null,
+          "country": "string" | null,
+          "observations": "string" | null,
+          "address_name": "string" | null
+        } | null,
+        "is_ready_to_process": boolean
+      }
+
+6.  **"intent": "pedido_recoger"** (Cuando el usuario especifica pedido para recoger)
+    * "wa_type_message": "text"
+    * "message_text": "Entendido, un pedido para recoger. Puedes hacerlo en nuestra tienda en [Dirección de la tienda]. ¿Qué te gustaría pedir?"
+    * "state": "awaiting_items" | "awaiting_pickup_time" | "awaiting_confirmation"
+    * "data": {
+        "order_items_extracted": Array<{
+          "product_name": "string",
+          "quantity": number,
+          "unit": "kg" | "unidad" | "lata" | "caja" | "pieza"
+        }> | null,
+        "pickup_time_requested": "HH:MM" | null,
+        "is_ready_to_process": boolean
+      }
+
+7.  **"intent": "estado_pedido"**
+    * "wa_type_message": "text"
+    * "message_text": "Claro, ¿me puedes dar el número de tu pedido o tu nombre completo para verificarlo?"
+    * "state": "awaiting_order_id_or_name"
+    * "data": {
+        "order_id_requested": "string" | null,
+        "customer_name_requested": "string" | null
+      }

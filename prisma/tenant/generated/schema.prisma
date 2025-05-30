@@ -30,12 +30,19 @@ enum DeliveryStatus {
   CANCELLED
 }
 
+enum Units {
+  KG
+  UNIT
+  CAN
+  BOX
+  PIECE
+}
+
 model Customer {
   id        Int               @id @default(autoincrement())
   name      String
   phone     String            @unique
-  email     String            @unique
-  address   String
+  email     String
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
   addresses CustomerAddress[]
@@ -98,19 +105,21 @@ model Product {
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
-  customerId Int
-  statusId   Int
-  totalPrice Float
-  notes      String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  status     OrderStatus @relation(fields: [statusId], references: [id])
-  orderItems OrderItem[]
-  payment    Payment?
-  delivery   Delivery?
+  id                  Int         @id @default(autoincrement())
+  customerId          Int
+  statusId            Int
+  totalPrice          Float
+  notes               String?
+  delivery_address    String
+  order_delivery_date DateTime
+  total_amount        Int
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  customer            Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  status              OrderStatus @relation(fields: [statusId], references: [id])
+  orderItems          OrderItem[]
+  payment             Payment?
+  delivery            Delivery?
 }
 
 model OrderItem {
@@ -118,13 +127,13 @@ model OrderItem {
   orderId    Int
   productId  Int
   quantity   Int
-  price      Float
+  unit_price Float
   totalPrice Float
+  unit       Units
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model OrderStatus {

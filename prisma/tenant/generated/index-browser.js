@@ -125,7 +125,6 @@ exports.Prisma.CustomerScalarFieldEnum = {
   name: 'name',
   phone: 'phone',
   email: 'email',
-  address: 'address',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -182,6 +181,9 @@ exports.Prisma.OrderScalarFieldEnum = {
   statusId: 'statusId',
   totalPrice: 'totalPrice',
   notes: 'notes',
+  delivery_address: 'delivery_address',
+  order_delivery_date: 'order_delivery_date',
+  total_amount: 'total_amount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -191,8 +193,9 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   orderId: 'orderId',
   productId: 'productId',
   quantity: 'quantity',
-  price: 'price',
+  unit_price: 'unit_price',
   totalPrice: 'totalPrice',
+  unit: 'unit',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -255,6 +258,14 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Units = exports.$Enums.Units = {
+  KG: 'KG',
+  UNIT: 'UNIT',
+  CAN: 'CAN',
+  BOX: 'BOX',
+  PIECE: 'PIECE'
+};
+
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {
   CREDIT_CARD: 'CREDIT_CARD',
   DEBIT_CARD: 'DEBIT_CARD',
