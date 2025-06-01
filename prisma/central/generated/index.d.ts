@@ -1233,9 +1233,9 @@ export namespace Prisma {
     name: string | null
     database: string | null
     active: boolean | null
-    session: boolean | null
-    campaign: boolean | null
+    activeCampaign: boolean | null
     phoneWhatsapp: string | null
+    promptInfo: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1245,9 +1245,9 @@ export namespace Prisma {
     name: string | null
     database: string | null
     active: boolean | null
-    session: boolean | null
-    campaign: boolean | null
+    activeCampaign: boolean | null
     phoneWhatsapp: string | null
+    promptInfo: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1257,9 +1257,9 @@ export namespace Prisma {
     name: number
     database: number
     active: number
-    session: number
-    campaign: number
+    activeCampaign: number
     phoneWhatsapp: number
+    promptInfo: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1279,9 +1279,9 @@ export namespace Prisma {
     name?: true
     database?: true
     active?: true
-    session?: true
-    campaign?: true
+    activeCampaign?: true
     phoneWhatsapp?: true
+    promptInfo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1291,9 +1291,9 @@ export namespace Prisma {
     name?: true
     database?: true
     active?: true
-    session?: true
-    campaign?: true
+    activeCampaign?: true
     phoneWhatsapp?: true
+    promptInfo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1303,9 +1303,9 @@ export namespace Prisma {
     name?: true
     database?: true
     active?: true
-    session?: true
-    campaign?: true
+    activeCampaign?: true
     phoneWhatsapp?: true
+    promptInfo?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1402,9 +1402,9 @@ export namespace Prisma {
     name: string
     database: string
     active: boolean
-    session: boolean
-    campaign: boolean
+    activeCampaign: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt: Date
     updatedAt: Date
     _count: CompanyCountAggregateOutputType | null
@@ -1433,9 +1433,9 @@ export namespace Prisma {
     name?: boolean
     database?: boolean
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp?: boolean
+    promptInfo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     logs?: boolean | Company$logsArgs<ExtArgs>
@@ -1449,9 +1449,9 @@ export namespace Prisma {
     name?: boolean
     database?: boolean
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp?: boolean
+    promptInfo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -1461,9 +1461,9 @@ export namespace Prisma {
     name?: boolean
     database?: boolean
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp?: boolean
+    promptInfo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -1473,14 +1473,14 @@ export namespace Prisma {
     name?: boolean
     database?: boolean
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp?: boolean
+    promptInfo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "database" | "active" | "session" | "campaign" | "phoneWhatsapp" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "database" | "active" | "activeCampaign" | "phoneWhatsapp" | "promptInfo" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     logs?: boolean | Company$logsArgs<ExtArgs>
     subscriptions?: boolean | Company$subscriptionsArgs<ExtArgs>
@@ -1502,9 +1502,9 @@ export namespace Prisma {
       name: string
       database: string
       active: boolean
-      session: boolean
-      campaign: boolean
+      activeCampaign: boolean
       phoneWhatsapp: string
+      promptInfo: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["company"]>
@@ -1937,9 +1937,9 @@ export namespace Prisma {
     readonly name: FieldRef<"Company", 'String'>
     readonly database: FieldRef<"Company", 'String'>
     readonly active: FieldRef<"Company", 'Boolean'>
-    readonly session: FieldRef<"Company", 'Boolean'>
-    readonly campaign: FieldRef<"Company", 'Boolean'>
+    readonly activeCampaign: FieldRef<"Company", 'Boolean'>
     readonly phoneWhatsapp: FieldRef<"Company", 'String'>
+    readonly promptInfo: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
   }
@@ -5870,9 +5870,9 @@ export namespace Prisma {
     name: 'name',
     database: 'database',
     active: 'active',
-    session: 'session',
-    campaign: 'campaign',
+    activeCampaign: 'activeCampaign',
     phoneWhatsapp: 'phoneWhatsapp',
+    promptInfo: 'promptInfo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6041,9 +6041,9 @@ export namespace Prisma {
     name?: StringFilter<"Company"> | string
     database?: StringFilter<"Company"> | string
     active?: BoolFilter<"Company"> | boolean
-    session?: BoolFilter<"Company"> | boolean
-    campaign?: BoolFilter<"Company"> | boolean
+    activeCampaign?: BoolFilter<"Company"> | boolean
     phoneWhatsapp?: StringFilter<"Company"> | string
+    promptInfo?: StringFilter<"Company"> | string
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     logs?: CompanyLogListRelationFilter
@@ -6056,9 +6056,9 @@ export namespace Prisma {
     name?: SortOrder
     database?: SortOrder
     active?: SortOrder
-    session?: SortOrder
-    campaign?: SortOrder
+    activeCampaign?: SortOrder
     phoneWhatsapp?: SortOrder
+    promptInfo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     logs?: CompanyLogOrderByRelationAggregateInput
@@ -6068,30 +6068,30 @@ export namespace Prisma {
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    name?: string
+    phoneWhatsapp?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
+    name?: StringFilter<"Company"> | string
     database?: StringFilter<"Company"> | string
     active?: BoolFilter<"Company"> | boolean
-    session?: BoolFilter<"Company"> | boolean
-    campaign?: BoolFilter<"Company"> | boolean
-    phoneWhatsapp?: StringFilter<"Company"> | string
+    activeCampaign?: BoolFilter<"Company"> | boolean
+    promptInfo?: StringFilter<"Company"> | string
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     logs?: CompanyLogListRelationFilter
     subscriptions?: CompanySubscriptionListRelationFilter
     information?: CompanyLegalInformationListRelationFilter
-  }, "id" | "name">
+  }, "id" | "phoneWhatsapp">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     database?: SortOrder
     active?: SortOrder
-    session?: SortOrder
-    campaign?: SortOrder
+    activeCampaign?: SortOrder
     phoneWhatsapp?: SortOrder
+    promptInfo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
@@ -6109,9 +6109,9 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Company"> | string
     database?: StringWithAggregatesFilter<"Company"> | string
     active?: BoolWithAggregatesFilter<"Company"> | boolean
-    session?: BoolWithAggregatesFilter<"Company"> | boolean
-    campaign?: BoolWithAggregatesFilter<"Company"> | boolean
+    activeCampaign?: BoolWithAggregatesFilter<"Company"> | boolean
     phoneWhatsapp?: StringWithAggregatesFilter<"Company"> | string
+    promptInfo?: StringWithAggregatesFilter<"Company"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
@@ -6346,9 +6346,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     logs?: CompanyLogCreateNestedManyWithoutCompanyInput
@@ -6361,9 +6361,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     logs?: CompanyLogUncheckedCreateNestedManyWithoutCompanyInput
@@ -6375,9 +6375,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logs?: CompanyLogUpdateManyWithoutCompanyNestedInput
@@ -6390,9 +6390,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logs?: CompanyLogUncheckedUpdateManyWithoutCompanyNestedInput
@@ -6405,9 +6405,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6416,9 +6416,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6428,9 +6428,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6745,9 +6745,9 @@ export namespace Prisma {
     name?: SortOrder
     database?: SortOrder
     active?: SortOrder
-    session?: SortOrder
-    campaign?: SortOrder
+    activeCampaign?: SortOrder
     phoneWhatsapp?: SortOrder
+    promptInfo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6761,9 +6761,9 @@ export namespace Prisma {
     name?: SortOrder
     database?: SortOrder
     active?: SortOrder
-    session?: SortOrder
-    campaign?: SortOrder
+    activeCampaign?: SortOrder
     phoneWhatsapp?: SortOrder
+    promptInfo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6773,9 +6773,9 @@ export namespace Prisma {
     name?: SortOrder
     database?: SortOrder
     active?: SortOrder
-    session?: SortOrder
-    campaign?: SortOrder
+    activeCampaign?: SortOrder
     phoneWhatsapp?: SortOrder
+    promptInfo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7638,9 +7638,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     subscriptions?: CompanySubscriptionCreateNestedManyWithoutCompanyInput
@@ -7652,9 +7652,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     subscriptions?: CompanySubscriptionUncheckedCreateNestedManyWithoutCompanyInput
@@ -7681,9 +7681,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptions?: CompanySubscriptionUpdateManyWithoutCompanyNestedInput
@@ -7695,9 +7695,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptions?: CompanySubscriptionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -7708,9 +7708,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     logs?: CompanyLogCreateNestedManyWithoutCompanyInput
@@ -7722,9 +7722,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     logs?: CompanyLogUncheckedCreateNestedManyWithoutCompanyInput
@@ -7751,9 +7751,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logs?: CompanyLogUpdateManyWithoutCompanyNestedInput
@@ -7765,9 +7765,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logs?: CompanyLogUncheckedUpdateManyWithoutCompanyNestedInput
@@ -7778,9 +7778,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     logs?: CompanyLogCreateNestedManyWithoutCompanyInput
@@ -7792,9 +7792,9 @@ export namespace Prisma {
     name: string
     database: string
     active?: boolean
-    session?: boolean
-    campaign?: boolean
+    activeCampaign?: boolean
     phoneWhatsapp: string
+    promptInfo: string
     createdAt?: Date | string
     updatedAt?: Date | string
     logs?: CompanyLogUncheckedCreateNestedManyWithoutCompanyInput
@@ -7821,9 +7821,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logs?: CompanyLogUpdateManyWithoutCompanyNestedInput
@@ -7835,9 +7835,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     database?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    session?: BoolFieldUpdateOperationsInput | boolean
-    campaign?: BoolFieldUpdateOperationsInput | boolean
+    activeCampaign?: BoolFieldUpdateOperationsInput | boolean
     phoneWhatsapp?: StringFieldUpdateOperationsInput | string
+    promptInfo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logs?: CompanyLogUncheckedUpdateManyWithoutCompanyNestedInput

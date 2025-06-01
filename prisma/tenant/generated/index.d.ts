@@ -3349,7 +3349,17 @@ export namespace Prisma {
   export type CustomerAddressMinAggregateOutputType = {
     id: number | null
     customerId: number | null
-    address: string | null
+    street: string | null
+    number: string | null
+    colony: string | null
+    between: string | null
+    city: string | null
+    state: string | null
+    zip_code: string | null
+    country: string | null
+    observations: string | null
+    address_name: string | null
+    is_default: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3357,7 +3367,17 @@ export namespace Prisma {
   export type CustomerAddressMaxAggregateOutputType = {
     id: number | null
     customerId: number | null
-    address: string | null
+    street: string | null
+    number: string | null
+    colony: string | null
+    between: string | null
+    city: string | null
+    state: string | null
+    zip_code: string | null
+    country: string | null
+    observations: string | null
+    address_name: string | null
+    is_default: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3365,7 +3385,17 @@ export namespace Prisma {
   export type CustomerAddressCountAggregateOutputType = {
     id: number
     customerId: number
-    address: number
+    street: number
+    number: number
+    colony: number
+    between: number
+    city: number
+    state: number
+    zip_code: number
+    country: number
+    observations: number
+    address_name: number
+    is_default: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3385,7 +3415,17 @@ export namespace Prisma {
   export type CustomerAddressMinAggregateInputType = {
     id?: true
     customerId?: true
-    address?: true
+    street?: true
+    number?: true
+    colony?: true
+    between?: true
+    city?: true
+    state?: true
+    zip_code?: true
+    country?: true
+    observations?: true
+    address_name?: true
+    is_default?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3393,7 +3433,17 @@ export namespace Prisma {
   export type CustomerAddressMaxAggregateInputType = {
     id?: true
     customerId?: true
-    address?: true
+    street?: true
+    number?: true
+    colony?: true
+    between?: true
+    city?: true
+    state?: true
+    zip_code?: true
+    country?: true
+    observations?: true
+    address_name?: true
+    is_default?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3401,7 +3451,17 @@ export namespace Prisma {
   export type CustomerAddressCountAggregateInputType = {
     id?: true
     customerId?: true
-    address?: true
+    street?: true
+    number?: true
+    colony?: true
+    between?: true
+    city?: true
+    state?: true
+    zip_code?: true
+    country?: true
+    observations?: true
+    address_name?: true
+    is_default?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3496,7 +3556,17 @@ export namespace Prisma {
   export type CustomerAddressGroupByOutputType = {
     id: number
     customerId: number
-    address: string
+    street: string
+    number: string
+    colony: string
+    between: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations: string | null
+    address_name: string
+    is_default: boolean
     createdAt: Date
     updatedAt: Date
     _count: CustomerAddressCountAggregateOutputType | null
@@ -3523,7 +3593,17 @@ export namespace Prisma {
   export type CustomerAddressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     customerId?: boolean
-    address?: boolean
+    street?: boolean
+    number?: boolean
+    colony?: boolean
+    between?: boolean
+    city?: boolean
+    state?: boolean
+    zip_code?: boolean
+    country?: boolean
+    observations?: boolean
+    address_name?: boolean
+    is_default?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -3532,7 +3612,17 @@ export namespace Prisma {
   export type CustomerAddressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     customerId?: boolean
-    address?: boolean
+    street?: boolean
+    number?: boolean
+    colony?: boolean
+    between?: boolean
+    city?: boolean
+    state?: boolean
+    zip_code?: boolean
+    country?: boolean
+    observations?: boolean
+    address_name?: boolean
+    is_default?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -3541,7 +3631,17 @@ export namespace Prisma {
   export type CustomerAddressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     customerId?: boolean
-    address?: boolean
+    street?: boolean
+    number?: boolean
+    colony?: boolean
+    between?: boolean
+    city?: boolean
+    state?: boolean
+    zip_code?: boolean
+    country?: boolean
+    observations?: boolean
+    address_name?: boolean
+    is_default?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -3550,12 +3650,22 @@ export namespace Prisma {
   export type CustomerAddressSelectScalar = {
     id?: boolean
     customerId?: boolean
-    address?: boolean
+    street?: boolean
+    number?: boolean
+    colony?: boolean
+    between?: boolean
+    city?: boolean
+    state?: boolean
+    zip_code?: boolean
+    country?: boolean
+    observations?: boolean
+    address_name?: boolean
+    is_default?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CustomerAddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["customerAddress"]>
+  export type CustomerAddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "street" | "number" | "colony" | "between" | "city" | "state" | "zip_code" | "country" | "observations" | "address_name" | "is_default" | "createdAt" | "updatedAt", ExtArgs["result"]["customerAddress"]>
   export type CustomerAddressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
@@ -3574,7 +3684,17 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       customerId: number
-      address: string
+      street: string
+      number: string
+      colony: string
+      between: string | null
+      city: string
+      state: string
+      zip_code: string
+      country: string
+      observations: string | null
+      address_name: string
+      is_default: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["customerAddress"]>
@@ -4003,7 +4123,17 @@ export namespace Prisma {
   interface CustomerAddressFieldRefs {
     readonly id: FieldRef<"CustomerAddress", 'Int'>
     readonly customerId: FieldRef<"CustomerAddress", 'Int'>
-    readonly address: FieldRef<"CustomerAddress", 'String'>
+    readonly street: FieldRef<"CustomerAddress", 'String'>
+    readonly number: FieldRef<"CustomerAddress", 'String'>
+    readonly colony: FieldRef<"CustomerAddress", 'String'>
+    readonly between: FieldRef<"CustomerAddress", 'String'>
+    readonly city: FieldRef<"CustomerAddress", 'String'>
+    readonly state: FieldRef<"CustomerAddress", 'String'>
+    readonly zip_code: FieldRef<"CustomerAddress", 'String'>
+    readonly country: FieldRef<"CustomerAddress", 'String'>
+    readonly observations: FieldRef<"CustomerAddress", 'String'>
+    readonly address_name: FieldRef<"CustomerAddress", 'String'>
+    readonly is_default: FieldRef<"CustomerAddress", 'Boolean'>
     readonly createdAt: FieldRef<"CustomerAddress", 'DateTime'>
     readonly updatedAt: FieldRef<"CustomerAddress", 'DateTime'>
   }
@@ -15934,7 +16064,17 @@ export namespace Prisma {
   export const CustomerAddressScalarFieldEnum: {
     id: 'id',
     customerId: 'customerId',
-    address: 'address',
+    street: 'street',
+    number: 'number',
+    colony: 'colony',
+    between: 'between',
+    city: 'city',
+    state: 'state',
+    zip_code: 'zip_code',
+    country: 'country',
+    observations: 'observations',
+    address_name: 'address_name',
+    is_default: 'is_default',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16151,6 +16291,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -16300,7 +16447,17 @@ export namespace Prisma {
     NOT?: CustomerAddressWhereInput | CustomerAddressWhereInput[]
     id?: IntFilter<"CustomerAddress"> | number
     customerId?: IntFilter<"CustomerAddress"> | number
-    address?: StringFilter<"CustomerAddress"> | string
+    street?: StringFilter<"CustomerAddress"> | string
+    number?: StringFilter<"CustomerAddress"> | string
+    colony?: StringFilter<"CustomerAddress"> | string
+    between?: StringNullableFilter<"CustomerAddress"> | string | null
+    city?: StringFilter<"CustomerAddress"> | string
+    state?: StringFilter<"CustomerAddress"> | string
+    zip_code?: StringFilter<"CustomerAddress"> | string
+    country?: StringFilter<"CustomerAddress"> | string
+    observations?: StringNullableFilter<"CustomerAddress"> | string | null
+    address_name?: StringFilter<"CustomerAddress"> | string
+    is_default?: BoolFilter<"CustomerAddress"> | boolean
     createdAt?: DateTimeFilter<"CustomerAddress"> | Date | string
     updatedAt?: DateTimeFilter<"CustomerAddress"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -16309,7 +16466,17 @@ export namespace Prisma {
   export type CustomerAddressOrderByWithRelationInput = {
     id?: SortOrder
     customerId?: SortOrder
-    address?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    colony?: SortOrder
+    between?: SortOrderInput | SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip_code?: SortOrder
+    country?: SortOrder
+    observations?: SortOrderInput | SortOrder
+    address_name?: SortOrder
+    is_default?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
@@ -16321,7 +16488,17 @@ export namespace Prisma {
     OR?: CustomerAddressWhereInput[]
     NOT?: CustomerAddressWhereInput | CustomerAddressWhereInput[]
     customerId?: IntFilter<"CustomerAddress"> | number
-    address?: StringFilter<"CustomerAddress"> | string
+    street?: StringFilter<"CustomerAddress"> | string
+    number?: StringFilter<"CustomerAddress"> | string
+    colony?: StringFilter<"CustomerAddress"> | string
+    between?: StringNullableFilter<"CustomerAddress"> | string | null
+    city?: StringFilter<"CustomerAddress"> | string
+    state?: StringFilter<"CustomerAddress"> | string
+    zip_code?: StringFilter<"CustomerAddress"> | string
+    country?: StringFilter<"CustomerAddress"> | string
+    observations?: StringNullableFilter<"CustomerAddress"> | string | null
+    address_name?: StringFilter<"CustomerAddress"> | string
+    is_default?: BoolFilter<"CustomerAddress"> | boolean
     createdAt?: DateTimeFilter<"CustomerAddress"> | Date | string
     updatedAt?: DateTimeFilter<"CustomerAddress"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -16330,7 +16507,17 @@ export namespace Prisma {
   export type CustomerAddressOrderByWithAggregationInput = {
     id?: SortOrder
     customerId?: SortOrder
-    address?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    colony?: SortOrder
+    between?: SortOrderInput | SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip_code?: SortOrder
+    country?: SortOrder
+    observations?: SortOrderInput | SortOrder
+    address_name?: SortOrder
+    is_default?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CustomerAddressCountOrderByAggregateInput
@@ -16346,7 +16533,17 @@ export namespace Prisma {
     NOT?: CustomerAddressScalarWhereWithAggregatesInput | CustomerAddressScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"CustomerAddress"> | number
     customerId?: IntWithAggregatesFilter<"CustomerAddress"> | number
-    address?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    street?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    number?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    colony?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    between?: StringNullableWithAggregatesFilter<"CustomerAddress"> | string | null
+    city?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    state?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    zip_code?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    country?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    observations?: StringNullableWithAggregatesFilter<"CustomerAddress"> | string | null
+    address_name?: StringWithAggregatesFilter<"CustomerAddress"> | string
+    is_default?: BoolWithAggregatesFilter<"CustomerAddress"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CustomerAddress"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CustomerAddress"> | Date | string
   }
@@ -17154,7 +17351,17 @@ export namespace Prisma {
   }
 
   export type CustomerAddressCreateInput = {
-    address: string
+    street: string
+    number: string
+    colony: string
+    between?: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations?: string | null
+    address_name: string
+    is_default: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutAddressesInput
@@ -17163,13 +17370,33 @@ export namespace Prisma {
   export type CustomerAddressUncheckedCreateInput = {
     id?: number
     customerId: number
-    address: string
+    street: string
+    number: string
+    colony: string
+    between?: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations?: string | null
+    address_name: string
+    is_default: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type CustomerAddressUpdateInput = {
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutAddressesNestedInput
@@ -17178,7 +17405,17 @@ export namespace Prisma {
   export type CustomerAddressUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17186,13 +17423,33 @@ export namespace Prisma {
   export type CustomerAddressCreateManyInput = {
     id?: number
     customerId: number
-    address: string
+    street: string
+    number: string
+    colony: string
+    between?: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations?: string | null
+    address_name: string
+    is_default: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type CustomerAddressUpdateManyMutationInput = {
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17200,7 +17457,17 @@ export namespace Prisma {
   export type CustomerAddressUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18102,15 +18369,50 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type CustomerScalarRelationFilter = {
     is?: CustomerWhereInput
     isNot?: CustomerWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type CustomerAddressCountOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
-    address?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    colony?: SortOrder
+    between?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip_code?: SortOrder
+    country?: SortOrder
+    observations?: SortOrder
+    address_name?: SortOrder
+    is_default?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18123,7 +18425,17 @@ export namespace Prisma {
   export type CustomerAddressMaxOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
-    address?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    colony?: SortOrder
+    between?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip_code?: SortOrder
+    country?: SortOrder
+    observations?: SortOrder
+    address_name?: SortOrder
+    is_default?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18131,7 +18443,17 @@ export namespace Prisma {
   export type CustomerAddressMinOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
-    address?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    colony?: SortOrder
+    between?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip_code?: SortOrder
+    country?: SortOrder
+    observations?: SortOrder
+    address_name?: SortOrder
+    is_default?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18139,6 +18461,32 @@ export namespace Prisma {
   export type CustomerAddressSumOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CustomerSessionCountOrderByAggregateInput = {
@@ -18258,21 +18606,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -18293,11 +18626,6 @@ export namespace Prisma {
     every?: OrderItemWhereInput
     some?: OrderItemWhereInput
     none?: OrderItemWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type OrderItemOrderByRelationAggregateInput = {
@@ -18368,24 +18696,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18980,6 +19290,14 @@ export namespace Prisma {
     connect?: CustomerWhereUniqueInput
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type CustomerUpdateOneRequiredWithoutAddressesNestedInput = {
     create?: XOR<CustomerCreateWithoutAddressesInput, CustomerUncheckedCreateWithoutAddressesInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutAddressesInput
@@ -19084,10 +19402,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type CategoryUpdateOneWithoutProductsNestedInput = {
@@ -19548,31 +19862,9 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -19590,6 +19882,41 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -19688,14 +20015,34 @@ export namespace Prisma {
   }
 
   export type CustomerAddressCreateWithoutCustomerInput = {
-    address: string
+    street: string
+    number: string
+    colony: string
+    between?: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations?: string | null
+    address_name: string
+    is_default: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type CustomerAddressUncheckedCreateWithoutCustomerInput = {
     id?: number
-    address: string
+    street: string
+    number: string
+    colony: string
+    between?: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations?: string | null
+    address_name: string
+    is_default: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19843,7 +20190,17 @@ export namespace Prisma {
     NOT?: CustomerAddressScalarWhereInput | CustomerAddressScalarWhereInput[]
     id?: IntFilter<"CustomerAddress"> | number
     customerId?: IntFilter<"CustomerAddress"> | number
-    address?: StringFilter<"CustomerAddress"> | string
+    street?: StringFilter<"CustomerAddress"> | string
+    number?: StringFilter<"CustomerAddress"> | string
+    colony?: StringFilter<"CustomerAddress"> | string
+    between?: StringNullableFilter<"CustomerAddress"> | string | null
+    city?: StringFilter<"CustomerAddress"> | string
+    state?: StringFilter<"CustomerAddress"> | string
+    zip_code?: StringFilter<"CustomerAddress"> | string
+    country?: StringFilter<"CustomerAddress"> | string
+    observations?: StringNullableFilter<"CustomerAddress"> | string | null
+    address_name?: StringFilter<"CustomerAddress"> | string
+    is_default?: BoolFilter<"CustomerAddress"> | boolean
     createdAt?: DateTimeFilter<"CustomerAddress"> | Date | string
     updatedAt?: DateTimeFilter<"CustomerAddress"> | Date | string
   }
@@ -21000,7 +21357,17 @@ export namespace Prisma {
 
   export type CustomerAddressCreateManyCustomerInput = {
     id?: number
-    address: string
+    street: string
+    number: string
+    colony: string
+    between?: string | null
+    city: string
+    state: string
+    zip_code: string
+    country: string
+    observations?: string | null
+    address_name: string
+    is_default: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21045,21 +21412,51 @@ export namespace Prisma {
   }
 
   export type CustomerAddressUpdateWithoutCustomerInput = {
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CustomerAddressUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CustomerAddressUncheckedUpdateManyWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    address?: StringFieldUpdateOperationsInput | string
+    street?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    colony?: StringFieldUpdateOperationsInput | string
+    between?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zip_code?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    observations?: NullableStringFieldUpdateOperationsInput | string | null
+    address_name?: StringFieldUpdateOperationsInput | string
+    is_default?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

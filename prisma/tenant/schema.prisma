@@ -53,12 +53,22 @@ model Customer {
 }
 
 model CustomerAddress {
-  id         Int      @id @default(autoincrement())
-  customerId Int
-  address    String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  id            Int      @id @default(autoincrement())
+  customerId    Int
+  street        String
+  number        String
+  colony        String
+  between       String?
+  city          String
+  state         String
+  zip_code      String
+  country       String
+  observations  String?
+  address_name  String
+  is_default    Boolean
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 }
 
 model CustomerSession {

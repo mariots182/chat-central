@@ -9,18 +9,18 @@ datasource db {
 }
 
 model Company {
-  id            Int                       @id @default(autoincrement())
-  name          String                    @unique
-  database      String
-  active        Boolean                   @default(true)
-  session       Boolean                   @default(false)
-  campaign      Boolean                   @default(false)
-  phoneWhatsapp String
-  logs          CompanyLog[]
-  subscriptions CompanySubscription[]
-  information   CompanyLegalInformation[]
-  createdAt     DateTime                  @default(now())
-  updatedAt     DateTime                  @updatedAt
+  id             Int                       @id @default(autoincrement())
+  name           String
+  database       String
+  active         Boolean                   @default(true)
+  activeCampaign Boolean                   @default(false)
+  phoneWhatsapp  String                    @unique
+  promptInfo     String
+  logs           CompanyLog[]
+  subscriptions  CompanySubscription[]
+  information    CompanyLegalInformation[]
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
 
   @@index([active])
 }

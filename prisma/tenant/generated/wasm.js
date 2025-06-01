@@ -132,7 +132,17 @@ exports.Prisma.CustomerScalarFieldEnum = {
 exports.Prisma.CustomerAddressScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
-  address: 'address',
+  street: 'street',
+  number: 'number',
+  colony: 'colony',
+  between: 'between',
+  city: 'city',
+  state: 'state',
+  zip_code: 'zip_code',
+  country: 'country',
+  observations: 'observations',
+  address_name: 'address_name',
+  is_default: 'is_default',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

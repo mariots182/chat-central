@@ -8,18 +8,35 @@
 | Generar cliente de Prisma           | `npx prisma generate`                    | Regenera el cliente Prisma (`@prisma/client`) tras cambios en `schema.prisma` |
 | Abrir Prisma Studio                 | `npx prisma studio`                      | Abre UI web para visualizar y editar datos de la base de datos                |
 
+---------------------------------------------
+---------------------------------------------
+Actualizar base de datos central
 
-npx prisma generate --schema=prisma/central/schema.prisma
+
+1.- npx prisma generate --schema=prisma/central/schema.prisma
+
+2.- npx prisma migrate reset --schema=prisma/central/schema.prisma
+
+3.- npx prisma migrate dev --schema=prisma/central/schema.prisma
+
+
+---------------------------------------------
+---------------------------------------------
+Actualizar base de datos tenant
+
+
+
+
+
+
+
+
 npx prisma generate --schema=prisma/tenant/schema.prisma
-
-
-
-
-npx prisma migrate reset --schema=prisma/central/schema.prisma
 npx prisma migrate reset --schema=prisma/tenant/schema.prisma
+npx prisma migrate dev --schema=prisma/tenant/schema.prisma
+
 
 
 
  npx prisma db push --schema=prisma/central/schema.prisma
-
  npx prisma db push --url="postgresql://postgres:M4r10182@localhost:5432/tenant_Empresa_Sonic"

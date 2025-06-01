@@ -125,9 +125,9 @@ exports.Prisma.CompanyScalarFieldEnum = {
   name: 'name',
   database: 'database',
   active: 'active',
-  session: 'session',
-  campaign: 'campaign',
+  activeCampaign: 'activeCampaign',
   phoneWhatsapp: 'phoneWhatsapp',
+  promptInfo: 'promptInfo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
