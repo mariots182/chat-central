@@ -2,7 +2,7 @@ import redis from "../clients/redis.client";
 
 export function setRedisKey(key: string, value: any) {
   return redis.set(key, JSON.stringify(value), {
-    EX: 36000,
+    EX: 120,
   });
 }
 export function getRedisKey(key: string) {

@@ -3,9 +3,9 @@ export interface CompanyModel {
   name: string;
   database: string;
   active: boolean;
-  session: boolean;
-  campaign: boolean;
+  activeCampaign: boolean;
   phoneWhatsapp: string;
+  promptInfo: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -160,7 +160,7 @@ export const sendInteractiveReplyButtonMessage = async (
 export const sendInteractiveRequestLocationMessage = async (
   whatsappMessage: WhatsAppMessage
 ) => {
-  const { to, phoneNumberId, message, interactive } = whatsappMessage;
+  const { to, phoneNumberId, message } = whatsappMessage;
   const enviarA = to.slice(0, 2) + to.slice(3);
 
   console.log(
@@ -183,7 +183,7 @@ export const sendInteractiveRequestLocationMessage = async (
         interactive: {
           type: "location_request_message",
           body: {
-            text: "¿Dónde estás?",
+            text: message,
           },
           action: {
             name: "send_location",

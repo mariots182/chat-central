@@ -41,6 +41,6 @@ export const handleBot = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("📦 ❌ [botController][handleBot] error:", error);
 
-    return res.sendStatus(500);
+    return res.sendStatus(400);
   }
 };

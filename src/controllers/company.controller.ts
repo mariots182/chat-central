@@ -7,10 +7,16 @@ export const handleCompany = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { name, phoneWhatsapp } = req.body;
+  const { name, phoneWhatsapp, promptInfo } = req.body;
 
-  if (!name) {
-    res.status(400).json({ error: "Name is required" });
+  if (!name || !promptInfo || !phoneWhatsapp) {
+    console.warn(
+      `⚠️ [companyRoute][handleCompany] Missing required fields: name, promptInfo, or phoneWhatsapp`
+    );
+
+    res.status(400).json({
+      error: "Name | Info | phoneWhatsapp is required",
+    });
 
     return;
   }
@@ -20,9 +26,9 @@ export const handleCompany = async (
       name: name,
       database: name.replace(/[^a-zA-Z0-9_]/g, "_"),
       phoneWhatsapp: phoneWhatsapp,
+      promptInfo: promptInfo,
       active: true,
-      session: false,
-      campaign: false,
+      activeCampaign: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     },

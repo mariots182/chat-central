@@ -52,7 +52,6 @@ Si quiere ver el catalogo se debe responder con
   "wa_type_message": "catalog",
   "state": "catalog",
   "update_bd": true | false,
-  "next_prompt": string,
   "message_text": "string",
 }
 \`\`\`

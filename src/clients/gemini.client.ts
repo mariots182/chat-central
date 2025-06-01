@@ -28,7 +28,7 @@ export async function geminiChat(history: any[], msg: string) {
   } catch (error) {
     console.error("[geminiClient][geminiChat] Error al iniciar chat:", error);
 
-    throw new Error("Error al iniciar chat con Gemini");
+    throw new Error("Error al iniciar chat con el bot");
   }
 }
 
@@ -40,7 +40,7 @@ export function extractJSONFromResponse(response: string): GeminiResponse {
     console.warn("[extractJSONFromResponse] No se encontró bloque JSON válido");
     return {
       json: {},
-      text: "Hubo un error al procesar la respuesta del bot.",
+      text: "Hubo un error al procesar la respuesta del bot. Espera 2 minutos y vuelve a intentarlo.",
     };
   }
 
@@ -58,9 +58,10 @@ export function extractJSONFromResponse(response: string): GeminiResponse {
     };
   } catch (err) {
     console.error("[extractJSONFromResponse] Error al parsear JSON:", err);
+
     return {
       json: {},
-      text: "Hubo un error al procesar la respuesta del bot.",
+      text: "Hubo un error al procesar la respuesta del bot. Espera 2 minutos y vuelve a intentarlo.",
     };
   }
 }

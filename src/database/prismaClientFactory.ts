@@ -75,8 +75,8 @@ export async function createCustomer(customer: Customer) {
   try {
     return await tenantDB.customer.create({
       data: {
-        name: customer.name,
-        phone: customer.phone,
+        name: customer.name ?? "",
+        phone: customer.phone ?? "",
         email: customer.email ?? "",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -90,15 +90,22 @@ export async function createCustomer(customer: Customer) {
 
 export async function updateCustomer(customer: Customer) {
   const sessionCache = await getRedisKey(`${customer.phone}`);
-
   const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
+
+  console.log(
+    `📦 [customer][updateCustomer] sessionCache: ${JSON.stringify(customer)}`
+  );
+
+  console.log(
+    `📦 [customer][updateCustomer] : ${Number(sessionCache.customerId)}`
+  );
 
   try {
     return await tenantDB.customer.update({
       where: { id: Number(sessionCache.customerId) },
       data: {
-        name: customer.name,
-        phone: customer.phone,
+        name: customer.name ?? "",
+        phone: customer.phone ?? "",
         email: customer.email ?? "",
         updatedAt: new Date(),
       },
@@ -110,4 +117,63 @@ export async function updateCustomer(customer: Customer) {
   }
 }
 
-export async function updateCustomerAddress(Address: CustomerAddress) {}
+export async function createCustomerAddress(
+  customerPhone: string,
+  address: CustomerAddress
+) {
+  const sessionCache = await getRedisKey(`${customerPhone}`);
+  const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
+
+  try {
+    return await tenantDB.customerAddress.create({
+      data: {
+        customerId: Number(sessionCache.customerId),
+        street: address.street ?? "",
+        number: address.number ?? "",
+        colony: address.colony ?? "",
+        between: address.between ?? "",
+        city: address.city ?? "",
+        state: address.state ?? "",
+        zip_code: address.zip_code ?? "",
+        country: address.country ?? "MEX",
+        observations: address.observations ?? "",
+        address_name: address.address_name ?? "",
+        is_default: address.is_default ?? false,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating customer address:", error);
+    throw new Error("Error creating customer address");
+  }
+}
+
+export async function updateCustomerAddress(
+  customerPhone: string,
+  address: CustomerAddress
+) {
+  const sessionCache = await getRedisKey(`${customerPhone}`);
+  const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
+
+  try {
+    return await tenantDB.customerAddress.update({
+      where: { id: Number(sessionCache.cusomterId) },
+      data: {
+        customerId: Number(sessionCache.customerId),
+        street: address.street ?? "",
+        number: address.number ?? "",
+        colony: address.colony ?? "",
+        between: address.between ?? "",
+        city: address.city ?? "",
+        state: address.state ?? "",
+        zip_code: address.zip_code ?? "",
+        country: address.country ?? "",
+        observations: address.observations ?? "",
+        address_name: address.address_name ?? "",
+        is_default: address.is_default ?? false,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating customer address:", error);
+    throw new Error("Error creating customer address");
+  }
+}

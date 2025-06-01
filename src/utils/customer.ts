@@ -80,11 +80,6 @@ export async function getCustomerContextData(
     throw new Error("Cliente no encontrado en la base de datos");
   }
 
-  console.log(
-    "[customer][getCustomerContextData] customer",
-    JSON.stringify(customer, null, 2)
-  );
-
   return {
     customerId: customer.id,
     name: customer.name,
@@ -117,7 +112,7 @@ export function buildCustomerInfoPrompt(contextData: Customer): string {
 
   return `
 
-    Esta es la información del cliente actualiazada:
+    Esta es la información del cliente actualmente:
     - Nombre: ${name}
     - Teléfono: ${phone}
     - Dirección principal: ${address}

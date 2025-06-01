@@ -1,9 +1,10 @@
 import { getTenantPrisma } from "../database/prismaClientFactory";
 import { RedisSessionContext } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
-import { findCompanyByPhone } from "./company";
+import { findCompanyByPhone, getCompanyContextData } from "./company";
 import { buildCustomerInfoPrompt, getCustomerContextData } from "./customer";
 import {
+  customerAddressPrompt,
   customerCatalogPrompt,
   customerInfoPrompt,
   geminiFirstPrompt,
@@ -95,6 +96,7 @@ export async function handleSessionCache(
 ) {
   const { from, displayPhoneNumber } = messageDetails;
   const company = await findCompanyByPhone(displayPhoneNumber);
+
   const tenantDB = getTenantPrisma(`tenant_${company.database}`);
   const customerContext = await getCustomerContextData(from, tenantDB);
   const info = buildCustomerInfoPrompt(customerContext);
@@ -107,10 +109,18 @@ export async function handleSessionCache(
     sessionCache = await getRedisKey(`${messageDetails.from}`);
   }
 
-  sessionCache.conversation.push({
-    role: "user",
-    parts: [{ text: `${info}` }],
-  });
+  sessionCache.customerId = Number(customerContext.customerId);
+  sessionCache.company = company.database;
+  sessionCache.conversation.push(
+    {
+      role: "user",
+      parts: [{ text: `${info}` }],
+    },
+    {
+      role: "user",
+      parts: [{ text: `${company.promptInfo}` }],
+    }
+  );
 
   return sessionCache;
 }
@@ -121,6 +131,7 @@ export async function createSessionCache(
   const { from, wamid } = messageDetails;
   const firstPrompt = geminiFirstPrompt();
   const customerInfo = customerInfoPrompt();
+  const customerAddressInfo = await customerAddressPrompt();
   const customerCatalog = customerCatalogPrompt();
   const orderPickup = orderPickupPrompt();
   const orderDelivery = orderDeliveryPrompt();
@@ -141,6 +152,10 @@ export async function createSessionCache(
       {
         role: "user",
         parts: [{ text: `${customerInfo}` }],
+      },
+      {
+        role: "user",
+        parts: [{ text: `${customerAddressInfo}` }],
       },
       {
         role: "user",
