@@ -106,6 +106,7 @@ model Product {
   description String?
   imageUrl    String?
   categoryId  Int?
+  active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -194,6 +195,16 @@ model User {
   username  String   @unique
   password  String
   role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CompanyStablishment {
+  id        Int      @id @default(autoincrement())
+  name      String
+  address   String
+  phone     String
+  email     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

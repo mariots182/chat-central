@@ -1,0 +1,58 @@
+[
+  {
+    "category": "Tacos",
+    "products": [
+      { "name": "Pastor", "price": 17 },
+      { "name": "Asada", "price": 25 },
+      { "name": "Longaniza", "price": 25 },
+      { "name": "Campechano", "price": 25 },
+      { "name": "Tripa", "price": 35 },
+      { "name": "Rib Eye", "price": 33 },
+      { "name": "Arrachera", "price": 40 },
+      { "name": "Picaña Angus", "price": 50 },
+      { "name": "Tortilla de harina (extra)", "price": 10 },
+      { "name": "Con queso (extra)", "price": 10 }
+    ]
+  },
+  {
+    "category": "Volcanes",
+    "products": [
+      { "name": "Pastor", "price": 30 },
+      { "name": "Asada", "price": 32 },
+      { "name": "Longaniza", "price": 32 },
+      { "name": "Campechano", "price": 32 },
+      { "name": "Tripa", "price": 45 },
+      { "name": "Rib Eye", "price": 35 },
+      { "name": "Arrachera", "price": 45 },
+      { "name": "Picaña Angus", "price": 60 }
+    ]
+  },
+  {
+    "category": "Karbotortas",
+    "products": [
+      { "name": "Pastor", "price": 85 },
+      { "name": "Asada", "price": 95 },
+      { "name": "Longaniza", "price": 95 },
+      { "name": "Campechano", "price": 95 },
+      { "name": "Tripa", "price": 110 },
+      { "name": "Rib Eye", "price": 100 },
+      { "name": "Arrachera", "price": 110 },
+      { "name": "Picaña Angus", "price": 115 },
+      { "name": "Extra queso", "price": 15 }
+    ]
+  },
+  {
+    "category": "Mulitas",
+    "products": [
+      { "name": "Pastor", "price": 60 },
+      { "name": "Asada", "price": 70 },
+      { "name": "Longaniza", "price": 70 },
+      { "name": "Campechano", "price": 70 },
+      { "name": "Tripa", "price": 90 },
+      { "name": "Rib Eye", "price": 75 },
+      { "name": "Arrachera", "price": 85 },
+      { "name": "Picaña Angus", "price": 100 },
+      { "name": "Extra queso", "price": 15 }
+    ]
+  }
+]

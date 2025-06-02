@@ -1,0 +1,155 @@
+INSERT INTO public."Product"
+(id, "name", price, stock, description, "imageUrl", "categoryId", "createdAt", "updatedAt")
+VALUES(nextval('"Product_id_seq"'::regclass), '', 0, 0, '', '', 0, CURRENT_TIMESTAMP, '');
+
+
+
+INSERT INTO public."Category"
+(id, "name", "createdAt", "updatedAt")
+VALUES(nextval('"Category_id_seq"'::regclass), '', CURRENT_TIMESTAMP, '');
+
+INSERT INTO public."Category" ("name", "createdAt", "updatedAt")
+VALUES
+  ('Desayunos', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('Antojitos', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('Guisos para Antojitos Preparados', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('Especialidades', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  ('Bebidas', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);  
+
+1	Desayunos	2025-06-02 10:14:29.727
+2	Antojitos	2025-06-02 10:14:29.727
+3	Guisos para Antojitos Preparados	2025-06-02 10:14:29.727
+4	Especialidades	2025-06-02 10:14:29.727
+5	Bebidas	2025-06-02 10:14:29.727
+
+-- Desayunos (categoryId: 1)
+INSERT INTO public."Product" (id, "name", price, stock, description, "imageUrl", "categoryId", "createdAt", "updatedAt") VALUES
+(nextval('"Product_id_seq"'::regclass), 'Plato del Primo', 85.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Huevos al gusto', 70.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Omelette', 70.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Enchiladas', 70.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Enmoladas', 70.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Chilaquiles', 70.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Chilaquiles con bistec', 80.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Enchiladas con bistec', 85.0, 0, '', '', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Antojitos (categoryId: 2)
+INSERT INTO public."Product" (id, "name", price, stock, description, "imageUrl", "categoryId", "createdAt", "updatedAt") VALUES
+(nextval('"Product_id_seq"'::regclass), 'Picadas sencillas', 14.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Picadas preparadas', 26.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Quesadillas sencillas (solo queso)', 45.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Quesadillas preparadas', 50.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Quesadilla bistec', 55.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Campechana', 60.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Quesadillón', 65.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Empanadas', 18.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Empanadas especiales', 20.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Garnachas', 26.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Panuchos', 20.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Gordas (blancas, negras y dulces)', 14.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Misaltekas', 65.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Tacos dorados (orden 5 pzs.)', 55.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Tostadas (orden 4 pzs.)', 55.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Hot cakes (orden 4 pzs.)', 50.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Plátanos fritos', 30.0, 0, '', '', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Guisos para Antojitos Preparados (categoryId: 3)
+INSERT INTO public."Product" (id, "name", price, stock, description, "imageUrl", "categoryId", "createdAt", "updatedAt") VALUES
+(nextval('"Product_id_seq"'::regclass), 'Pollo', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Bistec', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Pastor', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Huevo', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Picadillo', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Longaniza', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Champiñón', 0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Porción extra', 15.0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Porción extra bistec', 25.0, 0, '', '', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Especialidades (categoryId: 4)
+INSERT INTO public."Product" (id, "name", price, stock, description, "imageUrl", "categoryId", "createdAt", "updatedAt") VALUES
+(nextval('"Product_id_seq"'::regclass), 'Pozole (sábados)', 110.0, 0, '', '', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Mondongo (domingos)', 110.0, 0, '', '', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Bebidas (categoryId: 5)
+INSERT INTO public."Product" (id, "name", price, stock, description, "imageUrl", "categoryId", "createdAt", "updatedAt") VALUES
+(nextval('"Product_id_seq"'::regclass), 'Café Americano', 20.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Café Lechero', 25.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Café Capuchino', 25.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Refrescos (coca o sabor)', 25.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Chocomilk', 40.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Chocobanana', 40.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Licuado de plátano', 40.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(nextval('"Product_id_seq"'::regclass), 'Agua fresca 1L', 30.0, 0, '', '', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+[
+  {
+    "category": "Desayunos",
+    "products": [
+      { "name": "Plato del Primo", "price": 85 },
+      { "name": "Huevos al gusto", "price": 70 },
+      { "name": "Omelette", "price": 70 },
+      { "name": "Enchiladas", "price": 70 },
+      { "name": "Enmoladas", "price": 70 },
+      { "name": "Chilaquiles", "price": 70 },
+      { "name": "Chilaquiles con bistec", "price": 80 },
+      { "name": "Enchiladas con bistec", "price": 85 }
+    ]
+  },
+  {
+    "category": "Antojitos",
+    "products": [
+      { "name": "Picadas sencillas", "price": 14 },
+      { "name": "Picadas preparadas", "price": 26 },
+      { "name": "Quesadillas sencillas (solo queso)", "price": 45 },
+      { "name": "Quesadillas preparadas", "price": 50 },
+      { "name": "Quesadilla bistec", "price": 55 },
+      { "name": "Campechana", "price": 60 },
+      { "name": "Quesadillón", "price": 65 },
+      { "name": "Empanadas", "price": 18 },
+      { "name": "Empanadas especiales", "price": 20 },
+      { "name": "Garnachas", "price": 26 },
+      { "name": "Panuchos", "price": 20 },
+      { "name": "Gordas (blancas, negras y dulces)", "price": 14 },
+      { "name": "Misaltekas", "price": 65 },
+      { "name": "Tacos dorados (orden 5 pzs.)", "price": 55 },
+      { "name": "Tostadas (orden 4 pzs.)", "price": 55 },
+      { "name": "Hot cakes (orden 4 pzs.)", "price": 50 },
+      { "name": "Plátanos fritos", "price": 30 }
+    ]
+  },
+  {
+    "category": "Guisos para Antojitos Preparados",
+    "products": [
+      { "name": "Pollo", "price": null },
+      { "name": "Bistec", "price": null },
+      { "name": "Pastor", "price": null },
+      { "name": "Huevo", "price": null },
+      { "name": "Picadillo", "price": null },
+      { "name": "Longaniza", "price": null },
+      { "name": "Champiñón", "price": null },
+      { "name": "Porción extra", "price": 15 },
+      { "name": "Porción extra bistec", "price": 25 }
+    ]
+  },
+  {
+    "category": "Especialidades",
+    "products": [
+      { "name": "Pozole (sábados)", "price": 110 },
+      { "name": "Mondongo (domingos)", "price": 110 }
+    ]
+  },
+  {
+    "category": "Bebidas",
+    "products": [
+      { "name": "Café Americano", "price": 20 },
+      { "name": "Café Lechero", "price": 25 },
+      { "name": "Café Capuchino", "price": 25 },
+      { "name": "Refrescos (coca o sabor)", "price": 25 },
+      { "name": "Chocomilk", "price": 40 },
+      { "name": "Chocobanana", "price": 40 },
+      { "name": "Licuado de plátano", "price": 40 },
+      { "name": "Agua fresca 1L", "price": 30 }
+    ]
+  }
+]

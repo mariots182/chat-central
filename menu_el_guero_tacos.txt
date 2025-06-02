@@ -1,0 +1,27 @@
+[
+  {
+    "category": "Tacos Chingones",
+    "products": [
+      { "name": "Taco dorado/suave (birria/suadero/longaniza enchilada)", "price": 26 },
+      { "name": "Con queso", "price": 34 },
+      { "name": "Campechano", "price": 28 },
+      { "name": "Campechano con queso", "price": 34 },
+      { "name": "Tripa", "price": 30 },
+      { "name": "Tripa con queso", "price": 35 },
+      { "name": "Quesabirria", "price": 34 },
+      { "name": "Con manchego", "price": 36 },
+      { "name": "Flauta", "price": 34 }
+    ]
+  },
+  {
+    "category": "Especiales",
+    "products": [
+      { "name": "Quesabirrion", "price": 81 },
+      { "name": "Quesabirrion con manchego", "price": 86 },
+      { "name": "Emparedado", "price": 82 },
+      { "name": "Emparedado con tripa", "price": 97 },
+      { "name": "Emparedado con manchego", "price": 87 },
+      { "name": "Pizzabirria", "price": 160 },
+      { "name": "Pizzabirria Campechana", "price": 160 },
+      { "name": "Pizzabirria con tripa", "price": 180 },
+      { "name": "Costra
