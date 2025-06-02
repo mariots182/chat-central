@@ -1,7 +1,11 @@
 import { getTenantPrisma } from "../database/prismaClientFactory";
 import { RedisSessionContext } from "../models/sessions.model";
 import { WhatsAppMessageDetails } from "../models/whatsapp.model";
-import { findCompanyByPhone, getCompanyContextData } from "./company";
+import {
+  buildCompanyInfoPrompt,
+  findCompanyByPhone,
+  getCompanyContextData,
+} from "./company";
 import { buildCustomerInfoPrompt, getCustomerContextData } from "./customer";
 import {
   customerAddressPrompt,
@@ -12,98 +16,32 @@ import {
   orderPickupPrompt,
 } from "./gemini";
 import { getRedisKey, setRedisKey } from "./redis";
-
-export async function getSessionByCustomerId(
-  customerId: number,
-  tenantDB: any
-) {
-  console.log(
-    `[sessionsUtils][getSessionByCustomerId] Getting session for customerId: ${customerId}`
-  );
-
-  try {
-    let session = await tenantDB.customerSession.findFirst({
-      where: { customerId },
-    });
-
-    return session;
-  } catch (error) {
-    console.error(
-      `[sessionsUtils][getSessionByCustomerId] Error getting session: ${error}`
-    );
-
-    throw new Error("Error getting session");
-  }
-}
-
-export async function createNewSession(
-  customerId: number,
-  messageDetails: WhatsAppMessageDetails,
-  tenantDB: any
-) {
-  try {
-    let session = await tenantDB.customerSession.create({
-      data: {
-        customerId,
-        sessionId: messageDetails.from,
-        previousState: "",
-        state: "",
-        wamId: messageDetails.wamid,
-        lastMessage: messageDetails.text,
-        lastMessageDate:
-          new Date(Number(messageDetails.timestamp) * 1000) || new Date(),
-        lastMessageType: messageDetails.type,
-        lastMessageStatus: messageDetails.statuses?.status || "",
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        lastAccess: new Date(),
-        deviceId: "",
-        ipAddress: "",
-      },
-    });
-
-    return session;
-  } catch (error) {
-    console.error(
-      `[sessionsUtils][createNewSession] Error creating new session: ${error}`
-    );
-    throw new Error("Error creating new session");
-  }
-}
-
-export async function handleSession(
-  customerId: number,
-  messageDetails: WhatsAppMessageDetails,
-  tenantDB: any
-) {
-  try {
-    let session = await getSessionByCustomerId(customerId, tenantDB);
-
-    if (!session) {
-      session = await createNewSession(customerId, messageDetails, tenantDB);
-    }
-
-    return session;
-  } catch (error) {
-    console.error(
-      `[sessionsUtils][handleSession] Error handling session: ${error}`
-    );
-    throw new Error("Error handling session");
-  }
-}
+import { handleGeocodingAddress } from "./utils";
 
 export async function handleSessionCache(
   messageDetails: WhatsAppMessageDetails
 ) {
-  const { from, displayPhoneNumber } = messageDetails;
+  const { from, displayPhoneNumber, location } = messageDetails;
   const company = await findCompanyByPhone(displayPhoneNumber);
-
   const tenantDB = getTenantPrisma(`tenant_${company.database}`);
+
+  const companyContext = await getCompanyContextData(
+    displayPhoneNumber,
+    tenantDB
+  );
+  const companyInfo = buildCompanyInfoPrompt(companyContext);
+
+  console.log(
+    `[sessions][handleSessionCache] companyInfo: ${JSON.stringify(companyInfo)}`
+  );
+
   const customerContext = await getCustomerContextData(from, tenantDB);
-  const info = buildCustomerInfoPrompt(customerContext);
+  const customerInfo = buildCustomerInfoPrompt(customerContext);
 
   let sessionCache: RedisSessionContext = await getRedisKey(
     `${messageDetails.from}`
   );
+
   if (!sessionCache) {
     await createSessionCache(messageDetails);
     sessionCache = await getRedisKey(`${messageDetails.from}`);
@@ -114,7 +52,11 @@ export async function handleSessionCache(
   sessionCache.conversation.push(
     {
       role: "user",
-      parts: [{ text: `${info}` }],
+      parts: [{ text: `${companyInfo}` }],
+    },
+    {
+      role: "user",
+      parts: [{ text: `${customerInfo}` }],
     },
     {
       role: "user",

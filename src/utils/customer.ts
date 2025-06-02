@@ -116,13 +116,13 @@ export function buildCustomerInfoPrompt(contextData: Customer): string {
     - Nombre: ${name}
     - Teléfono: ${phone}
     - Dirección principal: ${address}
-    - Email: ${email}
-    - Pedidos recientes:
-    ${
-      orderSummaries.length
-        ? orderSummaries.join("\n")
-        : "Sin pedidos recientes"
-    }
-    
+    - Email: ${email}    
   `.trim();
+
+  // - Pedidos recientes:
+  // ${
+  //   orderSummaries.length
+  //     ? orderSummaries.join("\n")
+  //     : "Sin pedidos recientes"
+  // }
 }

@@ -93,7 +93,7 @@ export async function updateCustomer(customer: Customer) {
   const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
 
   console.log(
-    `📦 [customer][updateCustomer] sessionCache: ${JSON.stringify(customer)}`
+    `📦 [customer][updateCustomer] customer: ${JSON.stringify(customer)}`
   );
 
   console.log(
@@ -124,6 +124,10 @@ export async function createCustomerAddress(
   const sessionCache = await getRedisKey(`${customerPhone}`);
   const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
 
+  console.log(
+    `📦 [customer][createCustomerAddress] address: ${JSON.stringify(address)}`
+  );
+
   try {
     return await tenantDB.customerAddress.create({
       data: {
@@ -153,6 +157,10 @@ export async function updateCustomerAddress(
 ) {
   const sessionCache = await getRedisKey(`${customerPhone}`);
   const tenantDB = getTenantPrisma(`tenant_${sessionCache.company}`);
+
+  console.log(
+    `📦 [customer][createCustomerAddress] address: ${JSON.stringify(address)}`
+  );
 
   try {
     return await tenantDB.customerAddress.update({

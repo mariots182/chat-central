@@ -18,6 +18,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
   const timestamp = message?.timestamp;
   const wamid = message?.id;
   const location = message?.location;
+  const sticker = message?.sticker;
 
   console.table({
     from,
@@ -28,6 +29,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     timestamp,
     wamid,
     location,
+    sticker: sticker ? sticker : undefined,
     status: statuses?.status,
   });
 
@@ -40,6 +42,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
     timestamp,
     wamid,
     location,
+    sticker,
     statuses,
   };
 }
@@ -47,7 +50,7 @@ export function extractMessageDetails(body: any): WhatsAppMessageDetails {
 export function isValidMessage(
   messageDetails: WhatsAppMessageDetails
 ): boolean {
-  const { from, text, displayPhoneNumber } = messageDetails;
+  const { from, text, displayPhoneNumber, location } = messageDetails;
 
   if (
     (messageDetails.statuses !== undefined &&
@@ -59,6 +62,11 @@ export function isValidMessage(
       "[messagesUtils][isValidMessage] Message already sent or delivered"
     );
     return false;
+  }
+
+  if (location) {
+    console.warn("[messagesUtils][isValidMessage] Is a location message");
+    return true;
   }
 
   if (!from || !text || !displayPhoneNumber) {

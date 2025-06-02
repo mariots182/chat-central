@@ -281,28 +281,81 @@ export const sendCatalogMessage = async (whatsappMessage: WhatsAppMessage) => {
   );
 
   console.log(
-    `📦 [whatsapp][sendInteractiveRequestLocationMessage] Respuesta de la API de WhatsApp: ${response.status}`
+    `📦 [whatsapp][sendCatalogMessage] Respuesta de la API de WhatsApp: ${response.status}`
   );
 
   if (!response.ok) {
     const error = await response.text();
     console.error(
-      `❌ [whatsapp][sendInteractiveRequestLocationMessage] Error al enviar el mensaje: ${response.status} - ${error}`
+      `❌ [whatsapp][sendCatalogMessage] Error al enviar el mensaje: ${response.status} - ${error}`
     );
   }
 
   await response.json().then((data) => {
     console.log(
-      `📦 [whatsapp][sendInteractiveRequestLocationMessage] Respuesta de la API de WhatsApp: ${data}`
+      `📦 [whatsapp][sendCatalogMessage] Respuesta de la API de WhatsApp: ${data}`
     );
 
     if (data?.messages) {
       console.log(
-        `📦 [whatsapp][sendInteractiveRequestLocationMessage] Mensaje enviado: ${data.messages[0].id}`
+        `📦 [whatsapp][sendCatalogMessage] Mensaje enviado: ${data.messages[0].id}`
       );
     } else {
       console.error(
-        `❌ [whatsapp][sendInteractiveRequestLocationMessage] Error al enviar el mensaje: ${data.error.message}`
+        `❌ [whatsapp][sendCatalogMessage] Error al enviar el mensaje: ${data.error.message}`
+      );
+    }
+  });
+};
+
+export const sendFileMessage = async (whatsappMessage: WhatsAppMessage) => {
+  const { to, phoneNumberId } = whatsappMessage;
+  const enviarA = to.slice(0, 2) + to.slice(3);
+
+  const response = await fetch(
+    `${process.env.WHATSAPP_API_URL}${process.env.WHATSAPP_API_VERSION}/${phoneNumberId}/messages`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        recipient_type: "individual",
+        messaging_product: "whatsapp",
+        to: enviarA,
+        type: "document",
+        document: {
+          link: "https://restaurantlosarcos.com/files/menus_sucursales/san-jeronimo-espanol.pdf",
+          filename: "san-jeronimo-espanol.pdf",
+        },
+      }),
+    }
+  );
+
+  console.log(
+    `📦 [whatsapp][sendFileMessage] Respuesta de la API de WhatsApp: ${response.status}`
+  );
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.error(
+      `❌ [whatsapp][sendFileMessage] Error al enviar el mensaje: ${response.status} - ${error}`
+    );
+  }
+
+  await response.json().then((data) => {
+    console.log(
+      `📦 [whatsapp][sendFileMessage] Respuesta de la API de WhatsApp: ${data}`
+    );
+
+    if (data?.messages) {
+      console.log(
+        `📦 [whatsapp][sendFileMessage] Mensaje enviado: ${data.messages[0].id}`
+      );
+    } else {
+      console.error(
+        `❌ [whatsapp][sendFileMessage] Error al enviar el mensaje: ${data.error.message}`
       );
     }
   });

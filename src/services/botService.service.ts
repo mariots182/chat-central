@@ -19,67 +19,59 @@ import {
 } from "../models/whatsapp.model";
 import { GeminiResponse, GeminiResponseJson } from "../models/gemini.model";
 import {
+  sendFileMessage,
   sendInteractiveRequestLocationMessage,
   sendMessage,
 } from "../utils/whatsapp";
+import { handleGeocodingAddress } from "../utils/utils";
 
 class BotService {
   async getBotResponse(req: Request): Promise<void> {
+    const messageDetails = extractMessageDetails(req.body);
+
+    if (!isValidMessage(messageDetails)) return;
+
+    await this.handleRequest(req);
+
+    // await clearBuffer(from);
+
+    return;
+  }
+
+  async handleRequest(req: Request) {
     const messageDetails = extractMessageDetails(req.body);
     const { from, phoneNumberId, location } = messageDetails;
     const sessionCache: RedisSessionContext = await handleSessionCache(
       messageDetails
     );
 
-    if (location) {
-      console.log(
-        "[BotService][getBotResponse] Mensaje de ubicación recibido :",
-        location
-      );
-      // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
-      let geoUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=4${location.latitude},${location.longitude}`;
-
-      try {
-        await fetch(`${geoUrl}&key=${process.env.GOOGLE_MAPS_API_KEY}`).then(
-          (response) => {
-            // response.json();
-          }
-        );
-      } catch (error) {
-        console.error(
-          "[BotService][getBotResponse] Error al procesar la ubicación:",
-          error
-        );
-        return;
-      }
-
-      return;
-    }
-    const geminiResponse = await this.handleGeminiChat(
-      sessionCache,
-      messageDetails
-    );
-
+    let geminiResponse;
     let messageDetailsToSend;
 
     /*
-    -------------------------------------------------------
-    -------------------------------------------------------
-    TODO: trabajar los multiples mensajes en el buffer
+      -------------------------------------------------------
+      -------------------------------------------------------
+      TODO: trabajar los multiples mensajes en el buffer
 
-    const bufferResult = await messagesBuffer(from, text);
+      const bufferResult = await messagesBuffer(from, text);
 
-    await this.handleGeminiResponse(geminiResponse.json as GeminiResponseJson);
+      await this.handleGeminiResponse(geminiResponse.json as GeminiResponseJson);
 
-    -------------------------------------------------------
-    -------------------------------------------------------
+      -------------------------------------------------------
+      -------------------------------------------------------
     */
 
-    if (!isValidMessage(messageDetails)) return;
+    if (location) {
+      const messageAddresses = await handleGeocodingAddress(location);
 
-    await setSessionCache(`${from}`, sessionCache);
+      messageDetails.text = messageAddresses;
+    }
+
+    geminiResponse = await this.handleGeminiChat(sessionCache, messageDetails);
 
     await this.handleGeminiResponse(geminiResponse.json);
+
+    await setSessionCache(`${from}`, sessionCache);
 
     messageDetailsToSend = {
       to: from,
@@ -89,10 +81,6 @@ class BotService {
     };
 
     await this.handleTypeMessage(messageDetailsToSend);
-
-    // await clearBuffer(from);
-
-    return;
   }
 
   async handleGeminiChat(
@@ -147,7 +135,7 @@ class BotService {
       console.log(
         "[BotService][handleCustomerAddress] Creating customer address"
       );
-      return await createCustomerAddress(phone, address);
+      return await createCustomerAddress(phone, address[0]);
     }
 
     if (operation === "update") {
@@ -155,6 +143,20 @@ class BotService {
         "[BotService][handleCustomerAddress] Updating customer address"
       );
       // return await updateCustomerAddress(address);
+    }
+  }
+
+  async handleIntent(intent: string, json: any) {
+    switch (intent) {
+      case "personal_info":
+        console.log("[BotService][handleIntent] Intent: personal_info");
+
+      case "personal_info_address":
+        console.log("[BotService][handleIntent] Intent: personal_info_address");
+
+      default:
+        console.warn(`[BotService][handleIntent] Unhandled intent: ${intent}`);
+        break;
     }
   }
 
@@ -171,13 +173,22 @@ class BotService {
       console.log(
         "[BotService][handleTypeMessage] Enviando mensaje de ubicación interactivo"
       );
+
       return await sendMessage(whatsappMessage);
     }
 
-    if (typeMessage === "interactive_list_message") {
+    if (typeMessage === "message_catalog") {
       console.log(
         "[BotService][handleTypeMessage] Enviando mensaje de ubicación interactivo"
       );
+
+      whatsappMessage.message = `Aqui tienes el catálogo de productos.`;
+
+      await sendMessage(whatsappMessage);
+
+      await sendFileMessage(whatsappMessage);
+
+      return;
     }
 
     if (typeMessage === "interactive_reply_button_message") {
@@ -191,12 +202,6 @@ class BotService {
         "[BotService][handleTypeMessage] Enviando mensaje de ubicación interactivo"
       );
       return await sendInteractiveRequestLocationMessage(whatsappMessage);
-    }
-
-    if (typeMessage === "interactive_list_message") {
-      console.log(
-        "[BotService][handleTypeMessage] Enviando mensaje de lista interactivo"
-      );
     }
   }
 }

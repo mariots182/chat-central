@@ -30,5 +30,8 @@ export default {
   google: {
     geminiApiKey: process.env.GEMINI_API_KEY || "YOUR_GOOGLE_API_KEY",
     geocodingApiKey: process.env.GEOCODING_API_KEY || "YOUR_GOOGLE",
+    geocodingURL:
+      process.env.GEOCODING_URL ||
+      "https://maps.googleapis.com/maps/api/geocode/",
   },
 };

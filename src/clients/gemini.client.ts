@@ -10,7 +10,7 @@ export async function geminiChat(history: any[], msg: string) {
   const chat = model.startChat({
     history,
     generationConfig: {
-      maxOutputTokens: 350,
+      maxOutputTokens: 800,
     },
   });
 

@@ -1,4 +1,4 @@
-export interface CompanyModel {
+export interface Company {
   id: number;
   name: string;
   database: string;
@@ -6,6 +6,19 @@ export interface CompanyModel {
   activeCampaign: boolean;
   phoneWhatsapp: string;
   promptInfo: string;
+  catalog?: CompanyProduct[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CompanyProduct {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  description: string;
+  imageUrl: string;
+  category: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -37,6 +37,7 @@ export const handleBot = async (req: Request, res: Response) => {
     console.log(
       "📦 [botController][handleBot] Respuesta del bot enviada, mandando 200"
     );
+
     return res.sendStatus(200);
   } catch (error) {
     console.error("📦 ❌ [botController][handleBot] error:", error);
