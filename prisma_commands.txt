@@ -16,6 +16,7 @@ Actualizar base de datos central
 1.- npx prisma generate --schema=prisma/central/schema.prisma
 
 2.- npx prisma migrate reset --schema=prisma/central/schema.prisma
+2.- npx prisma migrate deploy --schema=prisma/central/schema.prisma //probar este
 
 3.- npx prisma migrate dev --schema=prisma/central/schema.prisma
 
@@ -24,4 +25,7 @@ Actualizar base de datos central
 ---------------------------------------------
 Actualizar base de datos por tenant
 npx prisma generate --schema=prisma/tenant/schema.prisma
+
+npx prisma migrate dev --name add_new_tables --schema=prisma/tenant/schema.prisma
+
 npx prisma migrate diff --from-schema-datasource="prisma/tenant/schema.prisma"  --to-url="postgresql://postgres:M4r10182@localhost:5432/tenant_Antojitos_PokeMex"
