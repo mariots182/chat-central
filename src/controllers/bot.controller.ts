@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import BotService from "../services/botService.service";
 
 export const handleBot = async (req: Request, res: Response) => {
-  const botService = new BotService();
   const body = req.body;
+  const botService = new BotService();
 
   console.log("handleBot se activa");
 
